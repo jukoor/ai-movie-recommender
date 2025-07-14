@@ -1,16 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LandingPage } from "./pages/LandingPage";
-import { ProfilePage } from "./pages/ProfilePage";
-import { PageLayout } from "./components/global/PageLayout";
-import styles from "./App.module.scss";
+import { PageLayout } from "./components/global/PageLayouts";
+import { HomePage } from "./pages/HomePage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PageLayout />}>
-          <Route index element={<LandingPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route index element={<HomePage />} />
+          {/* <Route path="movies" element={<MoviesPage />} /> */}
+          {/* <Route path="favorites" element={<FavoritesPage />} /> */}
+          {/* <Route path="search" element={<SearchPage />} /> */}
+          {/* <Route path="profile" element={<ProfilePage />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

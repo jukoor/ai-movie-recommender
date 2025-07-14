@@ -9,10 +9,10 @@ export const PageLayout: React.FC = () => {
 
   const navigation = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Movies", href: "/movies", icon: Film },
-    { name: "Favorites", href: "/favorites", icon: Star },
-    { name: "Search", href: "/search", icon: Search },
-    { name: "Profile", href: "/profile", icon: User },
+    // { name: "Movies", href: "/movies", icon: Film },
+    // { name: "Favorites", href: "/favorites", icon: Star },
+    // { name: "Search", href: "/search", icon: Search },
+    // { name: "Profile", href: "/profile", icon: User },
   ];
 
   const isActive = (path: string) => {
