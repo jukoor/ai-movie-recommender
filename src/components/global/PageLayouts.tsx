@@ -107,77 +107,8 @@ export const PageLayout: React.FC = () => {
       {/* Footer */}
       <footer className="bg-slate-800 text-white mt-16">
         <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-emerald-600 rounded-lg">
-                  <Film className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-xl font-bold">CineVault</span>
-              </div>
-              <p className="text-slate-300 leading-relaxed max-w-md">
-                Your ultimate destination for discovering and exploring the
-                world of cinema. From timeless classics to modern masterpieces.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-slate-300">
-                <li>
-                  <Link
-                    to="/movies"
-                    className="hover:text-white transition-colors"
-                  >
-                    Browse Movies
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/favorites"
-                    className="hover:text-white transition-colors"
-                  >
-                    My Favorites
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/search"
-                    className="hover:text-white transition-colors"
-                  >
-                    Advanced Search
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Account</h3>
-              <ul className="space-y-2 text-slate-300">
-                <li>
-                  <Link
-                    to="/profile"
-                    className="hover:text-white transition-colors"
-                  >
-                    My Profile
-                  </Link>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Help
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
           <div className="border-t border-slate-700 mt-8 pt-8 text-center text-slate-400">
-            <p>&copy; 2025 CineVault. All rights reserved.</p>
+            <p>&copy; 2025. All rights reserved.</p>
           </div>
         </div>
       </footer>

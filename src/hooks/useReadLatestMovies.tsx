@@ -1,0 +1,18 @@
+import { useEffect, useState } from "react";
+import { apiRequest } from "../utils/api";
+import { Movie } from "../types/movie";
+
+export function useReadLatestMovies() {
+  const [movieList, setMovieList] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<unknown>(null);
+
+  useEffect(() => {
+    apiRequest<Movie[]>("get", "/movie/latest")
+      .then((data) => setMovieList(data))
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { movieList, loading, error };
+}
