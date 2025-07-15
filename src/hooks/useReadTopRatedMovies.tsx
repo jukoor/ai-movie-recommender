@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../utils/api";
-import { Movie } from "../types/movie";
+import { Movie } from "../types/tmdb/Movie";
+import { MovieApiResult } from "../types/tmdb/MovieApiResult";
 
 export function useReadTopRatedMovies() {
   const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
@@ -8,8 +9,8 @@ export function useReadTopRatedMovies() {
   const [error, setError] = useState<unknown>(null);
 
   useEffect(() => {
-    apiRequest<Movie[]>("get", "/top_rated?language=en-US&page=1")
-      .then((data) => setTopRatedMovies(data))
+    apiRequest<MovieApiResult>("get", "/top_rated?language=en-US&page=1")
+      .then((data) => setTopRatedMovies(data.results))
       .catch(setError)
       .finally(() => setLoading(false));
   }, []);

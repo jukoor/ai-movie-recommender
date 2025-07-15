@@ -1,33 +1,35 @@
-import React, { useState, useMemo } from 'react';
-import { Film } from 'lucide-react';
-import { MovieCard } from './MovieCard';
-import { SearchBar } from './SearchBar';
-import { Movie } from '../types/movie';
+import React, { useState, useMemo } from "react";
+import { Film } from "lucide-react";
+import { MovieCard } from "./MovieCard";
+import { SearchBar } from "./SearchBar";
+import { Movie } from "../types/tmdb/Movie";
 
 interface MovieListProps {
   movies: Movie[];
 }
 
 export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
 
   const availableGenres = useMemo(() => {
     const genreSet = new Set<string>();
-    movies.forEach(movie => {
-      movie.genre.forEach(genre => genreSet.add(genre));
+    movies.forEach((movie) => {
+      movie.genre.forEach((genre) => genreSet.add(genre));
     });
     return Array.from(genreSet).sort();
   }, [movies]);
 
   const filteredMovies = useMemo(() => {
-    return movies.filter(movie => {
-      const matchesSearch = movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           movie.director.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           movie.description.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesGenre = selectedGenre === '' || movie.genre.includes(selectedGenre);
-      
+    return movies.filter((movie) => {
+      const matchesSearch =
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        movie.director.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        movie.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesGenre =
+        selectedGenre === "" || movie.genre.includes(selectedGenre);
+
       return matchesSearch && matchesGenre;
     });
   }, [movies, searchTerm, selectedGenre]);
@@ -38,10 +40,13 @@ export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Film className="w-8 h-8 text-emerald-600" />
-            <h1 className="text-4xl font-bold text-slate-800">Movie Collection</h1>
+            <h1 className="text-4xl font-bold text-slate-800">
+              Movie Collection
+            </h1>
           </div>
           <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-            Discover and explore our curated collection of cinematic masterpieces
+            Discover and explore our curated collection of cinematic
+            masterpieces
           </p>
         </div>
 
@@ -61,8 +66,8 @@ export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
             {(searchTerm || selectedGenre) && (
               <button
                 onClick={() => {
-                  setSearchTerm('');
-                  setSelectedGenre('');
+                  setSearchTerm("");
+                  setSelectedGenre("");
                 }}
                 className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
               >
@@ -75,8 +80,12 @@ export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
         {filteredMovies.length === 0 ? (
           <div className="text-center py-16">
             <Film className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-slate-600 mb-2">No movies found</h3>
-            <p className="text-slate-500">Try adjusting your search or filter criteria</p>
+            <h3 className="text-xl font-semibold text-slate-600 mb-2">
+              No movies found
+            </h3>
+            <p className="text-slate-500">
+              Try adjusting your search or filter criteria
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
