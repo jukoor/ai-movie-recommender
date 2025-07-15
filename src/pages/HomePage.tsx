@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Star, ArrowRight } from "lucide-react";
-import { movies } from "../data/movies";
+// import { movies } from "../data/movies";
 import { MovieCard } from "../components/MovieCard";
 import { useReadLatestMovies } from "../hooks/useReadLatestMovies";
 
 export const HomePage: React.FC = () => {
-  const featuredMovies = movies.slice(0, 3);
+  // const featuredMovies = movies.slice(0, 3);
 
-  const { movieList, loading, error } = useReadLatestMovies();
+  const { movieLatest, loading, error } = useReadLatestMovies();
 
   useEffect(() => {
-    console.log(movieList);
-  }, [movieList]);
+    console.log(movieLatest);
+  }, [movieLatest]);
 
   return (
     <div className="page page-home">
@@ -27,9 +27,13 @@ export const HomePage: React.FC = () => {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {movieList.map((movie) => (
+            <div>{movieLatest?.id}</div>
+            {/* {movieList.map((movie) => (
+              <div>
               <MovieCard key={movie.id} movie={movie} />
-            ))}
+              <div>{movie.id}</div> 
+              </div>
+            ))} */}
           </div>
           <div className="text-center mt-8">
             <Link
