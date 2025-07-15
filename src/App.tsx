@@ -1,20 +1,15 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { PageLayout } from "./components/layout/PageLayouts";
-import { HomePage } from "./pages/HomePage";
+import { BrowserRouter, useRoutes } from "react-router-dom";
+import { routes } from "./routes/routes";
 import "./utils/firebase";
+
+function AppRoutes() {
+  return useRoutes(routes);
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<PageLayout />}>
-          <Route index element={<HomePage />} />
-          {/* <Route path="movies" element={<MoviesPage />} /> */}
-          {/* <Route path="favorites" element={<FavoritesPage />} /> */}
-          {/* <Route path="search" element={<SearchPage />} /> */}
-          {/* <Route path="profile" element={<ProfilePage />} /> */}
-        </Route>
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
