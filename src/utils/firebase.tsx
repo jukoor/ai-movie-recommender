@@ -4,12 +4,12 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBJYsJGsk0RJnfQFVts-lWxoC9gWG6NxXs",
-  authDomain: "ai-movie-recommender-268b2.firebaseapp.com",
-  projectId: "ai-movie-recommender-268b2",
-  storageBucket: "ai-movie-recommender-268b2.firebasestorage.app",
-  messagingSenderId: "755089663314",
-  appId: "1:755089663314:web:338d188b51291b862f068b",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
