@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { PageLayout } from "./components/global/PageLayouts";
+import { PageLayout } from "./components/layout/PageLayouts";
 import { HomePage } from "./pages/HomePage";
+import "./utils/firebase";
 
 function App() {
   return (

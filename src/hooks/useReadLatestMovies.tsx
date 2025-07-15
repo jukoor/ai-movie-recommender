@@ -8,7 +8,7 @@ export function useReadLatestMovies() {
   const [error, setError] = useState<unknown>(null);
 
   useEffect(() => {
-    apiRequest<Movie>("get", "/movie/latest")
+    apiRequest<Movie>("get", "/latest")
       .then((data) => setMovieLatest(data))
       .catch(setError)
       .finally(() => setLoading(false));
