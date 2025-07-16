@@ -4,7 +4,9 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  User,
 } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 interface LoginDialogProps {
   open: boolean;
@@ -17,6 +19,80 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [dialogTab, setDialogTab] = useState<"login" | "signup">("login");
+
+  // Handler for login form submission
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setLoginError(null);
+    const email = emailRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
+    try {
+      const auth = getAuth();
+      await signInWithEmailAndPassword(auth, email, password);
+      onClose();
+    } catch (err: any) {
+      setLoginError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handler for signup form submission
+  const handleSignupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setLoginError(null);
+    const email = emailRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await initializeUserLists(userCredential.user);
+      onClose();
+    } catch (err: any) {
+      setLoginError(err.message || "Account creation failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Create default lists on user account creation
+  async function initializeUserLists(user: User) {
+    const db = getFirestore();
+
+    const baseLists = ["watchlist", "favorites", "watched"];
+
+    for (const listName of baseLists) {
+      await setDoc(doc(db, "users", user.uid, "movieLists", listName), {
+        title: listName.charAt(0).toUpperCase() + listName.slice(1),
+        movies: [],
+        creationDate: new Date(),
+      });
+      console.log("done");
+    }
+  }
+
+  // Handler for closing the dialog
+  const handleClose = () => {
+    onClose();
+  };
+
+  // Handler for switching to login tab
+  const handleLoginTabClick = () => {
+    setDialogTab("login");
+    setLoginError(null);
+  };
+
+  // Handler for switching to signup tab
+  const handleSignupTabClick = () => {
+    setDialogTab("signup");
+    setLoginError(null);
+  };
 
   return (
     <Dialog
@@ -34,7 +110,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
             {dialogTab === "login" ? "Login" : "Create Account"}
           </DialogTitle>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="text-slate-400 hover:text-slate-600"
             aria-label="Close"
           >
@@ -49,10 +125,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                 ? "bg-emerald-600 text-white"
                 : "bg-white text-emerald-600 border border-emerald-200"
             }`}
-            onClick={() => {
-              setDialogTab("login");
-              setLoginError(null);
-            }}
+            onClick={handleLoginTabClick}
           >
             Login
           </button>
@@ -62,34 +135,13 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                 ? "bg-emerald-600 text-white"
                 : "bg-white text-emerald-600 border border-emerald-200"
             }`}
-            onClick={() => {
-              setDialogTab("signup");
-              setLoginError(null);
-            }}
+            onClick={handleSignupTabClick}
           >
             Create Account
           </button>
         </div>
         {dialogTab === "login" ? (
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setLoading(true);
-              setLoginError(null);
-              const email = emailRef.current?.value || "";
-              const password = passwordRef.current?.value || "";
-              try {
-                const auth = getAuth();
-                await signInWithEmailAndPassword(auth, email, password);
-                onClose();
-              } catch (err: any) {
-                setLoginError(err.message || "Login failed");
-              } finally {
-                setLoading(false);
-              }
-            }}
-            className="flex flex-col gap-4"
-          >
+          <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
             <input
               ref={emailRef}
               type="email"
@@ -118,25 +170,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
             </button>
           </form>
         ) : (
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setLoading(true);
-              setLoginError(null);
-              const email = emailRef.current?.value || "";
-              const password = passwordRef.current?.value || "";
-              try {
-                const auth = getAuth();
-                await createUserWithEmailAndPassword(auth, email, password);
-                onClose();
-              } catch (err: any) {
-                setLoginError(err.message || "Account creation failed");
-              } finally {
-                setLoading(false);
-              }
-            }}
-            className="flex flex-col gap-4"
-          >
+          <form onSubmit={handleSignupSubmit} className="flex flex-col gap-4">
             <input
               ref={emailRef}
               type="email"
