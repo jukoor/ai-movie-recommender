@@ -1,17 +1,65 @@
-import { Film, X, Menu, Home } from "lucide-react";
+import { Film, X, Menu, Home, Star } from "lucide-react";
 import { LoginDialog } from "./LoginDialog";
-import { useRef, useState } from "react";
-import { getAuth, signOut } from "firebase/auth";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import {
+  getFirestore,
+  collection,
+  collectionGroup,
+  getDocs,
+  getCountFromServer,
+  query,
+  where,
+  count,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import { Link } from "react-router-dom";
 
 export const NavBar = () => {
+  const [favoritesCount, setFavoritesCount] = useState<number>(0);
+  // Removed unused userId state
   const navigation = [
     { name: "Home", href: "/", icon: Home },
     // { name: "Movies", href: "/movies", icon: Film },
-    // { name: "Favorites", href: "/favorites", icon: Star },
+    {
+      name: "Favorites",
+      href: "/favorites",
+      icon: Star,
+      count: favoritesCount,
+    },
     // { name: "Search", href: "/search", icon: Search },
     // { name: "Profile", href: "/profile", icon: User },
   ];
+  const db = getFirestore();
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userId = user.uid;
+
+        const docRef = doc(db, "users", userId, "movieLists", "favorites");
+        const docSnap = await getDoc(docRef);
+
+        console.log(docSnap);
+
+        if (docSnap.exists()) {
+          const movies = docSnap.data().movies || [];
+          console.log(movies);
+          setFavoritesCount(Array.isArray(movies) ? movies.length : 0);
+        } else {
+          setFavoritesCount(0);
+        }
+
+        console.log(count);
+      } else {
+        console.log("Kein Nutzer angemeldet.");
+      }
+    });
+  }, []);
 
   // Todo: Replace
   const isActive = (path: string) => {
@@ -54,6 +102,11 @@ export const NavBar = () => {
                 >
                   <Icon className="w-4 h-4" />
                   {item.name}
+                  {item.name === "Favorites" && item.count !== undefined && (
+                    <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">
+                      {item.count}
+                    </span>
+                  )}
                 </Link>
               );
             })}
@@ -109,6 +162,11 @@ export const NavBar = () => {
                   >
                     <Icon className="w-5 h-5" />
                     {item.name}
+                    {item.name === "Favorites" && item.count !== undefined && (
+                      <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">
+                        {item.count}
+                      </span>
+                    )}
                   </Link>
                 );
               })}

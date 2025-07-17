@@ -73,7 +73,6 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         movies: [],
         creationDate: new Date(),
       });
-      console.log("done");
     }
   }
 

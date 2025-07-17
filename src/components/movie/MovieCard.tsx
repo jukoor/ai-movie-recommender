@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Star, Clock, Calendar } from "lucide-react";
+import { db } from "../../utils/firebase";
+import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { Movie } from "../../types/tmdb/Movie";
 
 interface MovieCardProps {
@@ -7,6 +10,33 @@ interface MovieCardProps {
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleFavorite = async () => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        alert("You must be logged in to add favorites.");
+        return;
+      }
+      const favDocRef = doc(db, `/users/${user.uid}/movieLists/favorites`);
+      const favDocSnap = await getDoc(favDocRef);
+      if (favDocSnap.exists()) {
+        await updateDoc(favDocRef, {
+          movies: arrayUnion(movie),
+        });
+      } else {
+        await setDoc(favDocRef, {
+          movies: [movie],
+        });
+      }
+      setIsFavorite(true);
+    } catch (error) {
+      alert("Failed to add favorite: " + error);
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group hover:scale-105">
       <div className="relative overflow-hidden">
@@ -20,6 +50,18 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
           <Star className="w-4 h-4 fill-current" />
           {movie.vote_average}
         </div>
+        <button
+          onClick={handleFavorite}
+          className={`absolute top-4 left-4 bg-white/80 hover:bg-rose-200 text-rose-600 rounded-full p-2 shadow transition-colors duration-200 flex items-center ${
+            isFavorite ? "bg-rose-500 text-white" : ""
+          }`}
+          aria-label="Add to favorites"
+        >
+          <Star
+            className="w-5 h-5"
+            fill={isFavorite ? "currentColor" : "none"}
+          />
+        </button>
       </div>
 
       <div className="p-6">
