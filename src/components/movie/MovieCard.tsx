@@ -4,6 +4,7 @@ import { db } from "../../utils/firebase";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Movie } from "../../types/tmdb/Movie";
+import { useReadGenres } from "../../hooks/useReadGenres";
 
 interface MovieCardProps {
   movie: Movie;
@@ -11,6 +12,7 @@ interface MovieCardProps {
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const { genres } = useReadGenres();
 
   const handleFavorite = async () => {
     try {
@@ -89,7 +91,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
               key={index}
               className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium hover:bg-emerald-100 hover:text-emerald-800 transition-colors"
             >
-              {genre}
+              {genres.find((g) => g.id === genre)?.name || "Unknown"}
             </span>
           ))}
         </div>

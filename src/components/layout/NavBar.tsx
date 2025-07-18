@@ -1,28 +1,20 @@
 import { Film, X, Menu, Home, Star } from "lucide-react";
 import { LoginDialog } from "./LoginDialog";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  collectionGroup,
-  getDocs,
-  getCountFromServer,
-  query,
-  where,
-  count,
-  getDoc,
-  doc,
-} from "firebase/firestore";
-import { Link } from "react-router-dom";
-
+import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import type { NavigationItem } from "../../types/NavigationItem";
+import { getAuth, signOut } from "firebase/auth";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { Link, NavLink } from "react-router-dom";
 export const NavBar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [favoritesCount, setFavoritesCount] = useState<number>(0);
-  // Removed unused userId state
-  const navigation = [
+
+  const { isLoggedIn } = useAuth();
+
+  const navigation: NavigationItem[] = [
     { name: "Home", href: "/", icon: Home },
-    // { name: "Movies", href: "/movies", icon: Film },
     {
       name: "Favorites",
       href: "/favorites",
@@ -35,31 +27,27 @@ export const NavBar = () => {
   const db = getFirestore();
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      setFavoritesCount(0);
+      return;
+    }
     const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userId = user.uid;
-
-        const docRef = doc(db, "users", userId, "movieLists", "favorites");
-        const docSnap = await getDoc(docRef);
-
-        console.log(docSnap);
-
+    const user = auth.currentUser;
+    if (user) {
+      const userId = user.uid;
+      const docRef = doc(db, "users", userId, "movieLists", "favorites");
+      getDoc(docRef).then((docSnap) => {
         if (docSnap.exists()) {
           const movies = docSnap.data().movies || [];
-          console.log(movies);
           setFavoritesCount(Array.isArray(movies) ? movies.length : 0);
         } else {
           setFavoritesCount(0);
         }
-
-        console.log(count);
-      } else {
-        console.log("Kein Nutzer angemeldet.");
-      }
-    });
-  }, []);
+      });
+    } else {
+      setFavoritesCount(0);
+    }
+  }, [isLoggedIn]);
 
   // Todo: Replace
   const isActive = (path: string) => {
@@ -67,10 +55,6 @@ export const NavBar = () => {
     if (path !== "/" && location.pathname.startsWith(path)) return true;
     return false;
   };
-
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
@@ -91,14 +75,17 @@ export const NavBar = () => {
             {navigation.map((item) => {
               const Icon = item.icon;
               return (
-                <Link
+                <NavLink
                   key={item.name}
                   to={item.href}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                    isActive(item.href)
+                  className={({ isActive, isPending }) =>
+                    `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ` +
+                    (isPending
+                      ? "pending"
+                      : isActive
                       ? "bg-emerald-100 text-emerald-700"
-                      : "text-slate-600 hover:text-slate-800 hover:bg-slate-100"
-                  }`}
+                      : "text-slate-600 hover:text-slate-800 hover:bg-slate-100")
+                  }
                 >
                   <Icon className="w-4 h-4" />
                   {item.name}
@@ -107,14 +94,13 @@ export const NavBar = () => {
                       {item.count}
                     </span>
                   )}
-                </Link>
+                </NavLink>
               );
             })}
             {isLoggedIn ? (
               <button
                 onClick={async () => {
                   await signOut(getAuth());
-                  setIsLoggedIn(false);
                 }}
                 className="ml-4 px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
               >
@@ -150,15 +136,18 @@ export const NavBar = () => {
               {navigation.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <Link
+                  <NavLink
                     key={item.name}
                     to={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
-                      isActive(item.href)
+                    className={({ isActive, isPending }) =>
+                      `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ` +
+                      (isPending
+                        ? "pending"
+                        : isActive
                         ? "bg-emerald-100 text-emerald-700"
-                        : "text-slate-600 hover:text-slate-800 hover:bg-slate-100"
-                    }`}
+                        : "text-slate-600 hover:text-slate-800 hover:bg-slate-100")
+                    }
                   >
                     <Icon className="w-5 h-5" />
                     {item.name}
@@ -167,14 +156,13 @@ export const NavBar = () => {
                         {item.count}
                       </span>
                     )}
-                  </Link>
+                  </NavLink>
                 );
               })}
               {isLoggedIn ? (
                 <button
                   onClick={async () => {
                     await signOut(getAuth());
-                    setIsLoggedIn(false);
                   }}
                   className="mt-2 px-4 py-3 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
                 >
@@ -196,7 +184,6 @@ export const NavBar = () => {
           open={isLoginOpen}
           onClose={() => {
             setIsLoginOpen(false);
-            setIsLoggedIn(true);
           }}
         />
       </div>
