@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Star, Clock, Calendar } from "lucide-react";
+import { Star, Calendar } from "lucide-react";
 import { db } from "../../utils/firebase";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Genre, Movie } from "../../types/tmdb/Movie";
+import { Movie } from "../../types/tmdb/Movie";
+import { Genre } from "../../types/tmdb/Genre";
 
 interface MovieCardProps {
   movie: Movie;
@@ -49,7 +50,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute top-4 right-4 bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
           <Star className="w-4 h-4 fill-current" />
-          {movie.vote_average}
+          {movie.vote_average.toFixed(1)}
         </div>
         <button
           onClick={handleFavorite}
@@ -77,11 +78,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
             <Calendar className="w-4 h-4" />
             {movie.release_date.split("-")[0]}
           </div>
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            {/* {formatDuration(movie.duration)} */}
-            0.00
-          </div>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-4">
@@ -96,7 +92,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
         </div>
 
         <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
-          {movie.title}
+          {movie.overview}
         </p>
       </div>
     </div>

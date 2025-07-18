@@ -2,9 +2,12 @@ import { ArrowRight, Link, Star } from "lucide-react";
 import { useEffect } from "react";
 import { MovieCard } from "./MovieCard";
 import { useReadTopRatedMovies } from "../../hooks/useReadTopRatedMovies";
+import { useReadGenres } from "../../hooks/useReadGenres";
 
 export const TopRatedMoviesSection: React.FC = () => {
   const { topRatedMovies, loading, error } = useReadTopRatedMovies();
+
+  const { genres } = useReadGenres();
 
   useEffect(() => {
     console.log(topRatedMovies);
@@ -18,7 +21,7 @@ export const TopRatedMoviesSection: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {topRatedMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} genres={genres} />
         ))}
       </div>
       <div className="text-center mt-8">

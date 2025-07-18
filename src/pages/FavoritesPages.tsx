@@ -3,8 +3,8 @@ import { SearchBar } from "../components/SearchBar";
 import { useEffect, useState } from "react";
 import { Movie } from "../types/tmdb/Movie";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { auth } from "../utils/firebase";
 import { MovieList } from "../components/MovieList";
+import { getAuth } from "firebase/auth";
 
 export const FavoritesPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -12,15 +12,19 @@ export const FavoritesPage: React.FC = () => {
 
   useEffect(() => {
     const fetchFavorites = async () => {
-      const userId = auth.currentUser?.uid;
-      if (!userId) return;
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user) {
+        const userId = auth.currentUser?.uid;
+        if (!userId) return;
 
-      const docRef = doc(db, "users", userId, "movieLists", "favorites");
-      const docSnap = await getDoc(docRef);
+        const docRef = doc(db, "users", userId, "movieLists", "favorites");
+        const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const movies = docSnap.data().movies || [];
-        setMovies(movies);
+        if (docSnap.exists()) {
+          const movies = docSnap.data().movies || [];
+          setMovies(movies);
+        }
       }
     };
 
