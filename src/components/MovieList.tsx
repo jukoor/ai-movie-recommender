@@ -2,12 +2,15 @@ import React from "react";
 import { Film } from "lucide-react";
 import { Movie } from "../types/tmdb/Movie";
 import { MovieCard } from "./movie/MovieCard";
+import { useReadGenres } from "../hooks/useReadGenres";
 
 interface MovieListProps {
   movies: Movie[];
 }
 
 export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
+  const { genres } = useReadGenres();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -30,7 +33,7 @@ export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard key={movie.id} movie={movie} genres={genres} />
             ))}
           </div>
         )}

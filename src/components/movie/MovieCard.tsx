@@ -3,16 +3,15 @@ import { Star, Clock, Calendar } from "lucide-react";
 import { db } from "../../utils/firebase";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Movie } from "../../types/tmdb/Movie";
-import { useReadGenres } from "../../hooks/useReadGenres";
+import { Genre, Movie } from "../../types/tmdb/Movie";
 
 interface MovieCardProps {
   movie: Movie;
+  genres: Genre[];
 }
 
-export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const { genres } = useReadGenres();
 
   const handleFavorite = async () => {
     try {
