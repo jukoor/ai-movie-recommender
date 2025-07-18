@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Star, Calendar } from "lucide-react";
 import { db } from "../../utils/firebase";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -14,6 +14,21 @@ interface MovieCardProps {
 export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
+  useEffect(() => {
+    const fetchFavoriteStatus = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) return;
+      const favDocRef = doc(db, `/users/${user.uid}/movieLists/favorites`);
+      const favDocSnap = await getDoc(favDocRef);
+      if (favDocSnap.exists()) {
+        const movies = favDocSnap.data().movies || [];
+        setIsFavorite(movies.some((m: Movie) => m.id === movie.id));
+      }
+    };
+    fetchFavoriteStatus();
+  }, [movie.id]);
+
   const handleFavorite = async () => {
     try {
       const auth = getAuth();
@@ -24,18 +39,26 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
       }
       const favDocRef = doc(db, `/users/${user.uid}/movieLists/favorites`);
       const favDocSnap = await getDoc(favDocRef);
+
       if (favDocSnap.exists()) {
-        await updateDoc(favDocRef, {
-          movies: arrayUnion(movie),
-        });
+        const movies = favDocSnap.data().movies || [];
+        if (isFavorite) {
+          // Remove from favorites
+          const updatedMovies = movies.filter((m: Movie) => m.id !== movie.id);
+          await updateDoc(favDocRef, { movies: updatedMovies });
+          setIsFavorite(false);
+        } else {
+          // Add to favorites
+          await updateDoc(favDocRef, { movies: arrayUnion(movie) });
+          setIsFavorite(true);
+        }
       } else {
-        await setDoc(favDocRef, {
-          movies: [movie],
-        });
+        // Create favorites list with this movie
+        await setDoc(favDocRef, { movies: [movie] });
+        setIsFavorite(true);
       }
-      setIsFavorite(true);
     } catch (error) {
-      alert("Failed to add favorite: " + error);
+      alert("Failed to update favorites: " + error);
     }
   };
 
@@ -60,16 +83,19 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
           aria-label="Add to favorites"
         >
           <Star
-            className="w-5 h-5"
-            fill={isFavorite ? "currentColor" : "none"}
-          />
+            className={`w-5 h-5 ${
+              isFavorite ? "text-rose-600" : "text-rose-600"
+            }`}
+            fill={isFavorite ? "#e11d48" : "none"} // #e11d48 is Tailwind's rose-600
+          />{" "}
         </button>
       </div>
 
       <div className="p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
           <h3 className="text-xl font-bold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors">
-            {movie.title}
+            {movie.title}{" "}
+            {isFavorite && <span className="text-rose-500">★</span>}
           </h3>
         </div>
 
