@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import type { NavigationItem } from "../../types/NavigationItem";
 import { getAuth, signOut } from "firebase/auth";
-import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 import { Link, NavLink } from "react-router-dom";
+
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -36,25 +37,22 @@ export const NavBar = () => {
     if (user) {
       const userId = user.uid;
       const docRef = doc(db, "users", userId, "movieLists", "favorites");
-      getDoc(docRef).then((docSnap) => {
-        if (docSnap.exists()) {
-          const movies = docSnap.data().movies || [];
-          setFavoritesCount(Array.isArray(movies) ? movies.length : 0);
-        } else {
-          setFavoritesCount(0);
-        }
-      });
+      const unsubscribe =
+        // Listen for real-time updates
+        onSnapshot(docRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const movies = docSnap.data().movies || [];
+            setFavoritesCount(Array.isArray(movies) ? movies.length : 0);
+          } else {
+            setFavoritesCount(0);
+          }
+        });
+      // Cleanup listener on unmount or logout
+      return () => unsubscribe();
     } else {
       setFavoritesCount(0);
     }
-  }, [isLoggedIn]);
-
-  // Todo: Replace
-  const isActive = (path: string) => {
-    if (path === "/" && location.pathname === "/") return true;
-    if (path !== "/" && location.pathname.startsWith(path)) return true;
-    return false;
-  };
+  }, [isLoggedIn, db]);
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">

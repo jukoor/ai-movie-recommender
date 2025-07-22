@@ -5,6 +5,7 @@ import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { Movie } from "../../types/tmdb/Movie";
 import { Genre } from "../../types/tmdb/Genre";
+import { useShowToast } from "../../context/ToastContext";
 
 interface MovieCardProps {
   movie: Movie;
@@ -13,6 +14,7 @@ interface MovieCardProps {
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const { showToast } = useShowToast();
 
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
@@ -47,10 +49,12 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
           const updatedMovies = movies.filter((m: Movie) => m.id !== movie.id);
           await updateDoc(favDocRef, { movies: updatedMovies });
           setIsFavorite(false);
+          showToast("Removed from favorites!", "success");
         } else {
           // Add to favorites
           await updateDoc(favDocRef, { movies: arrayUnion(movie) });
           setIsFavorite(true);
+          showToast("Added to favorites!", "success");
         }
       } else {
         // Create favorites list with this movie
@@ -94,8 +98,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
       <div className="p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
           <h3 className="text-xl font-bold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors">
-            {movie.title}{" "}
-            {isFavorite && <span className="text-rose-500">★</span>}
+            {movie.title}
           </h3>
         </div>
 
