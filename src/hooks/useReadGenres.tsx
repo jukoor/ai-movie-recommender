@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../utils/api";
-import { Genre } from "../types/tmdb/Movie";
 import { GenreApiResult } from "../types/tmdb/GenreApiResult";
+import { Genre } from "../types/tmdb/Genre";
 
 export const useReadGenres = () => {
   const [genres, setGenres] = useState<Genre[]>([]);

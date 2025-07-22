@@ -1,5 +1,4 @@
 import { ArrowRight, Link, Star } from "lucide-react";
-import { useEffect } from "react";
 import { MovieCard } from "./MovieCard";
 import { useReadTopRatedMovies } from "../../hooks/useReadTopRatedMovies";
 import { useReadGenres } from "../../hooks/useReadGenres";
@@ -9,13 +8,9 @@ export const TopRatedMoviesSection: React.FC = () => {
 
   const { genres } = useReadGenres();
 
-  useEffect(() => {
-    console.log(topRatedMovies);
-  }, [topRatedMovies]);
-
   return (
     <section className="max-w-7xl mx-auto px-4">
-      <div className="flex items-center gap-3 mb-8">
+      <div className="flex items-center gap-3 mb-8 mt-8">
         <Star className="w-6 h-6 text-emerald-600" />
         <h2 className="text-3xl font-bold text-slate-800">Featured Movies</h2>
       </div>

@@ -1,4 +1,4 @@
-import { Film, X, Menu, Home, Star } from "lucide-react";
+import { Film, X, Menu, Home, Star, Search } from "lucide-react";
 import { LoginDialog } from "./LoginDialog";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
@@ -22,7 +22,7 @@ export const NavBar = () => {
       icon: Star,
       count: favoritesCount,
     },
-    // { name: "Search", href: "/search", icon: Search },
+    { name: "Search", href: "/search", icon: Search },
     // { name: "Profile", href: "/profile", icon: User },
   ];
   const db = getFirestore();

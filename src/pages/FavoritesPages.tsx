@@ -13,7 +13,6 @@ export const FavoritesPage: React.FC = () => {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    console.log(auth, user);
     if (!user) return;
     const userId = user.uid;
     if (!userId) return;
