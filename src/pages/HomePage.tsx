@@ -6,9 +6,6 @@ export const HomePage: React.FC = () => {
     <div className="page page-home">
       <title>AI Movie Recommender</title>
       <div className="space-y-16">
-        {/* Top Rated Movies */}
-        {/* <TopRatedMoviesSection /> */}
-
         <AiRecommender />
       </div>
     </div>

@@ -10,7 +10,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "flowbite-react patch"
+    "postinstall": "flowbite-react patch",
+    "server": "node server/index.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
