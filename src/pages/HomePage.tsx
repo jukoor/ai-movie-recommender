@@ -1,5 +1,4 @@
 import React from "react";
-import { TopRatedMoviesSection } from "../components/movie/TopRatedMoviesSection";
 import { AiRecommender } from "../components/recommender/AiRecommender";
 
 export const HomePage: React.FC = () => {

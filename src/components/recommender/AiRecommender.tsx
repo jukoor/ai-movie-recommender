@@ -1,14 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button, TextInput, Card, Spinner, Alert } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { Movie } from "../../types/tmdb/Movie";
 import { MovieCard } from "../movie/MovieCard";
 import { useReadGenres } from "../../hooks/useReadGenres";
 import { apiRequest } from "../../utils/api";
+import { RefreshCw, Sparkle } from "lucide-react";
 
 export const AiRecommender = () => {
   const [prompt, setPrompt] = useState(
-    'Nenne mir 3 Filmtitel, und gib sie als JSON-Array im Format ["Titel1", "Titel2", "Titel3"] zurück. Keine weiteren Erklärungen.'
+    'Nenne mir 3 Filmtitel des Genres Komedie, und gib sie als JSON-Array im Format ["Titel1", "Titel2", "Titel3"] zurück. Keine weiteren Erklärungen.'
   );
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ export const AiRecommender = () => {
 
   const { genres } = useReadGenres();
 
-  const handleSubmit = async () => {
+  const getAiMovieRecommendations = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -60,32 +61,73 @@ export const AiRecommender = () => {
     setReplyMovies(firstFoundMovies as Movie[]);
   };
   return (
-    <Card className="max-w-xl mx-auto mt-6">
-      <h1 className="text-xl font-bold mb-2">KI-Filmvorschläge</h1>
-      <TextInput
-        type="text"
-        placeholder="Sag etwas wie: Ich mag Interstellar"
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        className="mb-2"
-      />
-      <Button onClick={handleSubmit} disabled={loading}>
-        {loading ? <Spinner size="sm" /> : "Vorschlagen lassen"}
-      </Button>
-      {error && (
-        <Alert color="failure" className="mt-4">
-          {error}
-        </Alert>
-      )}
-
-      {replyMovies.length > 0 && (
-        <div className="mt-4">
-          <h2 className="text-lg font-semibold mb-2">Vorgeschlagene Filme:</h2>
-          {replyMovies.map((movie, index) => (
-            <MovieCard key={index} movie={movie} genres={genres} />
-          ))}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Header */}
+      <div className="container mx-auto px-6 py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4 animate-fadeIn">
+            Movie
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+              Discovery
+            </span>
+          </h1>
+          <p
+            className="text-xl text-gray-600 max-w-2xl mx-auto animate-fadeIn"
+            style={{ animationDelay: "200ms", animationFillMode: "both" }}
+          >
+            Discover your next favorite film with our cutting-edge AI
+            recommender. Just tell us what you like, and we'll find movies
+            you'll love! Or get inspired by AI-generated suggestions.
+          </p>
         </div>
-      )}
-    </Card>
+
+        {/* Fetch Button */}
+        <div className="flex justify-center mb-12">
+          <Button
+            onClick={getAiMovieRecommendations}
+            disabled={loading}
+            className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center gap-3">
+              {loading ? (
+                <>
+                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  Fetching Movies...
+                </>
+              ) : (
+                <>
+                  <Sparkle className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                  Discover Movies
+                </>
+              )}
+            </div>
+          </Button>
+        </div>
+
+        {/* Content Area */}
+        {/* {loading && <LoadingSpinner />} */}
+
+        {!loading && replyMovies.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {replyMovies.map((movie, index) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                genres={genres}
+                index={index}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* {!loading && !hasSearched && (
+          <div className="text-center py-20">
+            <div className="text-6xl mb-4">🎬</div>
+            <p className="text-gray-500 text-lg">Click the button above to discover amazing movies!</p>
+          </div>
+        )} */}
+      </div>
+    </div>
   );
 };
