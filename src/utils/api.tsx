@@ -1,4 +1,5 @@
 import axios from "axios";
+import { MovieApiResult } from "../types/tmdb/MovieApiResult";
 
 // Create an Axios instance with default config
 const apiClient = axios.create({
@@ -17,7 +18,7 @@ export async function apiRequest<T>(
   url: string,
   data?: unknown,
   config?: Record<string, unknown>
-): Promise<T> {
+): Promise<MovieApiResult> {
   try {
     const response = await apiClient.request<T>({
       method,
@@ -25,7 +26,7 @@ export async function apiRequest<T>(
       data,
       ...config,
     });
-    return response.data;
+    return response.data as MovieApiResult;
   } catch (error) {
     // Optionally handle errors globally here
     if (axios.isAxiosError(error)) {
