@@ -1,5 +1,6 @@
 import React from "react";
 import { TopRatedMoviesSection } from "../components/movie/TopRatedMoviesSection";
+import { AiRecommender } from "../components/recommender/AiRecommender";
 
 export const HomePage: React.FC = () => {
   return (
@@ -7,7 +8,9 @@ export const HomePage: React.FC = () => {
       <title>AI Movie Recommender</title>
       <div className="space-y-16">
         {/* Top Rated Movies */}
-        <TopRatedMoviesSection />
+        {/* <TopRatedMoviesSection /> */}
+
+        <AiRecommender />
       </div>
     </div>
   );
