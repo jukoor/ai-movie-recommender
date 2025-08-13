@@ -1,13 +1,17 @@
 import React from "react";
 import { AiRecommender } from "../components/recommender/AiRecommender";
+import { FeaturesSection } from "../components/pages/01_home/sections/FeaturesSection";
 
 export const HomePage: React.FC = () => {
   return (
     <div className="page page-home">
-      <title>AI Movie Recommender</title>
-      <div className="space-y-16">
-        <AiRecommender />
-      </div>
+      <title>PopcornAI: AI Movie Recommendations</title>
+
+      {/* Hero Section: User input and AI Recommendations */}
+      <AiRecommender />
+
+      {/* Features Section: Highlighting key features of the recommender */}
+      <FeaturesSection />
     </div>
   );
 };

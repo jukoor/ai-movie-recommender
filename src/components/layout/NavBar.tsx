@@ -64,7 +64,7 @@ export const NavBar = () => {
               <Film className="w-6 h-6 text-white" />
             </div>
             <span className="text-xl font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">
-              AI Movie Recommender
+              PopcornAI
             </span>
           </Link>
 

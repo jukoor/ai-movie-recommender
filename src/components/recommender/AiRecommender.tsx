@@ -1,11 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button, TextInput } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { Movie } from "../../types/tmdb/Movie";
 import { MovieCard } from "../movie/MovieCard";
 import { useReadGenres } from "../../hooks/useReadGenres";
 import { apiRequest } from "../../utils/api";
-import { RefreshCw, Search, Sparkles } from "lucide-react";
+import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
 
 export const AiRecommender = () => {
   const moviesRequestCount = 15;
@@ -19,6 +19,12 @@ export const AiRecommender = () => {
   const { genres } = useReadGenres();
 
   function preprocessPrompt(userInput: string) {
+    // Check for empty input first
+    if (!userInput.trim()) {
+      setError("Please enter at least 2 words.");
+      return null;
+    }
+
     // Swearwords to filter out
     const swearWords = ["fuck", "shit", "damn", "hell"];
 
@@ -45,19 +51,20 @@ export const AiRecommender = () => {
       setError(
         `Please provide a more detailed movie preference (at least ${minInputLength} characters).`
       );
+      return null;
     }
 
     if (cleanedInput.length > maxInputLength) {
       setError(
         `Please keep your movie preferences under ${maxInputLength} characters.`
       );
+      return null;
     }
 
     // Append the formatting instruction
-    const instruction =
-      'Return them as a Javascript array in the format ["Title1", "Title2", "Title3"]. No further explanations. Without backslashes.';
+    const instruction = `You must recommend ${moviesRequestCount} real, existing movies that match the following keywords or sentence: "${cleanedInput}". Even for vague descriptions like "epic space adventure", recommend actual movies from that genre or theme. Always return actual movie titles that exist. Return them as a Javascript array in the format ["Title1", "Title2", "Title3"]. No further explanations. Without backslashes.`;
 
-    return `${cleanedInput} ${instruction}`;
+    return instruction;
   }
 
   const getAiMovieRecommendations = async () => {
@@ -67,6 +74,12 @@ export const AiRecommender = () => {
     try {
       // filter and clean user input
       const processedPrompt = preprocessPrompt(userInputValue);
+
+      // If preprocessing failed, stop here
+      if (!processedPrompt) {
+        setLoading(false);
+        return;
+      }
 
       // extend the user input with specific instructions to get movie results only in the correct format
 
@@ -127,12 +140,12 @@ export const AiRecommender = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex flex-col">
+    <div className=" bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex flex-col">
       {/* Header */}
-      <div className="container mx-auto px-6 py-12 flex-1 flex flex-col justify-center">
+      <div className="container mx-auto px-6 py-12 flex-1 flex flex-col mt-16">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-gray-900 mb-4 animate-fadeIn">
-            Movie
+            AI Movie
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
               Discovery
             </span>
@@ -148,7 +161,7 @@ export const AiRecommender = () => {
         </div>
 
         {/* Centered Search Form */}
-        <div className="flex justify-center items-center mb-12">
+        <div className="flex justify-center items-center mb-12 animate-fadeIn">
           <form
             className="w-full max-w-2xl"
             onSubmit={(e) => {
@@ -174,7 +187,7 @@ export const AiRecommender = () => {
                 className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={userInputValue}
                 onChange={(e) => setUserInputValue(e.target.value)}
-                placeholder='Get AI Movie Recommendations. Describe your mood or movie taste, e.g. "epic space adventure"...'
+                placeholder='Describe your mood or movie taste, e.g. "epic space adventure"...'
                 disabled={loading}
               />
               <Button
@@ -206,8 +219,14 @@ export const AiRecommender = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="flex justify-center mt-6">
-            <span className="text-red-600 text-lg">{error}</span>
+          <div
+            className="flex justify-center mb-6"
+            style={{ marginTop: "-30px" }}
+          >
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg shadow-sm max-w-md">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <span className="text-sm font-medium">{error}</span>
+            </div>
           </div>
         )}
 
