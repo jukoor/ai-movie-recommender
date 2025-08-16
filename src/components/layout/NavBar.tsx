@@ -29,7 +29,6 @@ export const NavBar = () => {
   const db = getFirestore();
 
   useEffect(() => {
-    console.log("isLoggedIn", isLoggedIn);
     if (!isLoggedIn) {
       setFavoritesCount(0);
       return;

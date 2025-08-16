@@ -8,16 +8,11 @@ import { Genre } from "../../types/tmdb/Genre";
 import { useShowToast } from "../../context/ToastContext";
 
 interface MovieCardProps {
-  index?: number;
   movie: Movie;
   genres: Genre[];
 }
 
-export const MovieCard: React.FC<MovieCardProps> = ({
-  movie,
-  genres,
-  index,
-}) => {
+export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { showToast } = useShowToast();
 
@@ -72,13 +67,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
   };
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group hover:scale-105 animate-fadeInUp"
-      style={{
-        animationDelay: `${index ? index * 200 : 0}ms`,
-        animationFillMode: "both",
-      }}
-    >
+    <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group">
       <div className="relative overflow-hidden">
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

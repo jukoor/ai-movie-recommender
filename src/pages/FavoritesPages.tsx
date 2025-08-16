@@ -1,5 +1,5 @@
 import { Film, LogIn, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Movie } from "../types/tmdb/Movie";
 import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
 import { MovieList } from "../components/MovieList";
@@ -9,15 +9,18 @@ import { FavoritesPageSkeleton } from "../components/skeleton/FavoritesPageSkele
 import { SearchBar } from "../components/SearchBar";
 import { useShowToast } from "../context/ToastContext";
 import { DeleteConfirmDialog } from "../components/dialogs/DeleteConfirmDialog";
+import { useReadGenres } from "../hooks/useReadGenres";
 
 export const FavoritesPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const { user, loading, isLoggedIn } = useAuth();
   const { showToast } = useShowToast();
+  const { genres } = useReadGenres();
   const db = getFirestore();
 
   useEffect(() => {
@@ -40,12 +43,46 @@ export const FavoritesPage: React.FC = () => {
     };
   }, [isLoggedIn, user, db]);
 
-  // Filter movies based on search term
-  const filteredMovies = movies.filter(
-    (movie) =>
-      movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      movie.overview.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Get unique genres from favorite movies
+  const availableGenres = useMemo(() => {
+    const genreNames = new Set<string>();
+
+    movies.forEach((movie) => {
+      movie.genre_ids.forEach((genreId) => {
+        const genre = genres.find((g) => g.id === genreId);
+        if (genre) {
+          genreNames.add(genre.name);
+        }
+      });
+    });
+
+    return Array.from(genreNames).sort();
+  }, [movies, genres]);
+
+  // Filter movies based on search term and genre
+  const filteredMovies = useMemo(() => {
+    return movies.filter((movie) => {
+      // Search filter
+      const matchesSearch =
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        movie.overview.toLowerCase().includes(searchTerm.toLowerCase());
+
+      // Genre filter
+      let matchesGenre = true;
+      if (selectedGenre) {
+        const movieGenreNames = movie.genre_ids
+          .map((genreId) => {
+            const genre = genres.find((g) => g.id === genreId);
+            return genre?.name;
+          })
+          .filter(Boolean);
+
+        matchesGenre = movieGenreNames.includes(selectedGenre);
+      }
+
+      return matchesSearch && matchesGenre;
+    });
+  }, [movies, searchTerm, selectedGenre, genres]);
 
   // Remove all favorites function
   const handleRemoveAllFavorites = async () => {
@@ -132,7 +169,13 @@ export const FavoritesPage: React.FC = () => {
         </p>
       </div>
 
-      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+      <SearchBar
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        selectedGenre={selectedGenre}
+        onGenreChange={setSelectedGenre}
+        availableGenres={availableGenres}
+      />
 
       <div className="max-w-7xl mx-auto px-4 pt-8">
         <div className="flex justify-between items-center">

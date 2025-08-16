@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Button } from "flowbite-react";
+import { motion } from "framer-motion";
 import { Movie } from "../../types/tmdb/Movie";
 import { MovieCard } from "../movie/MovieCard";
 import { useReadGenres } from "../../hooks/useReadGenres";
@@ -231,16 +232,48 @@ export const AiRecommender = () => {
 
         {/* Movie Results */}
         {!loading && replyMovies.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+          <motion.div
+            key={replyMovies.map((m) => m.id).join("-")}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  when: "beforeChildren",
+                  staggerChildren: 0.2,
+                  delayChildren: 0.1,
+                },
+              },
+            }}
+          >
             {replyMovies.map((movie, index) => (
-              <MovieCard
+              <motion.div
                 key={movie.id}
-                movie={movie}
-                genres={genres}
-                index={index}
-              />
+                custom={index}
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    y: 40,
+                    scale: 0.9,
+                  },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    transition: {
+                      duration: 0.6,
+                      ease: "easeOut",
+                    },
+                  },
+                }}
+              >
+                <MovieCard movie={movie} genres={genres} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
     </div>
