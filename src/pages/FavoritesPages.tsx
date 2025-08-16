@@ -5,6 +5,7 @@ import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { MovieList } from "../components/MovieList";
 import { useAuth } from "../context/AuthContext";
 import { LoginDialog } from "../components/layout/LoginDialog";
+import { FavoritesPageSkeleton } from "../components/skeleton/FavoritesPageSkeleton";
 
 export const FavoritesPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -34,11 +35,7 @@ export const FavoritesPage: React.FC = () => {
 
   // Show loading state while checking authentication
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-slate-600">Loading...</div>
-      </div>
-    );
+    return <FavoritesPageSkeleton />;
   }
 
   // Show login prompt if user is not authenticated
