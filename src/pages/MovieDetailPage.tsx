@@ -6,7 +6,6 @@ import {
   Clock,
   Globe,
   ArrowLeft,
-  Users,
   DollarSign,
   Award,
   ExternalLink,
@@ -61,6 +60,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <title>{movie.title} // PopcornAI</title>
       {/* Hero Section with Backdrop */}
       <div className="relative h-96 md:h-[500px] overflow-hidden">
         {movie.backdrop_path && (

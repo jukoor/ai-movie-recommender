@@ -5,7 +5,7 @@ import { FeaturesSection } from "../components/pages/01_home/sections/FeaturesSe
 export const HomePage: React.FC = () => {
   return (
     <div className="page page-home">
-      <title>PopcornAI: AI Movie Recommendations</title>
+      <title>Home // PopcornAI</title>
 
       {/* Hero Section: User input and AI Recommendations */}
       <AiRecommender />

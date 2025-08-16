@@ -116,7 +116,7 @@ export const FavoritesPage: React.FC = () => {
   if (!isLoggedIn) {
     return (
       <div>
-        <title>Favorites</title>
+        <title>Favorites // PopcornAI</title>
 
         <div className="text-center mb-12 mt-16">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -157,7 +157,7 @@ export const FavoritesPage: React.FC = () => {
 
   return (
     <div>
-      <title>Favorites</title>
+      <title>Favorites // PopcornAI</title>
 
       <div className="text-center mb-12 mt-16">
         <div className="flex items-center justify-center gap-3 mb-4">
