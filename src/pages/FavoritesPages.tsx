@@ -1,16 +1,23 @@
-import { Film, LogIn } from "lucide-react";
+import { Film, LogIn, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Movie } from "../types/tmdb/Movie";
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
 import { MovieList } from "../components/MovieList";
 import { useAuth } from "../context/AuthContext";
 import { LoginDialog } from "../components/layout/LoginDialog";
 import { FavoritesPageSkeleton } from "../components/skeleton/FavoritesPageSkeleton";
+import { SearchBar } from "../components/SearchBar";
+import { useShowToast } from "../context/ToastContext";
+import { DeleteConfirmDialog } from "../components/dialogs/DeleteConfirmDialog";
 
 export const FavoritesPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
   const { user, loading, isLoggedIn } = useAuth();
+  const { showToast } = useShowToast();
   const db = getFirestore();
 
   useEffect(() => {
@@ -32,6 +39,36 @@ export const FavoritesPage: React.FC = () => {
       if (unsubscribe) unsubscribe();
     };
   }, [isLoggedIn, user, db]);
+
+  // Filter movies based on search term
+  const filteredMovies = movies.filter(
+    (movie) =>
+      movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      movie.overview.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Remove all favorites function
+  const handleRemoveAllFavorites = async () => {
+    if (!user || !isLoggedIn) return;
+
+    try {
+      setIsRemoving(true);
+      setShowDeleteDialog(false); // Close dialog immediately
+      const docRef = doc(db, "users", user.uid, "movieLists", "favorites");
+      await updateDoc(docRef, { movies: [] });
+      showToast("All favorites removed successfully!", "success");
+    } catch (error) {
+      console.error("Error removing all favorites:", error);
+      showToast("Failed to remove favorites. Please try again.", "error");
+    } finally {
+      setIsRemoving(false);
+    }
+  };
+
+  // Show delete confirmation dialog
+  const handleDeleteAllClick = () => {
+    setShowDeleteDialog(true);
+  };
 
   // Show loading state while checking authentication
   if (loading) {
@@ -95,9 +132,38 @@ export const FavoritesPage: React.FC = () => {
         </p>
       </div>
 
-      {/* <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} /> */}
+      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
 
-      <MovieList movies={movies} />
+      <div className="max-w-7xl mx-auto px-4 pt-8">
+        <div className="flex justify-between items-center">
+          <p className="text-slate-600">
+            Showing {filteredMovies.length} of {movies.length} movies
+          </p>
+          {movies.length > 0 && (
+            <button
+              onClick={handleDeleteAllClick}
+              disabled={isRemoving}
+              className="border border-red-300 hover:border-red-400 disabled:border-red-200 disabled:cursor-not-allowed text-red-600 hover:text-red-700 disabled:text-red-400 font-normal py-2 px-4 rounded-md transition-colors duration-200 flex items-center gap-2 text-sm hover:bg-red-50"
+            >
+              <Trash2 className="w-4 h-4" />
+              {isRemoving ? "Removing..." : "Remove All"}
+            </button>
+          )}
+        </div>
+      </div>
+
+      <MovieList
+        movies={filteredMovies}
+        context={searchTerm ? "search" : "favorites"}
+      />
+
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleRemoveAllFavorites}
+        isLoading={isRemoving}
+        count={movies.length}
+      />
     </div>
   );
 };

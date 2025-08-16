@@ -54,12 +54,12 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           const updatedMovies = movies.filter((m: Movie) => m.id !== movie.id);
           await updateDoc(favDocRef, { movies: updatedMovies });
           setIsFavorite(false);
-          showToast("Removed from favorites!", "success");
+          showToast(`"${movie.title}" removed from favorites!`, "success");
         } else {
           // Add to favorites
           await updateDoc(favDocRef, { movies: arrayUnion(movie) });
           setIsFavorite(true);
-          showToast("Added to favorites!", "success");
+          showToast(`"${movie.title}" added to favorites!`, "success");
         }
       } else {
         // Create favorites list with this movie
