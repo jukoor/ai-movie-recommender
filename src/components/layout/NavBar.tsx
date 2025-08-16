@@ -6,11 +6,13 @@ import type { NavigationItem } from "../../types/NavigationItem";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 import { Link, NavLink } from "react-router-dom";
+import { useShowToast } from "../../context/ToastContext";
 
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [favoritesCount, setFavoritesCount] = useState<number>(0);
+  const { showToast } = useShowToast();
 
   const { isLoggedIn, loading } = useAuth();
 
@@ -53,6 +55,22 @@ export const NavBar = () => {
       setFavoritesCount(0);
     }
   }, [isLoggedIn, db]);
+
+  // Handler for logout with toast notifications
+  const handleLogout = async () => {
+    try {
+      await signOut(getAuth());
+      showToast(
+        "You've been logged out successfully. See you next time!",
+        "success"
+      );
+    } catch (error: any) {
+      showToast(
+        error.message || "Failed to logout. Please try again.",
+        "error"
+      );
+    }
+  };
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
@@ -117,9 +135,7 @@ export const NavBar = () => {
                 })}
                 {isLoggedIn ? (
                   <button
-                    onClick={async () => {
-                      await signOut(getAuth());
-                    }}
+                    onClick={handleLogout}
                     className="ml-4 px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
                   >
                     Logout
@@ -200,8 +216,9 @@ export const NavBar = () => {
                   })}
                   {isLoggedIn ? (
                     <button
-                      onClick={async () => {
-                        await signOut(getAuth());
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
                       }}
                       className="mt-2 px-4 py-3 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
                     >

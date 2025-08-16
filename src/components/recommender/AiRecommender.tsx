@@ -169,7 +169,7 @@ export const AiRecommender = () => {
             }}
           >
             <label
-              htmlFor="search"
+              htmlFor="ai-movie-recommendations"
               className="mb-2 text-sm font-medium text-gray-900 sr-only"
             >
               Get AI Recommendations

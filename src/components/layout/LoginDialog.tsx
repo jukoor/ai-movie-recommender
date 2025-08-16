@@ -7,6 +7,7 @@ import {
   User,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useShowToast } from "../../context/ToastContext";
 
 interface LoginDialogProps {
   open: boolean;
@@ -14,7 +15,7 @@ interface LoginDialogProps {
 }
 
 export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const { showToast } = useShowToast();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -24,15 +25,15 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
   const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setLoginError(null);
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
+      showToast("Welcome back! You've successfully logged in.", "success");
       onClose();
     } catch (err: any) {
-      setLoginError(err.message || "Login failed");
+      showToast(err.message || "Login failed. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -42,7 +43,6 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
   const handleSignupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setLoginError(null);
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
     try {
@@ -53,9 +53,16 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         password
       );
       await initializeUserLists(userCredential.user);
+      showToast(
+        "Account created successfully! Welcome to PopcornAI!",
+        "success"
+      );
       onClose();
     } catch (err: any) {
-      setLoginError(err.message || "Account creation failed");
+      showToast(
+        err.message || "Account creation failed. Please try again.",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -64,13 +71,16 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
   // Handler for demo login
   const handleDemoLogin = async () => {
     setLoading(true);
-    setLoginError(null);
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, "demo@popcornai.com", "demo123");
+      showToast(
+        "Welcome to the demo! Explore PopcornAI's features.",
+        "success"
+      );
       onClose();
     } catch (err: any) {
-      setLoginError(err.message || "Demo login failed");
+      showToast(err.message || "Demo login failed. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -99,13 +109,11 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
   // Handler for switching to login tab
   const handleLoginTabClick = () => {
     setDialogTab("login");
-    setLoginError(null);
   };
 
   // Handler for switching to signup tab
   const handleSignupTabClick = () => {
     setDialogTab("signup");
-    setLoginError(null);
   };
 
   return (
@@ -154,16 +162,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
             Create Account
           </button>
         </div>
-        {/* Info message for demo data */}
-        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm text-blue-700 text-center">
-            <strong>Demo Account:</strong>
-            <br />
-            Email: demo@popcornai.com
-            <br />
-            Password: demo123
-          </p>
-        </div>
+
         {dialogTab === "login" ? (
           <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
             <input
@@ -180,11 +179,6 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               required
               className="border border-emerald-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
             />
-            {loginError && (
-              <div className="text-red-600 text-sm text-center">
-                {loginError}
-              </div>
-            )}
             <button
               type="submit"
               disabled={loading}
@@ -217,11 +211,6 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               required
               className="border border-emerald-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
             />
-            {loginError && (
-              <div className="text-red-600 text-sm text-center">
-                {loginError}
-              </div>
-            )}
             <button
               type="submit"
               disabled={loading}

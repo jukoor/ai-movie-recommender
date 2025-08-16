@@ -23,7 +23,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((toast) => toast.id !== id));
-    }, 3000);
+    }, 5000);
   };
 
   const toastTemplates = {
@@ -74,7 +74,6 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
       containerClass: "bg-white dark:bg-gray-800",
     },
   };
-  // ...existing code...
 
   return (
     <ToastContext.Provider value={{ showToast }}>
