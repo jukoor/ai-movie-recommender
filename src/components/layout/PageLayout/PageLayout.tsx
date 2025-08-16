@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { NavBar } from "./NavBar";
-import { Footer } from "./Footer";
+import { NavBar } from "../Header/Header";
+import { Footer } from "../Footer/Footer";
 
 export const PageLayout: React.FC = () => {
   return (

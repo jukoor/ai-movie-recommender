@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Star, Calendar } from "lucide-react";
-import { db } from "../../utils/firebase";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Movie } from "../../types/tmdb/Movie";
-import { Genre } from "../../types/tmdb/Genre";
-import { useShowToast } from "../../context/ToastContext";
+import { useShowToast } from "../../../context/ToastContext";
+import { Genre } from "../../../types/tmdb/Genre";
+import { Movie } from "../../../types/tmdb/Movie";
+import { db } from "../../../utils/firebase";
 
 interface MovieCardProps {
   movie: Movie;
@@ -114,7 +114,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
           {movie.genre_ids.map((genre, index) => (
             <span
               key={index}
-              className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium hover:bg-emerald-100 hover:text-emerald-800 transition-colors"
+              style={{ fontSize: "10px" }}
+              className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full font-medium hover:bg-emerald-100 hover:text-emerald-800 transition-colors"
             >
               {genres.find((g) => g.id === genre)?.name || "Unknown"}
             </span>

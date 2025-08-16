@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
-import { PageLayout } from "../components/layout/PageLayouts";
 import { HomePage } from "../pages/HomePage";
 import { FavoritesPage } from "../pages/FavoritesPages";
+import { PageLayout } from "../components/layout/PageLayout/PageLayout";
 
 export const routes: RouteObject[] = [
   {

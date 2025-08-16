@@ -7,7 +7,7 @@ import {
   User,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { useShowToast } from "../../context/ToastContext";
+import { useShowToast } from "../../../context/ToastContext";
 
 interface LoginDialogProps {
   open: boolean;

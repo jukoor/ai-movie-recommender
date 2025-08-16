@@ -1,12 +1,12 @@
 import { Film, X, Menu, Home, Star } from "lucide-react";
-import { LoginDialog } from "./LoginDialog";
 import { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
-import type { NavigationItem } from "../../types/NavigationItem";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 import { Link, NavLink } from "react-router-dom";
-import { useShowToast } from "../../context/ToastContext";
+import { useAuth } from "../../../context/AuthContext";
+import { useShowToast } from "../../../context/ToastContext";
+import { NavigationItem } from "../../../types/NavigationItem";
+import { LoginDialog } from "../../auth/LoginDialog/LoginDialog";
 
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

@@ -3,10 +3,10 @@ import axios from "axios";
 import { Button } from "flowbite-react";
 import { motion } from "framer-motion";
 import { Movie } from "../../types/tmdb/Movie";
-import { MovieCard } from "../movie/MovieCard";
 import { useReadGenres } from "../../hooks/useReadGenres";
 import { apiRequest } from "../../utils/api";
 import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
+import { MovieCard } from "../movie/MovieCard/MovieCard";
 
 export const AiRecommender = () => {
   const moviesRequestCount = 8;
@@ -156,7 +156,7 @@ export const AiRecommender = () => {
           >
             Discover your next favorite film with our cutting-edge AI
             recommender. Just tell us what you like, and we'll find movies
-            you'll love! Or get inspired by AI-generated suggestions.
+            you'll love!
           </p>
         </div>
 

@@ -2,14 +2,14 @@ import { Film, LogIn, Trash2 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { Movie } from "../types/tmdb/Movie";
 import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
-import { MovieList } from "../components/MovieList";
 import { useAuth } from "../context/AuthContext";
-import { LoginDialog } from "../components/layout/LoginDialog";
 import { FavoritesPageSkeleton } from "../components/skeleton/FavoritesPageSkeleton";
-import { SearchBar } from "../components/SearchBar";
 import { useShowToast } from "../context/ToastContext";
 import { DeleteConfirmDialog } from "../components/dialogs/DeleteConfirmDialog";
 import { useReadGenres } from "../hooks/useReadGenres";
+import { LoginDialog } from "../components/auth/LoginDialog/LoginDialog";
+import { MovieList } from "../components/movie/MovieList/MovieList";
+import { SearchBar } from "../components/search/SearchBar/SearchBar";
 
 export const FavoritesPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
