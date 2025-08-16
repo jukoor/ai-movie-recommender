@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Star, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useShowToast } from "../../../context/ToastContext";
@@ -15,6 +16,7 @@ interface MovieCardProps {
 export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { showToast } = useShowToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFavoriteStatus = async () => {
@@ -98,7 +100,12 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
 
       <div className="p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
-          <h3 className="text-xl font-bold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors">
+          <h3
+            className="text-xl font-bold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors cursor-pointer"
+            onClick={() =>
+              navigate(`/movie/${movie.id}`, { state: { movie, genres } })
+            }
+          >
             {movie.title}
           </h3>
         </div>
