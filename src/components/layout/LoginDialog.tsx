@@ -61,6 +61,21 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
     }
   };
 
+  // Handler for demo login
+  const handleDemoLogin = async () => {
+    setLoading(true);
+    setLoginError(null);
+    try {
+      const auth = getAuth();
+      await signInWithEmailAndPassword(auth, "demo@popcornai.com", "demo123");
+      onClose();
+    } catch (err: any) {
+      setLoginError(err.message || "Demo login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Create default lists on user account creation
   async function initializeUserLists(user: User) {
     const db = getFirestore();
@@ -139,6 +154,16 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
             Create Account
           </button>
         </div>
+        {/* Info message for demo data */}
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-700 text-center">
+            <strong>Demo Account:</strong>
+            <br />
+            Email: demo@popcornai.com
+            <br />
+            Password: demo123
+          </p>
+        </div>
         {dialogTab === "login" ? (
           <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
             <input
@@ -166,6 +191,14 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               className="bg-emerald-600 text-white rounded-lg px-4 py-2 font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-50 shadow"
             >
               {loading ? "Logging in..." : "Login"}
+            </button>
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              disabled={loading}
+              className="bg-blue-600 text-white rounded-lg px-4 py-2 font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow"
+            >
+              {loading ? "Logging in..." : "Try Demo Account"}
             </button>
           </form>
         ) : (

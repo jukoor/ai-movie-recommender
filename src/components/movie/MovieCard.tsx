@@ -95,7 +95,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           className={`absolute top-4 left-4 bg-white/80 hover:bg-rose-200 text-rose-600 rounded-full p-2 shadow transition-colors duration-200 flex items-center ${
             isFavorite ? "bg-rose-500 text-white" : ""
           }`}
-          aria-label="Add to favorites"
+          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          title={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
           <Star
             className={`w-5 h-5 ${
@@ -124,7 +125,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           {movie.genre_ids.map((genre, index) => (
             <span
               key={index}
-              className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium hover:bg-emerald-100 hover:text-emerald-800 transition-colors"
+              className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium hover:bg-emerald-100 hover:text-emerald-800 transition-colors"
             >
               {genres.find((g) => g.id === genre)?.name || "Unknown"}
             </span>

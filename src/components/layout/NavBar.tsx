@@ -1,4 +1,4 @@
-import { Film, X, Menu, Home, Star, Search } from "lucide-react";
+import { Film, X, Menu, Home, Star } from "lucide-react";
 import { LoginDialog } from "./LoginDialog";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
@@ -12,7 +12,7 @@ export const NavBar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [favoritesCount, setFavoritesCount] = useState<number>(0);
 
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
 
   const navigation: NavigationItem[] = [
     { name: "Home", href: "/", icon: Home },
@@ -22,12 +22,12 @@ export const NavBar = () => {
       icon: Star,
       count: favoritesCount,
     },
-    { name: "Search", href: "/search", icon: Search },
     // { name: "Profile", href: "/profile", icon: User },
   ];
   const db = getFirestore();
 
   useEffect(() => {
+    console.log("isLoggedIn", isLoggedIn);
     if (!isLoggedIn) {
       setFavoritesCount(0);
       return;
@@ -70,47 +70,69 @@ export const NavBar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              return (
-                <NavLink
-                  key={item.name}
-                  to={item.href}
-                  className={({ isActive, isPending }) =>
-                    `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ` +
-                    (isPending
-                      ? "pending"
-                      : isActive
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "text-slate-600 hover:text-slate-800 hover:bg-slate-100")
-                  }
-                >
-                  <Icon className="w-4 h-4" />
-                  {item.name}
-                  {item.name === "Favorites" && item.count !== undefined && (
-                    <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">
-                      {item.count}
-                    </span>
-                  )}
-                </NavLink>
-              );
-            })}
-            {isLoggedIn ? (
-              <button
-                onClick={async () => {
-                  await signOut(getAuth());
-                }}
-                className="ml-4 px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
-              >
-                Logout
-              </button>
+            {loading ? (
+              // Skeleton for desktop navigation
+              <>
+                {[...Array(2)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg"
+                  >
+                    <div className="w-4 h-4 bg-slate-200 rounded animate-pulse"></div>
+                    <div className="w-16 h-4 bg-slate-200 rounded animate-pulse"></div>
+                  </div>
+                ))}
+                <div className="ml-4 px-4 py-2 rounded-lg">
+                  <div className="w-16 h-8 bg-slate-200 rounded animate-pulse"></div>
+                </div>
+              </>
             ) : (
-              <button
-                onClick={() => setIsLoginOpen(true)}
-                className="ml-4 px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors"
-              >
-                Login
-              </button>
+              <>
+                {navigation.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      className={({ isActive, isPending }) =>
+                        `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ` +
+                        (isPending
+                          ? "pending"
+                          : isActive
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "text-slate-600 hover:text-slate-800 hover:bg-slate-100")
+                      }
+                    >
+                      <Icon className="w-4 h-4" />
+                      {item.name}
+                      {item.name === "Favorites" &&
+                        item.count !== undefined &&
+                        isLoggedIn && (
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">
+                            {item.count}
+                          </span>
+                        )}
+                    </NavLink>
+                  );
+                })}
+                {isLoggedIn ? (
+                  <button
+                    onClick={async () => {
+                      await signOut(getAuth());
+                    }}
+                    className="ml-4 px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setIsLoginOpen(true)}
+                    className="ml-4 px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors"
+                  >
+                    Login
+                  </button>
+                )}
+              </>
             )}
           </nav>
 
@@ -131,48 +153,69 @@ export const NavBar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-slate-200">
             <nav className="flex flex-col gap-1">
-              {navigation.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.name}
-                    to={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={({ isActive, isPending }) =>
-                      `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ` +
-                      (isPending
-                        ? "pending"
-                        : isActive
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "text-slate-600 hover:text-slate-800 hover:bg-slate-100")
-                    }
-                  >
-                    <Icon className="w-5 h-5" />
-                    {item.name}
-                    {item.name === "Favorites" && item.count !== undefined && (
-                      <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">
-                        {item.count}
-                      </span>
-                    )}
-                  </NavLink>
-                );
-              })}
-              {isLoggedIn ? (
-                <button
-                  onClick={async () => {
-                    await signOut(getAuth());
-                  }}
-                  className="mt-2 px-4 py-3 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
-                >
-                  Logout
-                </button>
+              {loading ? (
+                // Skeleton for mobile navigation
+                <>
+                  {[...Array(2)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg"
+                    >
+                      <div className="w-5 h-5 bg-slate-200 rounded animate-pulse"></div>
+                      <div className="w-20 h-4 bg-slate-200 rounded animate-pulse"></div>
+                    </div>
+                  ))}
+                  <div className="mt-2 px-4 py-3 rounded-lg">
+                    <div className="w-20 h-8 bg-slate-200 rounded animate-pulse"></div>
+                  </div>
+                </>
               ) : (
-                <button
-                  onClick={() => setIsLoginOpen(true)}
-                  className="mt-2 px-4 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors"
-                >
-                  Login
-                </button>
+                <>
+                  {navigation.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <NavLink
+                        key={item.name}
+                        to={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={({ isActive, isPending }) =>
+                          `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ` +
+                          (isPending
+                            ? "pending"
+                            : isActive
+                            ? "bg-emerald-100 text-emerald-700"
+                            : "text-slate-600 hover:text-slate-800 hover:bg-slate-100")
+                        }
+                      >
+                        <Icon className="w-5 h-5" />
+                        {item.name}
+                        {item.name === "Favorites" &&
+                          item.count !== undefined && (
+                            <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">
+                              {item.count}
+                            </span>
+                          )}
+                      </NavLink>
+                    );
+                  })}
+                  {isLoggedIn ? (
+                    <button
+                      onClick={async () => {
+                        await signOut(getAuth());
+                      }}
+                      className="mt-2 px-4 py-3 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setIsLoginOpen(true)}
+                      className="mt-2 px-4 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors"
+                    >
+                      Login
+                    </button>
+                  )}
+                </>
               )}
             </nav>
           </div>

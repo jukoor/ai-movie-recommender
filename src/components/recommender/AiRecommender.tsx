@@ -8,8 +8,10 @@ import { apiRequest } from "../../utils/api";
 import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
 
 export const AiRecommender = () => {
-  const moviesRequestCount = 15;
+  const moviesRequestCount = 8;
   const movieDisplayCount = 3;
+  const minInputLength = 10;
+  const maxInputLength = 100;
 
   const [userInputValue, setUserInputValue] = useState(``);
   const [loading, setLoading] = useState(false);
@@ -27,9 +29,6 @@ export const AiRecommender = () => {
 
     // Swearwords to filter out
     const swearWords = ["fuck", "shit", "damn", "hell"];
-
-    const minInputLength = 10;
-    const maxInputLength = 100;
 
     // Check and Remove emojis using regex
     const emojiRegex =
