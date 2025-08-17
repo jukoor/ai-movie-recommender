@@ -1,4 +1,4 @@
-import { Film, X, Menu, Home, Star } from "lucide-react";
+import { Film, X, Menu, Home, Star, Smile, WandSparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
@@ -18,6 +18,8 @@ export const NavBar = () => {
 
   const navigation: NavigationItem[] = [
     { name: "Home", href: "/", icon: Home },
+    { name: "By Mood", href: "/mood", icon: Smile },
+    { name: "Smart Picks", href: "/hidden-gems", icon: WandSparkles },
     {
       name: "Favorites",
       href: "/favorites",
