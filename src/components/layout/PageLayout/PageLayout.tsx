@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { NavBar } from "../Header/Header";
 import { Footer } from "../Footer/Footer";
+import { ScrollToTop } from "./ScrollToTop";
 
 export const PageLayout: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ export const PageLayout: React.FC = () => {
 
       {/* Main Content */}
       <main>
+        <ScrollToTop />
         <Outlet />
       </main>
 
