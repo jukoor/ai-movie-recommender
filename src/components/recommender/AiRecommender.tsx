@@ -13,13 +13,17 @@ export const AiRecommender = () => {
   const location = useLocation();
   const moviesRequestCount = 8; // number of movies to request
   const movieDisplayCount = 3; // number of movies to display
-  const minInputLength = 10; // minimum search input length
+  const minInputLength = 8; // minimum search input length
+  const minWordCount = 2; // minimum number of words
   const maxInputLength = 100; // maximum search input length
 
   const [userInputValue, setUserInputValue] = useState(``);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [replyMovies, setReplyMovies] = useState<Movie[]>([]);
+  const [activeQuickSearchTag, setActiveQuickSearchTag] = useState<
+    string | null
+  >(null);
 
   const { genres } = useReadGenres();
 
@@ -43,16 +47,15 @@ export const AiRecommender = () => {
 
   const handleQuickSearch = (tag: string) => {
     setUserInputValue(tag);
+    setActiveQuickSearchTag(tag);
     // Small delay to ensure state is updated, then trigger search
-    setTimeout(() => {
-      getAiMovieRecommendations();
-    }, 10);
+    getAiMovieRecommendations(tag);
   };
 
   function preprocessPrompt(userInput: string) {
     // Check for empty input first
     if (!userInput.trim()) {
-      setError("Please enter at least 2 words.");
+      setError("Please enter at least 2 words or 8 characters.");
       return null;
     }
 
@@ -64,20 +67,28 @@ export const AiRecommender = () => {
       /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
     let cleanedInput = userInput.replace(emojiRegex, "");
 
-    // Check for swear words and filter them out
+    // Check for swear words and show error if found
     const words = cleanedInput.toLowerCase().split(/\s+/);
-    const filteredWords = words.filter((word) => {
+    const hasSwearWords = words.some((word) => {
       const cleanWord = word.replace(/[^a-zA-Z]/g, "");
-      return !swearWords.includes(cleanWord);
+      return swearWords.includes(cleanWord);
     });
 
-    // Reconstruct the cleaned input
-    cleanedInput = filteredWords.join(" ").trim();
-
-    // Basic validation
-    if (cleanedInput.length < minInputLength) {
+    if (hasSwearWords) {
       setError(
-        `Please provide a more detailed movie preference (at least ${minInputLength} characters).`
+        "Please keep your movie preferences family-friendly. No inappropriate language allowed."
+      );
+      return null;
+    }
+
+    // Basic validation - check for either minimum word count OR minimum character count
+    const wordCount = cleanedInput
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length;
+
+    if (wordCount < minWordCount && cleanedInput.length < minInputLength) {
+      setError(
+        `Please provide either at least ${minWordCount} words or ${minInputLength} characters.`
       );
       return null;
     }
@@ -90,18 +101,18 @@ export const AiRecommender = () => {
     }
 
     // Append the formatting instruction
-    const instruction = `You must recommend ${moviesRequestCount} real, existing movies that match the following keywords or sentence: "${cleanedInput}". Even for vague descriptions like "epic space adventure", recommend actual movies from that genre or theme. Always return actual movie titles that exist. Return them as a Javascript array in the format ["Title1", "Title2", "Title3"]. No further explanations. Without backslashes.`;
+    const instruction = `You must recommend ${moviesRequestCount} real, existing movies that match the following keywords or sentence: "${cleanedInput}". Even for vague descriptions, recommend actual popular movies from that genre or theme. Always return actual movie titles that exist. Return them as a Javascript array in the format ["Title1", "Title2", "Title3"]. No further explanations. Without backslashes.`;
 
     return instruction;
   }
 
-  const getAiMovieRecommendations = async () => {
+  const getAiMovieRecommendations = async (tag?: string) => {
     setLoading(true);
     setError(null);
 
     try {
       // filter and clean user input
-      const processedPrompt = preprocessPrompt(userInputValue);
+      const processedPrompt = preprocessPrompt(tag ? tag : userInputValue);
 
       // If preprocessing failed, stop here
       if (!processedPrompt) {
@@ -110,7 +121,6 @@ export const AiRecommender = () => {
       }
 
       // extend the user input with specific instructions to get movie results only in the correct format
-
       const response = await axios.post("http://localhost:4000/api/recommend", {
         prompt: processedPrompt,
       });
@@ -125,6 +135,7 @@ export const AiRecommender = () => {
           "Whoops! The AI got a little too creative. Please try again with a different prompt."
         );
         setReplyMovies([]);
+        setActiveQuickSearchTag(null);
         return;
       }
       searchMoviesFromAiReply(movieTitles);
@@ -189,7 +200,7 @@ export const AiRecommender = () => {
         </div>
 
         {/* Centered Search Form */}
-        <div className="flex justify-center items-center mb-12 animate-fadeIn">
+        <div className="flex justify-center items-center mb-8 animate-fadeIn">
           <form
             className="w-full max-w-2xl"
             onSubmit={(e) => {
@@ -214,7 +225,13 @@ export const AiRecommender = () => {
                 style={{ borderRadius: "50px" }}
                 className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={userInputValue}
-                onChange={(e) => setUserInputValue(e.target.value)}
+                onChange={(e) => {
+                  setUserInputValue(e.target.value);
+                  // Clear active tag when user manually types
+                  if (e.target.value !== activeQuickSearchTag) {
+                    setActiveQuickSearchTag(null);
+                  }
+                }}
                 placeholder='Describe your mood or movie taste, e.g. "epic space adventure"...'
                 disabled={loading}
               />
@@ -245,27 +262,11 @@ export const AiRecommender = () => {
           </form>
         </div>
 
-        {/* Quick Search Tags */}
-        <div className="flex justify-center mb-8">
-          <div className="flex flex-wrap gap-2 max-w-2xl justify-center">
-            {quickSearchTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => handleQuickSearch(tag)}
-                className="px-3 py-1.5 text-sm bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-600 rounded-full transition-all duration-200 border border-gray-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                disabled={loading}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Error Message */}
         {error && (
           <div
             className="flex justify-center mb-6"
-            style={{ marginTop: "-30px" }}
+            style={{ marginTop: "-20px" }}
           >
             <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg shadow-sm max-w-md">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
@@ -273,6 +274,26 @@ export const AiRecommender = () => {
             </div>
           </div>
         )}
+
+        {/* Quick Search Tags */}
+        <div className="flex justify-center mb-8">
+          <div className="flex flex-wrap gap-2 max-w-2xl justify-center">
+            {quickSearchTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => handleQuickSearch(tag)}
+                className={`px-3 py-1.5 text-sm rounded-full transition-all duration-200 border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
+                  activeQuickSearchTag === tag
+                    ? "bg-blue-500 text-white border-blue-500 hover:bg-blue-600"
+                    : "bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-600 border-gray-200 hover:border-blue-300"
+                }`}
+                disabled={loading}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Movie Results */}
         {!loading && replyMovies.length > 0 && (

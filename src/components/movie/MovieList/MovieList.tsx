@@ -105,6 +105,7 @@ export const MovieList: React.FC<MovieListProps> = ({
                     y: -8,
                     transition: { duration: 0.2 },
                   }}
+                  className="h-full"
                 >
                   <MovieCard movie={movie} genres={genres} />
                 </motion.div>
