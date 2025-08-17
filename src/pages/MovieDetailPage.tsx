@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Star,
@@ -28,9 +28,24 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
   // Get movie data from navigation state or props
   const movieFromState = location.state?.movie;
   const genresFromState = location.state?.genres;
+  const previousMovies = location.state?.previousMovies;
 
   const movie = passedMovie || movieFromState;
   const genres = passedGenres || genresFromState || [];
+
+  const handleBackClick = () => {
+    if (previousMovies) {
+      // Navigate back to home with previous movies
+      navigate("/", {
+        state: {
+          movies: previousMovies,
+        },
+      });
+    } else {
+      // Fallback to regular back navigation
+      navigate(-1);
+    }
+  };
 
   if (!movie) {
     return (
@@ -58,9 +73,13 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
     return `${hours}h ${mins}m`;
   };
 
+  // setting <title> did not work with dynmic content
+  useEffect(() => {
+    document.title = `${movie.title} // PopcornAI`;
+  }, [movie]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <title>{movie.title} // PopcornAI</title>
       {/* Hero Section with Backdrop */}
       <div className="relative h-96 md:h-[500px] overflow-hidden">
         {movie.backdrop_path && (
@@ -76,7 +95,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
         {/* Back Button */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleBackClick}
           className="absolute top-6 left-6 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 transition-colors duration-200 backdrop-blur-sm"
         >
           <ArrowLeft className="w-6 h-6" />

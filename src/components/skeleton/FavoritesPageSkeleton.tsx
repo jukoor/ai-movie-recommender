@@ -5,7 +5,7 @@ import { SkeletonHeadline } from "./SkeletonHeadline";
 export const FavoritesPageSkeleton: React.FC = () => {
   return (
     <div>
-      <title>Favorites // PopocornAI</title>
+      <title>Favorites // PopcornAI</title>
 
       {/* Skeleton headline */}
       <SkeletonHeadline />

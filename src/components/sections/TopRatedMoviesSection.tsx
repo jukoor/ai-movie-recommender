@@ -1,5 +1,5 @@
 import { ArrowRight, Link, Star } from "lucide-react";
-import { MovieCard } from "./MovieCard";
+import { MovieCard } from "../movie/MovieCard/MovieCard";
 import { useReadTopRatedMovies } from "../../hooks/useReadTopRatedMovies";
 import { useReadGenres } from "../../hooks/useReadGenres";
 

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "flowbite-react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import { Movie } from "../../types/tmdb/Movie";
 import { useReadGenres } from "../../hooks/useReadGenres";
 import { apiRequest } from "../../utils/api";
@@ -9,6 +10,7 @@ import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 
 export const AiRecommender = () => {
+  const location = useLocation();
   const moviesRequestCount = 8; // number of movies to request
   const movieDisplayCount = 3; // number of movies to display
   const minInputLength = 10; // minimum search input length
@@ -20,6 +22,13 @@ export const AiRecommender = () => {
   const [replyMovies, setReplyMovies] = useState<Movie[]>([]);
 
   const { genres } = useReadGenres();
+
+  // Restore movies from location state when coming back from detail page
+  useEffect(() => {
+    if (location.state?.movies) {
+      setReplyMovies(location.state.movies);
+    }
+  }, [location.state]);
 
   const quickSearchTags = [
     "epic space adventure",
@@ -305,7 +314,11 @@ export const AiRecommender = () => {
                   },
                 }}
               >
-                <MovieCard movie={movie} genres={genres} />
+                <MovieCard
+                  movie={movie}
+                  genres={genres}
+                  currentMovies={replyMovies}
+                />
               </motion.div>
             ))}
           </motion.div>

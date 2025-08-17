@@ -11,9 +11,14 @@ import { db } from "../../../utils/firebase";
 interface MovieCardProps {
   movie: Movie;
   genres: Genre[];
+  currentMovies?: Movie[];
 }
 
-export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
+export const MovieCard: React.FC<MovieCardProps> = ({
+  movie,
+  genres,
+  currentMovies,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { showToast } = useShowToast();
   const navigate = useNavigate();
@@ -103,7 +108,13 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, genres }) => {
           <h3
             className="text-xl font-bold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors cursor-pointer"
             onClick={() =>
-              navigate(`/movie/${movie.id}`, { state: { movie, genres } })
+              navigate(`/movie/${movie.id}`, {
+                state: {
+                  movie,
+                  genres,
+                  previousMovies: currentMovies,
+                },
+              })
             }
           >
             {movie.title}
