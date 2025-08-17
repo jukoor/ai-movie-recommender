@@ -21,6 +21,25 @@ export const AiRecommender = () => {
 
   const { genres } = useReadGenres();
 
+  const quickSearchTags = [
+    "epic space adventure",
+    "romantic comedy",
+    "superhero action",
+    "horror thriller",
+    "animated family",
+    "war drama",
+    "crime noir",
+    "sci-fi dystopia",
+  ];
+
+  const handleQuickSearch = (tag: string) => {
+    setUserInputValue(tag);
+    // Small delay to ensure state is updated, then trigger search
+    setTimeout(() => {
+      getAiMovieRecommendations();
+    }, 10);
+  };
+
   function preprocessPrompt(userInput: string) {
     // Check for empty input first
     if (!userInput.trim()) {
@@ -215,6 +234,22 @@ export const AiRecommender = () => {
               </Button>
             </div>
           </form>
+        </div>
+
+        {/* Quick Search Tags */}
+        <div className="flex justify-center mb-8">
+          <div className="flex flex-wrap gap-2 max-w-2xl justify-center">
+            {quickSearchTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => handleQuickSearch(tag)}
+                className="px-3 py-1.5 text-sm bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-600 rounded-full transition-all duration-200 border border-gray-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                disabled={loading}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Error Message */}
