@@ -9,10 +9,10 @@ import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 
 export const AiRecommender = () => {
-  const moviesRequestCount = 8;
-  const movieDisplayCount = 3;
-  const minInputLength = 10;
-  const maxInputLength = 100;
+  const moviesRequestCount = 8; // number of movies to request
+  const movieDisplayCount = 3; // number of movies to display
+  const minInputLength = 10; // minimum search input length
+  const maxInputLength = 100; // maximum search input length
 
   const [userInputValue, setUserInputValue] = useState(``);
   const [loading, setLoading] = useState(false);
