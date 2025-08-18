@@ -1,11 +1,12 @@
 import React from "react";
 import { SkeletonCard } from "./SkeletonCard";
 import { SkeletonHeadline } from "./SkeletonHeadline";
+import { PageTitle } from "../layout/Header/PageTitle";
 
 export const FavoritesPageSkeleton: React.FC = () => {
   return (
     <div>
-      <title>Favorites // PopcornAI</title>
+      <PageTitle title="Favorites" />
 
       {/* Skeleton headline */}
       <SkeletonHeadline />

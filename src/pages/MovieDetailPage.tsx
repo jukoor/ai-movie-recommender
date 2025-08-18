@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Star,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Movie } from "../types/tmdb/Movie";
 import { Genre } from "../types/tmdb/Genre";
+import { PageTitle } from "../components/layout/Header/PageTitle";
 
 interface MovieDetailPageProps {
   movie?: Movie;
@@ -73,13 +74,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
     return `${hours}h ${mins}m`;
   };
 
-  // setting <title> did not work with dynmic content
-  useEffect(() => {
-    document.title = `${movie.title} // PopcornAI`;
-  }, [movie]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <PageTitle title={movie.title} />
+
       {/* Hero Section with Backdrop */}
       <div className="relative h-96 md:h-[500px] overflow-hidden">
         {movie.backdrop_path && (

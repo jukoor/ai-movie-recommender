@@ -10,6 +10,7 @@ import { useReadGenres } from "../hooks/useReadGenres";
 import { LoginDialog } from "../components/auth/LoginDialog/LoginDialog";
 import { MovieList } from "../components/movie/MovieList/MovieList";
 import { SearchBar } from "../components/search/SearchBar/SearchBar";
+import { PageTitle } from "../components/layout/Header/PageTitle";
 
 export const FavoritesPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -116,7 +117,7 @@ export const FavoritesPage: React.FC = () => {
   if (!isLoggedIn) {
     return (
       <div>
-        <title>Favorites // PopcornAI</title>
+        <PageTitle title="Favorites" />
 
         <div className="text-center mb-12 mt-16">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -157,7 +158,7 @@ export const FavoritesPage: React.FC = () => {
 
   return (
     <div>
-      <title>Favorites // PopcornAI</title>
+      <PageTitle title="Favorites" />
 
       <div className="text-center mb-12 mt-16">
         <div className="flex items-center justify-center gap-3 mb-4">

@@ -18,7 +18,7 @@ export const NavBar = () => {
 
   const navigation: NavigationItem[] = [
     { name: "Home", href: "/", icon: Home },
-    { name: "By Mood", href: "/mood", icon: Smile },
+    { name: "By Mood", href: "/by-mood", icon: Smile },
     { name: "Smart Picks", href: "/hidden-gems", icon: WandSparkles },
     {
       name: "Favorites",

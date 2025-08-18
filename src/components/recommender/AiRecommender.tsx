@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "flowbite-react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { Movie } from "../../types/tmdb/Movie";
 import { useReadGenres } from "../../hooks/useReadGenres";
@@ -109,6 +109,7 @@ export const AiRecommender = () => {
   const getAiMovieRecommendations = async (tag?: string) => {
     setLoading(true);
     setError(null);
+    setReplyMovies([]); // Clear previous movies immediately when starting new search
 
     try {
       // filter and clean user input
@@ -125,7 +126,6 @@ export const AiRecommender = () => {
         prompt: processedPrompt,
       });
       const reply = response.data.reply;
-      console.log(reply);
       // Parse reply as JSON array
       let movieTitles: string[] = [];
       try {
@@ -146,7 +146,7 @@ export const AiRecommender = () => {
     }
   };
 
-  // Handles AI movie recommendations: sends prompt to backend, parses response, and triggers movie search.
+  // Handles AI movie recommendations: sends prompt to backend, parses response, and triggers tmdb movie search.
   const searchMoviesFromAiReply = async (aiMoviesReply: string[]) => {
     const additionalMoviesCount = 2; // fetch additional movies to ensure we have enough to display when one fails
     console.log("AI Movies Reply:", aiMoviesReply);
@@ -294,6 +294,35 @@ export const AiRecommender = () => {
             ))}
           </div>
         </div>
+
+        {/* Loading State */}
+        <AnimatePresence>
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center py-12"
+            >
+              <div className="flex flex-col items-center gap-4">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                >
+                  <Sparkles className="w-12 h-12 text-emerald-500" />
+                </motion.div>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-semibold text-gray-700">
+                    Finding Your Perfect Movies...
+                  </h3>
+                  <p className="text-gray-500">
+                    AI is analyzing your mood and preferences
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Movie Results */}
         {!loading && replyMovies.length > 0 && (
