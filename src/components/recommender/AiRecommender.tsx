@@ -1,38 +1,43 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Button } from "flowbite-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { Movie } from "../../types/tmdb/Movie";
 import { useReadGenres } from "../../hooks/useReadGenres";
-import { apiRequest } from "../../utils/api";
+import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations";
 import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 
 export const AiRecommender = () => {
   const location = useLocation();
-  const moviesRequestCount = 8; // number of movies to request
-  const movieDisplayCount = 3; // number of movies to display
-  const minInputLength = 8; // minimum search input length
-  const minWordCount = 2; // minimum number of words
-  const maxInputLength = 100; // maximum search input length
 
   const [userInputValue, setUserInputValue] = useState(``);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [replyMovies, setReplyMovies] = useState<Movie[]>([]);
   const [activeQuickSearchTag, setActiveQuickSearchTag] = useState<
     string | null
   >(null);
 
   const { genres } = useReadGenres();
 
+  // Use the custom hook for AI movie recommendations
+  const {
+    movies: replyMovies,
+    loading,
+    error,
+    getRecommendations,
+    setMovies: setReplyMovies,
+  } = useAiMovieRecommendations({
+    moviesRequestCount: 8,
+    movieDisplayCount: 3,
+    minInputLength: 8,
+    minWordCount: 2,
+    maxInputLength: 100,
+  });
+
   // Restore movies from location state when coming back from detail page
   useEffect(() => {
     if (location.state?.movies) {
       setReplyMovies(location.state.movies);
     }
-  }, [location.state]);
+  }, [location.state, setReplyMovies]);
 
   const quickSearchTags = [
     "epic space adventure",
@@ -49,133 +54,12 @@ export const AiRecommender = () => {
     setUserInputValue(tag);
     setActiveQuickSearchTag(tag);
     // Small delay to ensure state is updated, then trigger search
-    getAiMovieRecommendations(tag);
+    getRecommendations(tag);
   };
 
-  function preprocessPrompt(userInput: string) {
-    // Check for empty input first
-    if (!userInput.trim()) {
-      setError("Please enter at least 2 words or 8 characters.");
-      return null;
-    }
-
-    // Swearwords to filter out
-    const swearWords = ["fuck", "shit", "damn", "hell"];
-
-    // Check and Remove emojis using regex
-    const emojiRegex =
-      /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
-    let cleanedInput = userInput.replace(emojiRegex, "");
-
-    // Check for swear words and show error if found
-    const words = cleanedInput.toLowerCase().split(/\s+/);
-    const hasSwearWords = words.some((word) => {
-      const cleanWord = word.replace(/[^a-zA-Z]/g, "");
-      return swearWords.includes(cleanWord);
-    });
-
-    if (hasSwearWords) {
-      setError(
-        "Please keep your movie preferences family-friendly. No inappropriate language allowed."
-      );
-      return null;
-    }
-
-    // Basic validation - check for either minimum word count OR minimum character count
-    const wordCount = cleanedInput
-      .split(/\s+/)
-      .filter((word) => word.length > 0).length;
-
-    if (wordCount < minWordCount && cleanedInput.length < minInputLength) {
-      setError(
-        `Please provide either at least ${minWordCount} words or ${minInputLength} characters.`
-      );
-      return null;
-    }
-
-    if (cleanedInput.length > maxInputLength) {
-      setError(
-        `Please keep your movie preferences under ${maxInputLength} characters.`
-      );
-      return null;
-    }
-
-    // Append the formatting instruction
-    const instruction = `You must recommend ${moviesRequestCount} real, existing movies that match the following keywords or sentence: "${cleanedInput}". Even for vague descriptions, recommend actual popular movies from that genre or theme. Always return actual movie titles that exist. Return them as a Javascript array in the format ["Title1", "Title2", "Title3"]. No further explanations. Without backslashes.`;
-
-    return instruction;
-  }
-
-  const getAiMovieRecommendations = async (tag?: string) => {
-    setLoading(true);
-    setError(null);
-    setReplyMovies([]); // Clear previous movies immediately when starting new search
-
-    try {
-      // filter and clean user input
-      const processedPrompt = preprocessPrompt(tag ? tag : userInputValue);
-
-      // If preprocessing failed, stop here
-      if (!processedPrompt) {
-        setLoading(false);
-        return;
-      }
-
-      // extend the user input with specific instructions to get movie results only in the correct format
-      const response = await axios.post("http://localhost:4000/api/recommend", {
-        prompt: processedPrompt,
-      });
-      const reply = response.data.reply;
-      // Parse reply as JSON array
-      let movieTitles: string[] = [];
-      try {
-        movieTitles = JSON.parse(reply);
-      } catch (e) {
-        setError(
-          "Whoops! The AI got a little too creative. Please try again with a different prompt."
-        );
-        setReplyMovies([]);
-        setActiveQuickSearchTag(null);
-        return;
-      }
-      searchMoviesFromAiReply(movieTitles);
-    } catch (err: any) {
-      setError("Error. Could not fetch AI recommendations. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Handles AI movie recommendations: sends prompt to backend, parses response, and triggers tmdb movie search.
-  const searchMoviesFromAiReply = async (aiMoviesReply: string[]) => {
-    const additionalMoviesCount = 2; // fetch additional movies to ensure we have enough to display when one fails
-    console.log("AI Movies Reply:", aiMoviesReply);
-
-    // Select random movies from the reply
-    const shuffled = aiMoviesReply.sort(() => 0.5 - Math.random());
-    const moviesToDisplay = shuffled.slice(
-      0,
-      movieDisplayCount + additionalMoviesCount
-    );
-
-    console.log("Selected random titles:", moviesToDisplay);
-
-    const movieTitles = moviesToDisplay.map((title) => title.trim());
-    const firstFoundMovies = await Promise.all(
-      movieTitles.map(async (title) => {
-        const response = await apiRequest(
-          "get",
-          `${
-            import.meta.env.VITE_TMDB_API_BASE_URL
-          }/search/movie?query=${encodeURIComponent(title)}`
-        );
-        return response.results[0];
-      })
-    );
-    // Filter out undefined results
-    const filteredMovies = firstFoundMovies.filter(Boolean) as Movie[];
-    console.log("First found movies:", filteredMovies);
-    setReplyMovies(filteredMovies.slice(0, movieDisplayCount));
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    getRecommendations(userInputValue);
   };
 
   return (
@@ -201,13 +85,7 @@ export const AiRecommender = () => {
 
         {/* Centered Search Form */}
         <div className="flex justify-center items-center mb-8 animate-fadeIn">
-          <form
-            className="w-full max-w-2xl"
-            onSubmit={(e) => {
-              e.preventDefault();
-              getAiMovieRecommendations();
-            }}
-          >
+          <form className="w-full max-w-2xl" onSubmit={handleFormSubmit}>
             <label
               htmlFor="ai-movie-recommendations"
               className="mb-2 text-sm font-medium text-gray-900 sr-only"
