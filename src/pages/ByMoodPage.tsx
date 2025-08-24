@@ -164,14 +164,34 @@ export const ByMoodPage: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <button
+                  <motion.button
                     onClick={handleRefresh}
                     disabled={loading}
-                    className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group relative flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
                   >
-                    <RefreshCw className="w-4 h-4" />
-                    <span>Refresh</span>
-                  </button>
+                    {/* Animated background overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+                    <motion.div
+                      animate={loading ? { rotate: 360 } : { rotate: 0 }}
+                      transition={{
+                        duration: 1,
+                        repeat: loading ? Infinity : 0,
+                        ease: "linear",
+                      }}
+                      className="relative z-10"
+                    >
+                      <RefreshCw className="w-5 h-5" />
+                    </motion.div>
+                    <span className="relative z-10">
+                      {loading ? "Finding..." : "Refresh"}
+                    </span>
+                  </motion.button>
                 </div>
               </div>
 

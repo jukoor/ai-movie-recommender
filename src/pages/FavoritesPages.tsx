@@ -1,5 +1,6 @@
-import { Film, LogIn, Trash2 } from "lucide-react";
+import { Film, LogIn, Star, StarOff, Trash2 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Movie } from "../types/tmdb/Movie";
 import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
@@ -13,6 +14,7 @@ import { SearchBar } from "../components/search/SearchBar/SearchBar";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 
 export const FavoritesPage: React.FC = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
@@ -116,21 +118,24 @@ export const FavoritesPage: React.FC = () => {
   // Show login prompt if user is not authenticated
   if (!isLoggedIn) {
     return (
-      <div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50">
         <PageTitle title="Favorites" />
-
         <div className="text-center mb-12 mt-16">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Film className="w-8 h-8 text-emerald-600" />
-            <h1 className="text-4xl font-bold text-slate-800">Favorites</h1>
+          <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
+            <Star className="w-10 h-10 text-emerald-600" />
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
+              Your Favorites
+            </h1>
           </div>
-          <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-            Your personal list of favorite movies.
+          <p
+            className="text-xl text-gray-600 max-w-2xl mx-auto animate-fadeIn"
+            style={{ animationDelay: "200ms", animationFillMode: "both" }}
+          >
+            Your personal collection of handpicked movies.
           </p>
         </div>
-
         <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
-          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full animate-fadeInUp">
             <LogIn className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
             <h2 className="text-2xl font-semibold text-slate-800 mb-3">
               Sign In Required
@@ -146,8 +151,7 @@ export const FavoritesPage: React.FC = () => {
               Sign In
             </button>
           </div>
-        </div>
-
+        </div>{" "}
         <LoginDialog
           open={showLoginDialog}
           onClose={() => setShowLoginDialog(false)}
@@ -157,49 +161,103 @@ export const FavoritesPage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50">
       <PageTitle title="Favorites" />
 
       <div className="text-center mb-12 mt-16">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Film className="w-8 h-8 text-emerald-600" />
-          <h1 className="text-4xl font-bold text-slate-800">Favorites</h1>
+        <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
+          <Star className="w-10 h-10 text-emerald-600" />
+          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
+            Your Favorites
+          </h1>
         </div>
-        <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-          Your personal list of favorite movies.
+        <p
+          className="text-xl text-gray-600 max-w-2xl mx-auto animate-fadeIn"
+          style={{ animationDelay: "200ms", animationFillMode: "both" }}
+        >
+          Your personal collection of handpicked movies.
         </p>
       </div>
 
-      <SearchBar
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        selectedGenre={selectedGenre}
-        onGenreChange={setSelectedGenre}
-        availableGenres={availableGenres}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 pt-8">
-        <div className="flex justify-between items-center">
-          <p className="text-slate-600">
-            Showing {filteredMovies.length} of {movies.length} movies
-          </p>
-          {movies.length > 0 && (
+      {movies.length === 0 ? (
+        <div
+          className="flex flex-col items-center justify-center min-h-[400px] text-center px-4 animate-fadeInUp"
+          style={{ animationDelay: "800ms", animationFillMode: "both" }}
+        >
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+            <StarOff className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
+            <h2 className="text-2xl font-semibold text-slate-800 mb-3">
+              No Favorites Yet
+            </h2>
+            <p className="text-slate-600 mb-6">
+              Start building your personal movie collection by adding your
+              favorite films. Discover amazing movies and save them here for
+              later!
+            </p>
             <button
-              onClick={handleDeleteAllClick}
-              disabled={isRemoving}
-              className="border border-red-300 hover:border-red-400 disabled:border-red-200 disabled:cursor-not-allowed text-red-600 hover:text-red-700 disabled:text-red-400 font-normal py-2 px-4 rounded-md transition-colors duration-200 flex items-center gap-2 text-sm hover:bg-red-50"
+              onClick={() => navigate("/")}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 w-full"
             >
-              <Trash2 className="w-4 h-4" />
-              {isRemoving ? "Removing..." : "Remove All"}
+              Discover Movies
             </button>
-          )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <div
+            className="animate-fadeIn"
+            style={{ animationDelay: "400ms", animationFillMode: "both" }}
+          >
+            <SearchBar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              selectedGenre={selectedGenre}
+              onGenreChange={setSelectedGenre}
+              availableGenres={availableGenres}
+            />
+          </div>
 
-      <MovieList
-        movies={filteredMovies}
-        context={searchTerm ? "search" : "favorites"}
-      />
+          <div
+            className="max-w-7xl mx-auto px-4 pt-8 mb-6 animate-fadeIn"
+            style={{ animationDelay: "600ms", animationFillMode: "both" }}
+          >
+            <div className="flex justify-between items-center">
+              <p className="text-slate-600">
+                Showing {filteredMovies.length} of {movies.length} movies
+              </p>
+              <button
+                onClick={handleDeleteAllClick}
+                disabled={isRemoving}
+                className="border border-red-300 hover:border-red-400 disabled:border-red-200 disabled:cursor-not-allowed text-red-600 hover:text-red-700 disabled:text-red-400 font-normal py-2 px-4 rounded-md transition-colors duration-200 flex items-center gap-2 text-sm hover:bg-red-50"
+              >
+                <Trash2 className="w-4 h-4" />
+                {isRemoving ? "Removing..." : "Remove All"}
+              </button>
+            </div>
+          </div>
+
+          <div
+            className="animate-fadeInUp"
+            style={{ animationDelay: "800ms", animationFillMode: "both" }}
+          >
+            {filteredMovies.length === 0 && searchTerm ? (
+              <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
+                <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+                  <Film className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                  <h2 className="text-2xl font-semibold text-slate-600 mb-3">
+                    No search results found
+                  </h2>
+                  <p className="text-slate-500 mb-6">
+                    Try different keywords or check your spelling
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <MovieList movies={filteredMovies} />
+            )}
+          </div>
+        </>
+      )}
 
       <DeleteConfirmDialog
         isOpen={showDeleteDialog}
