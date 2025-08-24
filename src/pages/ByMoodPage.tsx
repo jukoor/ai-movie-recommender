@@ -1,130 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { Movie } from "../types/tmdb/Movie";
 import { useReadGenres } from "../hooks/useReadGenres";
+import { useAiMovieRecommendations } from "../hooks/useAiMovieRecommendations";
 import { MoodSelector } from "../components/mood/MoodSelector/MoodSelector";
 import { MovieCard } from "../components/movie/MovieCard/MovieCard";
-import {
-  Heart,
-  RefreshCw,
-  AlertCircle,
-  Sparkles,
-  Film,
-  ArrowRight,
-  Stars,
-} from "lucide-react";
+import { RefreshCw, AlertCircle, Sparkles } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
-
-interface Mood {
-  id: string;
-  emoji: string;
-  label: string;
-  description: string;
-  searchQuery: string;
-  color: string;
-  bgColor: string;
-}
+import { Mood } from "../types/Mood";
 
 export const ByMoodPage: React.FC = () => {
-  const location = useLocation();
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [movies, setMovies] = useState<Movie[]>([]);
   const [showResults, setShowResults] = useState(false);
 
   const { genres } = useReadGenres();
 
-  const moviesRequestCount = 12;
-  const movieDisplayCount = 6;
-  const minInputLength = 8;
-  const minWordCount = 2;
-  const maxInputLength = 200;
-
-  // Restore state from navigation
-  useEffect(() => {
-    if (location.state?.movies) {
-      setMovies(location.state.movies);
-      setShowResults(true);
-    }
-  }, [location.state]);
-
-  const validateInput = (input: string): string | null => {
-    if (input.length < minInputLength) {
-      return `Please enter at least ${minInputLength} characters to get better recommendations.`;
-    }
-
-    if (input.length > maxInputLength) {
-      return `Please keep your search under ${maxInputLength} characters.`;
-    }
-
-    const wordCount = input.trim().split(/\s+/).length;
-    if (wordCount < minWordCount) {
-      return `Please enter at least ${minWordCount} words to describe what you're looking for.`;
-    }
-
-    return null;
-  };
+  const { movies, loading, error, getRecommendations } =
+    useAiMovieRecommendations({
+      moviesRequestCount: 12,
+      movieDisplayCount: 6,
+      minInputLength: 8,
+      minWordCount: 2,
+      maxInputLength: 200,
+    });
 
   const searchMoviesByMood = async (query: string) => {
-    const validationError = validateInput(query);
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
     setShowResults(false);
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/api/ai-recommend",
-        {
-          query: query,
-          movieCount: moviesRequestCount,
-        }
-      );
-
-      if (response.data?.movies && response.data.movies.length > 0) {
-        const movieResults = response.data.movies.slice(0, movieDisplayCount);
-        setMovies(movieResults);
-        setShowResults(true);
-      } else {
-        setError("No movies found for your mood. Try a different description!");
-        setMovies([]);
-      }
-    } catch (err) {
-      console.error("Error fetching AI recommendations:", err);
-      if (axios.isAxiosError(err)) {
-        if (err.code === "ECONNREFUSED") {
-          setError(
-            "Unable to connect to the recommendation service. Please make sure the server is running."
-          );
-        } else if (err.response?.status === 500) {
-          setError(
-            "The recommendation service is experiencing issues. Please try again later."
-          );
-        } else {
-          setError("Failed to get recommendations. Please try again.");
-        }
-      } else {
-        setError("An unexpected error occurred. Please try again.");
-      }
-      setMovies([]);
-    } finally {
-      setLoading(false);
+    await getRecommendations(query);
+    if (!error) {
+      setShowResults(true);
     }
+  };
+
+  const handleMoodChange = (mood: Mood) => {
+    setSelectedMood(mood);
+    setSearchQuery(mood.searchQuery);
+    // Don't automatically search - wait for button click
   };
 
   const handleMoodSelect = (mood: Mood) => {
     setSelectedMood(mood);
     setSearchQuery(mood.searchQuery);
-    setError(null);
-    // Automatically search for movies when mood is selected
+    // Search for movies when button is clicked
     searchMoviesByMood(mood.searchQuery);
   };
 
@@ -134,16 +51,14 @@ export const ByMoodPage: React.FC = () => {
     }
   };
 
-  const handleClearAndReset = () => {
-    setSelectedMood(null);
-    setSearchQuery("");
-    setMovies([]);
-    setError(null);
-    setShowResults(false);
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50">
+    <div
+      className={`min-h-screen transition-all duration-1000 ${
+        selectedMood
+          ? selectedMood.pageGradient
+          : "bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50"
+      }`}
+    >
       <PageTitle title="By Mood" />
 
       <div className="container mx-auto px-4 py-12">
@@ -160,8 +75,9 @@ export const ByMoodPage: React.FC = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Let AI find the perfect movies based on your current mood and
-            feelings. Slide to choose an emoji that matches how you're feeling!
+            Let PopcornAI find the perfect movies based on how you're feeling.
+            <br />
+            Slide to choose an emoji that matches your mood!
           </p>
         </motion.div>
 
@@ -174,6 +90,7 @@ export const ByMoodPage: React.FC = () => {
         >
           <MoodSelector
             onMoodSelect={handleMoodSelect}
+            onMoodChange={handleMoodChange}
             selectedMood={selectedMood}
           />
         </motion.div>
@@ -239,15 +156,11 @@ export const ByMoodPage: React.FC = () => {
               transition={{ duration: 0.6 }}
             >
               {/* Results Header */}
-              <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
                 <div className="flex items-center gap-3">
-                  <Stars className="w-6 h-6 text-emerald-500" />
                   <h2 className="text-2xl font-bold text-gray-800">
                     Perfect Matches for Your Mood
                   </h2>
-                  {selectedMood && (
-                    <span className="text-2xl">{selectedMood.emoji}</span>
-                  )}
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -259,14 +172,6 @@ export const ByMoodPage: React.FC = () => {
                     <RefreshCw className="w-4 h-4" />
                     <span>Refresh</span>
                   </button>
-
-                  <button
-                    onClick={handleClearAndReset}
-                    className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors duration-200"
-                  >
-                    <ArrowRight className="w-4 h-4" />
-                    <span>New Search</span>
-                  </button>
                 </div>
               </div>
 
@@ -277,43 +182,22 @@ export const ByMoodPage: React.FC = () => {
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
               >
-                {movies.map((movie, index) => (
-                  <motion.div
-                    key={movie.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.6 }}
-                  >
-                    <MovieCard
-                      movie={movie}
-                      genres={genres}
-                      currentMovies={movies}
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              {/* Search Again Prompt */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                className="text-center mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200"
-              >
-                <Sparkles className="w-8 h-8 text-emerald-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  Not quite what you were looking for?
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Try describing your mood differently or choose a different
-                  emoji above!
-                </p>
-                <button
-                  onClick={handleClearAndReset}
-                  className="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors duration-200 font-semibold"
-                >
-                  Search Again
-                </button>
+                {movies
+                  .sort((a, b) => b.popularity - a.popularity)
+                  .map((movie, index) => (
+                    <motion.div
+                      key={movie.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.6 }}
+                    >
+                      <MovieCard
+                        movie={movie}
+                        genres={genres}
+                        currentMovies={movies}
+                      />
+                    </motion.div>
+                  ))}
               </motion.div>
             </motion.div>
           )}

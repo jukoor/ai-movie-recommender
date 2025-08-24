@@ -1,19 +1,11 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Heart, Zap } from "lucide-react";
-
-interface Mood {
-  id: string;
-  emoji: string;
-  label: string;
-  description: string;
-  searchQuery: string;
-  color: string;
-  bgColor: string;
-}
+import { WandSparkles } from "lucide-react";
+import { Mood } from "../../../types/Mood";
 
 interface MoodSelectorProps {
   onMoodSelect: (mood: Mood) => void;
+  onMoodChange?: (mood: Mood) => void;
   selectedMood: Mood | null;
 }
 
@@ -25,34 +17,8 @@ const moods: Mood[] = [
     description: "Uplifting and feel-good movies",
     searchQuery: "uplifting feel-good comedy heartwarming positive",
     color: "text-yellow-600",
-    bgColor: "bg-yellow-100 hover:bg-yellow-200",
-  },
-  {
-    id: "romantic",
-    emoji: "💕",
-    label: "Romantic",
-    description: "Love stories and romantic comedies",
-    searchQuery: "romantic love story romance heartfelt emotional",
-    color: "text-pink-600",
-    bgColor: "bg-pink-100 hover:bg-pink-200",
-  },
-  {
-    id: "adventurous",
-    emoji: "🚀",
-    label: "Adventurous",
-    description: "Action-packed and thrilling adventures",
-    searchQuery: "adventure action thrilling exciting epic journey",
-    color: "text-blue-600",
-    bgColor: "bg-blue-100 hover:bg-blue-200",
-  },
-  {
-    id: "intense",
-    emoji: "🔥",
-    label: "Intense",
-    description: "High-stakes and adrenaline-pumping",
-    searchQuery: "intense action high-stakes adrenaline explosive dramatic",
-    color: "text-orange-600",
-    bgColor: "bg-orange-100 hover:bg-orange-200",
+    pageGradient:
+      "bg-gradient-to-br from-yellow-100 via-amber-50 to-orange-100",
   },
   {
     id: "peaceful",
@@ -61,25 +27,57 @@ const moods: Mood[] = [
     description: "Calm and relaxing movies",
     searchQuery: "peaceful calm relaxing gentle soothing meditative quiet",
     color: "text-teal-600",
-    bgColor: "bg-teal-100 hover:bg-teal-200",
+    pageGradient: "bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100",
+  },
+  {
+    id: "romantic",
+    emoji: "💕",
+    label: "Romantic",
+    description: "Love stories and romantic comedies",
+    searchQuery: "romantic love story romance heartfelt emotional",
+    color: "text-pink-600",
+    pageGradient: "bg-gradient-to-br from-pink-100 via-rose-50 to-red-100",
+  },
+  {
+    id: "adventurous",
+    emoji: "🚀",
+    label: "Adventurous",
+    description: "Action-packed and thrilling adventures",
+    searchQuery: "adventure action thrilling exciting epic journey",
+    color: "text-blue-600",
+    pageGradient: "bg-gradient-to-br from-blue-100 via-cyan-50 to-teal-100",
+  },
+  {
+    id: "intense",
+    emoji: "🔥",
+    label: "Intense",
+    description: "High-stakes and adrenaline-pumping",
+    searchQuery: "intense action high-stakes adrenaline explosive dramatic",
+    color: "text-orange-600",
+    pageGradient: "bg-gradient-to-br from-orange-100 via-red-50 to-yellow-100",
   },
 ];
 
 export const MoodSelector: React.FC<MoodSelectorProps> = ({
   onMoodSelect,
+  onMoodChange,
   selectedMood,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleMoodClick = (mood: Mood, index: number) => {
     setCurrentIndex(index);
-    onMoodSelect(mood);
+    if (onMoodChange) {
+      onMoodChange(mood);
+    }
   };
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const index = parseInt(e.target.value);
     setCurrentIndex(index);
-    onMoodSelect(moods[index]);
+    if (onMoodChange) {
+      onMoodChange(moods[index]);
+    }
   };
 
   return (
@@ -134,7 +132,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             max={moods.length - 1}
             value={currentIndex}
             onChange={handleSliderChange}
-            className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+            className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer focus:outline-none focus:shadow-none"
           />
 
           {/* Mood Labels on Slider */}
@@ -143,7 +141,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
               <button
                 key={mood.id}
                 onClick={() => handleMoodClick(mood, index)}
-                className={`flex flex-col items-center transition-all duration-300 ${
+                className={`flex flex-col items-center transition-all duration-300 focus:outline-none focus:shadow-none ${
                   index === currentIndex
                     ? "transform scale-110"
                     : "opacity-60 hover:opacity-80"
@@ -169,9 +167,8 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             className="px-8 py-4 rounded-full font-semibold text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg transition-all duration-300"
           >
             <div className="flex items-center gap-2">
-              <Heart className="w-5 h-5" />
+              <WandSparkles className="w-5 h-5" />
               Find {moods[currentIndex].label} Movies
-              <Zap className="w-5 h-5" />
             </div>
           </motion.button>
         </div>

@@ -3,6 +3,7 @@ import { Star, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { motion, AnimatePresence } from "framer-motion";
 import { useShowToast } from "../../../context/ToastContext";
 import { Genre } from "../../../types/tmdb/Genre";
 import { Movie } from "../../../types/tmdb/Movie";
@@ -20,6 +21,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({
   currentMovies,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showParticles, setShowParticles] = useState(false);
   const { showToast } = useShowToast();
   const navigate = useNavigate();
 
@@ -46,6 +49,11 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         alert("You must be logged in to add favorites.");
         return;
       }
+
+      // Trigger animations
+      setIsAnimating(true);
+      setShowParticles(true);
+
       const favDocRef = doc(db, `/users/${user.uid}/movieLists/favorites`);
       const favDocSnap = await getDoc(favDocRef);
 
@@ -68,13 +76,30 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         await setDoc(favDocRef, { movies: [movie] });
         setIsFavorite(true);
       }
+
+      // Reset animations after a delay
+      setTimeout(() => {
+        setIsAnimating(false);
+        setShowParticles(false);
+      }, 600);
     } catch (error) {
       alert("Failed to update favorites: " + error);
+      setIsAnimating(false);
+      setShowParticles(false);
     }
   };
 
   return (
-    <div className="bg-white rounded-xl h-full shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group">
+    <motion.div
+      className="bg-white rounded-xl h-full shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group"
+      animate={{
+        scale: isAnimating ? [1, 1.02, 1] : 1,
+      }}
+      transition={{
+        duration: 0.4,
+        ease: "easeOut",
+      }}
+    >
       <div className="relative overflow-hidden">
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -86,21 +111,75 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           <Star className="w-4 h-4 fill-current" />
           {movie.vote_average.toFixed(1)}
         </div>
-        <button
+        <motion.button
           onClick={handleFavorite}
-          className={`absolute top-4 left-4 bg-white/80 hover:bg-rose-200 text-rose-600 rounded-full p-2 shadow transition-colors duration-200 flex items-center ${
-            isFavorite ? "bg-rose-500 text-white" : ""
+          className={`absolute top-4 left-4 rounded-full p-2 shadow flex items-center transition-all duration-300 ${
+            isFavorite
+              ? "bg-rose-500 text-white shadow-lg shadow-rose-500/25"
+              : "bg-white/90 hover:bg-white text-rose-600 hover:shadow-lg"
           }`}
           aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
           title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.85 }}
+          animate={{
+            scale: isAnimating ? [1, 1.2, 1] : 1,
+            rotate: isAnimating ? [0, isFavorite ? 360 : -360, 0] : 0,
+          }}
+          transition={{
+            duration: 0.6,
+            ease: "easeInOut",
+          }}
         >
-          <Star
-            className={`w-5 h-5 ${
-              isFavorite ? "text-rose-600" : "text-rose-600"
-            }`}
-            fill={isFavorite ? "#e11d48" : "none"} // #e11d48 is Tailwind's rose-600
-          />
-        </button>
+          <motion.div
+            animate={{
+              scale: isFavorite ? [1, 1.3, 1] : 1,
+            }}
+            transition={{
+              duration: 0.4,
+              ease: "easeOut",
+            }}
+          >
+            <Star
+              className={`w-5 h-5 transition-colors duration-300 ${
+                isFavorite ? "text-white" : "text-rose-600"
+              }`}
+              fill={isFavorite ? "currentColor" : "none"}
+            />
+          </motion.div>
+
+          {/* Particle Effects */}
+          <AnimatePresence>
+            {showParticles && (
+              <>
+                {[...Array(6)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className={`absolute w-1 h-1 rounded-full ${
+                      isFavorite ? "bg-yellow-400" : "bg-rose-400"
+                    }`}
+                    style={{
+                      top: "50%",
+                      left: "50%",
+                    }}
+                    initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
+                    animate={{
+                      scale: [0, 1, 0],
+                      x: Math.cos((i * 60 * Math.PI) / 180) * 20,
+                      y: Math.sin((i * 60 * Math.PI) / 180) * 20,
+                      opacity: [0, 1, 0],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.1,
+                      ease: "easeOut",
+                    }}
+                  />
+                ))}
+              </>
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
 
       <div className="p-6">
@@ -144,6 +223,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           {movie.overview}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };

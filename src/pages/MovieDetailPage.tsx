@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   Star,
   Calendar,
@@ -50,12 +51,18 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
   if (!movie) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+      <motion.div
+        className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-600 mx-auto mb-4"></div>
           <p className="text-slate-600">Loading movie details...</p>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -75,11 +82,25 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <motion.div
+      className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{
+        duration: 0.5,
+        ease: [0.4, 0.0, 0.2, 1], // Custom easing for smoother animation
+      }}
+    >
       <PageTitle title={movie.title} />
 
       {/* Hero Section with Backdrop */}
-      <div className="relative h-96 md:h-[500px] overflow-hidden">
+      <motion.div
+        className="relative h-96 md:h-[500px] overflow-hidden"
+        initial={{ scale: 1.1, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.1 }}
+      >
         {movie.backdrop_path && (
           <>
             <img
@@ -133,24 +154,42 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 md:px-8 py-8">
+      <motion.div
+        className="max-w-6xl mx-auto px-6 md:px-8 py-8"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Poster and Actions */}
-          <div className="lg:col-span-1">
+          <motion.div
+            className="lg:col-span-1"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <div className="sticky top-8">
               {movie.poster_path && (
-                <img
+                <motion.img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
                   className="w-full rounded-xl shadow-2xl mb-6"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
                 />
               )}
 
               {/* Action Buttons */}
-              <div className="space-y-3">
+              <motion.div
+                className="space-y-3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
                 {movie.homepage && (
                   <a
                     href={movie.homepage}
@@ -174,25 +213,38 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     View on IMDb
                   </a>
                 )}
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column - Details */}
-          <div className="lg:col-span-2 space-y-8">
+          <motion.div
+            className="lg:col-span-2 space-y-8"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             {/* Overview */}
-            <section>
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
               <h2 className="text-2xl font-bold text-slate-800 mb-4">
                 Overview
               </h2>
               <p className="text-slate-700 leading-relaxed text-lg">
                 {movie.overview}
               </p>
-            </section>
+            </motion.section>
 
             {/* Genres */}
             {movie.genre_ids.length > 0 && (
-              <section>
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+              >
                 <h3 className="text-xl font-semibold text-slate-800 mb-3">
                   Genres
                 </h3>
@@ -209,11 +261,15 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     ) : null;
                   })}
                 </div>
-              </section>
+              </motion.section>
             )}
 
             {/* Movie Details Grid */}
-            <section>
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
               <h3 className="text-xl font-semibold text-slate-800 mb-4">
                 Details
               </h3>
@@ -311,12 +367,16 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   )}
                 </div>
               </div>
-            </section>
+            </motion.section>
 
             {/* Production Companies */}
             {movie.production_companies &&
               movie.production_companies.length > 0 && (
-                <section>
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.9 }}
+                >
                   <h3 className="text-xl font-semibold text-slate-800 mb-4">
                     Production Companies
                   </h3>
@@ -342,13 +402,17 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                       </div>
                     ))}
                   </div>
-                </section>
+                </motion.section>
               )}
 
             {/* Production Countries */}
             {movie.production_countries &&
               movie.production_countries.length > 0 && (
-                <section>
+                <motion.section
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1.0 }}
+                >
                   <h3 className="text-xl font-semibold text-slate-800 mb-3">
                     Production Countries
                   </h3>
@@ -362,12 +426,16 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                       </span>
                     ))}
                   </div>
-                </section>
+                </motion.section>
               )}
 
             {/* Spoken Languages */}
             {movie.spoken_languages && movie.spoken_languages.length > 0 && (
-              <section>
+              <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.1 }}
+              >
                 <h3 className="text-xl font-semibold text-slate-800 mb-3">
                   Spoken Languages
                 </h3>
@@ -381,11 +449,11 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     </span>
                   ))}
                 </div>
-              </section>
+              </motion.section>
             )}
-          </div>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
