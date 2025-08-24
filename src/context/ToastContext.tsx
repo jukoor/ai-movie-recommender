@@ -7,6 +7,8 @@ interface Toast {
   id: number;
   message: string;
   type: ToastType;
+  isEntering?: boolean;
+  isExiting?: boolean;
 }
 
 interface ToastContextType {
@@ -20,10 +22,44 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 
   const showToast = (message: string, type: ToastType = "info") => {
     const id = Date.now();
-    setToasts((prev) => [...prev, { id, message, type }]);
+    const newToast = { id, message, type, isEntering: true };
+
+    setToasts((prev) => [...prev, newToast]);
+
+    // Remove entering state after animation
+    setTimeout(() => {
+      setToasts((prev) =>
+        prev.map((toast) =>
+          toast.id === id ? { ...toast, isEntering: false } : toast
+        )
+      );
+    }, 300);
+
+    // Start exit animation
+    setTimeout(() => {
+      setToasts((prev) =>
+        prev.map((toast) =>
+          toast.id === id ? { ...toast, isExiting: true } : toast
+        )
+      );
+    }, 4700);
+
+    // Remove toast after exit animation
     setTimeout(() => {
       setToasts((prev) => prev.filter((toast) => toast.id !== id));
     }, 5000);
+  };
+
+  const removeToast = (id: number) => {
+    setToasts((prev) =>
+      prev.map((toast) =>
+        toast.id === id ? { ...toast, isExiting: true } : toast
+      )
+    );
+
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    }, 300);
   };
 
   const toastTemplates = {
@@ -81,10 +117,22 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
       <div className="fixed bottom-4 right-4 space-y-2 z-50">
         {toasts.map((toast) => {
           const template = toastTemplates[toast.type];
+
+          // Determine animation classes
+          let animationClasses =
+            "transform transition-all duration-300 ease-out";
+          if (toast.isEntering) {
+            animationClasses += " translate-x-full opacity-0";
+          } else if (toast.isExiting) {
+            animationClasses += " translate-x-full opacity-0";
+          } else {
+            animationClasses += " translate-x-0 opacity-100";
+          }
+
           return (
             <div
               key={toast.id}
-              className={`flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 rounded-lg shadow-sm dark:text-gray-400 ${template.containerClass}`}
+              className={`flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 rounded-lg shadow-sm dark:text-gray-400 ${template.containerClass} ${animationClasses}`}
               role="alert"
             >
               <div
@@ -104,9 +152,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
                 type="button"
                 className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 aria-label="Close"
-                onClick={() =>
-                  setToasts((prev) => prev.filter((t) => t.id !== toast.id))
-                }
+                onClick={() => removeToast(toast.id)}
               >
                 <span className="sr-only">Close</span>
                 <svg

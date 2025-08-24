@@ -1,4 +1,13 @@
-import { Film, X, Menu, Home, Star, Smile, WandSparkles } from "lucide-react";
+import {
+  Film,
+  X,
+  Menu,
+  Home,
+  Star,
+  Smile,
+  WandSparkles,
+  LogIn,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
@@ -144,8 +153,9 @@ export const NavBar = () => {
                 ) : (
                   <button
                     onClick={() => setIsLoginOpen(true)}
-                    className="ml-4 px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors"
+                    className="ml-4 px-6 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-medium hover:from-emerald-700 hover:to-emerald-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2"
                   >
+                    <LogIn className="w-4 h-4" />
                     Login
                   </button>
                 )}
@@ -228,8 +238,9 @@ export const NavBar = () => {
                   ) : (
                     <button
                       onClick={() => setIsLoginOpen(true)}
-                      className="mt-2 px-4 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors"
+                      className="mt-2 px-6 py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-medium hover:from-emerald-700 hover:to-emerald-800 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 justify-center"
                     >
+                      <LogIn className="w-5 h-5" />
                       Login
                     </button>
                   )}
