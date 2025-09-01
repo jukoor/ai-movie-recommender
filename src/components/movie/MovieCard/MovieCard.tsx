@@ -100,12 +100,25 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         ease: "easeOut",
       }}
     >
-      <div className="relative overflow-hidden">
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
-        />
+      <div
+        className="relative overflow-hidden cursor-pointer"
+        onClick={() =>
+          navigate(`/movie/${movie.id}`, {
+            state: {
+              movie,
+              genres,
+              previousMovies: currentMovies,
+            },
+          })
+        }
+      >
+        <div>
+          <img
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute top-4 right-4 bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
           <Star className="w-4 h-4 fill-current" />

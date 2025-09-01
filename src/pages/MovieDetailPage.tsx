@@ -30,23 +30,13 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
   // Get movie data from navigation state or props
   const movieFromState = location.state?.movie;
   const genresFromState = location.state?.genres;
-  const previousMovies = location.state?.previousMovies;
 
   const movie = passedMovie || movieFromState;
   const genres = passedGenres || genresFromState || [];
 
   const handleBackClick = () => {
-    if (previousMovies) {
-      // Navigate back to home with previous movies
-      navigate("/", {
-        state: {
-          movies: previousMovies,
-        },
-      });
-    } else {
-      // Fallback to regular back navigation
-      navigate(-1);
-    }
+    // Use browser's back navigation
+    navigate(-1);
   };
 
   if (!movie) {

@@ -1,13 +1,4 @@
-import {
-  Film,
-  X,
-  Menu,
-  Home,
-  Star,
-  Smile,
-  WandSparkles,
-  LogIn,
-} from "lucide-react";
+import { X, Menu, Home, Star, Smile, LogIn } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
@@ -28,7 +19,7 @@ export const NavBar = () => {
   const navigation: NavigationItem[] = [
     { name: "Home", href: "/", icon: Home },
     { name: "By Mood", href: "/by-mood", icon: Smile },
-    { name: "Smart Picks", href: "/hidden-gems", icon: WandSparkles },
+    // { name: "Smart Picks", href: "/hidden-gems", icon: WandSparkles },
     {
       name: "Favorites",
       href: "/favorites",
@@ -88,12 +79,18 @@ export const NavBar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="p-2 bg-emerald-600 rounded-lg group-hover:bg-emerald-700 transition-colors">
-              <Film className="w-6 h-6 text-white" />
+            <div className="relative p-2 bg-gradient-to-br from-emerald-400 via-green-500 to-teal-600 rounded-xl group-hover:from-emerald-500 group-hover:via-green-600 group-hover:to-teal-700 transition-all duration-300 shadow-lg group-hover:shadow-xl transform group-hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-xl"></div>
+              <span className="relative w-6 h-6 text-white text-xl">🍿</span>
             </div>
-            <span className="text-xl font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">
-              PopcornAI
-            </span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-slate-800 group-hover:text-emerald-600 transition-colors leading-tight">
+                PopcornAI
+              </span>
+              <span className="text-xs text-slate-500 group-hover:text-emerald-500 transition-colors font-medium">
+                Smart Movie Picks
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -153,7 +150,7 @@ export const NavBar = () => {
                 ) : (
                   <button
                     onClick={() => setIsLoginOpen(true)}
-                    className="ml-4 px-6 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-medium hover:from-emerald-700 hover:to-emerald-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2"
+                    className="ml-4 px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-medium hover:from-emerald-700 hover:to-emerald-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2"
                   >
                     <LogIn className="w-4 h-4" />
                     Login

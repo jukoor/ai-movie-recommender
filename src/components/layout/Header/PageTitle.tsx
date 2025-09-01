@@ -5,7 +5,7 @@ interface PageTitleProps {
 }
 
 export const PageTitle: FC<PageTitleProps> = ({ title }) => {
-  const titleAppendix = "// Popcorn AI";
+  const titleAppendix = "// PopcornAI";
 
   useEffect(() => {
     document.title = `${title} ${titleAppendix}`;

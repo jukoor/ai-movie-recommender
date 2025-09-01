@@ -166,7 +166,6 @@ export const FavoritesPage: React.FC = () => {
 
       <div className="text-center mb-12 mt-16">
         <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
-          <Star className="w-10 h-10 text-emerald-600" />
           <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
             Your Favorites
           </h1>
