@@ -1,5 +1,14 @@
-import { X, Menu, Home, Star, Smile, LogIn } from "lucide-react";
-import { useState, useEffect } from "react";
+import {
+  X,
+  Menu,
+  Home,
+  Star,
+  Smile,
+  LogIn,
+  ChevronDown,
+  LogOut,
+} from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 import { Link, NavLink } from "react-router-dom";
@@ -11,10 +20,12 @@ import { LoginDialog } from "../../auth/LoginDialog/LoginDialog";
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [favoritesCount, setFavoritesCount] = useState<number>(0);
   const { showToast } = useShowToast();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { isLoggedIn, loading } = useAuth();
+  const { user, isLoggedIn, loading } = useAuth();
 
   const navigation: NavigationItem[] = [
     { name: "Home", href: "/", icon: Home },
@@ -57,10 +68,28 @@ export const NavBar = () => {
     }
   }, [isLoggedIn, db]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // Handler for logout with toast notifications
   const handleLogout = async () => {
     try {
       await signOut(getAuth());
+      setIsDropdownOpen(false);
       showToast(
         "You've been logged out successfully. See you next time!",
         "success"
@@ -71,6 +100,15 @@ export const NavBar = () => {
         "error"
       );
     }
+  };
+
+  // Generate avatar initials from email
+  const getAvatarInitials = (email: string): string => {
+    const parts = email.split("@")[0].split(".");
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return email.substring(0, 2).toUpperCase();
   };
 
   return (
@@ -141,12 +179,36 @@ export const NavBar = () => {
                   );
                 })}
                 {isLoggedIn ? (
-                  <button
-                    onClick={handleLogout}
-                    className="ml-4 px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
-                  >
-                    Logout
-                  </button>
+                  <div className="relative ml-4" ref={dropdownRef}>
+                    <button
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-sm font-semibold">
+                        {user?.email ? getAvatarInitials(user.email) : "U"}
+                      </div>
+                      <span className="text-sm text-slate-700 max-w-32 truncate">
+                        {user?.email}
+                      </span>
+                      <ChevronDown
+                        className={`w-4 h-4 text-slate-500 transition-transform ${
+                          isDropdownOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {isDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-50">
+                        <button
+                          onClick={handleLogout}
+                          className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 flex items-center gap-2"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <button
                     onClick={() => setIsLoginOpen(true)}
@@ -223,15 +285,24 @@ export const NavBar = () => {
                     );
                   })}
                   {isLoggedIn ? (
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="mt-2 px-4 py-3 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
-                    >
-                      Logout
-                    </button>
+                    <div className="mt-2 border-t border-slate-200 pt-2">
+                      <div className="flex items-center gap-3 px-4 py-2 text-sm text-slate-600">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-sm font-semibold">
+                          {user?.email ? getAvatarInitials(user.email) : "U"}
+                        </div>
+                        <span className="flex-1 truncate">{user?.email}</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full mt-1 px-4 py-3 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition-colors flex items-center gap-2 justify-center"
+                      >
+                        <LogOut className="w-5 h-5" />
+                        Logout
+                      </button>
+                    </div>
                   ) : (
                     <button
                       onClick={() => setIsLoginOpen(true)}

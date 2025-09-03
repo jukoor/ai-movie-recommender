@@ -86,7 +86,7 @@ export const useAiMovieRecommendations = (
     // Append the formatting instruction
     const instruction = `You must recommend ${moviesRequestCount} real, existing movies that match the following keywords or sentence: "${cleanedInput}". Even for vague descriptions, recommend actual popular movies from that genre or theme. Return them as a Javascript array in the format ["Title1", "Title2", "Title3"]. No further explanations. Without backslashes.`;
 
-    return cleanedInput;
+    return instruction;
   };
 
   const searchMoviesFromAiReply = async (aiMoviesReply: string[]) => {

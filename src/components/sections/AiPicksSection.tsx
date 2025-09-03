@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Sparkles } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 import { useReadGenres } from "../../hooks/useReadGenres";
@@ -8,6 +8,7 @@ import { Movie } from "../../types/tmdb/Movie";
 
 export const AiPicksSection: React.FC = () => {
   const { genres } = useReadGenres();
+  const hasInitialized = useRef(false);
 
   // Use AI recommendations with configuration for this section
   const {
@@ -19,11 +20,16 @@ export const AiPicksSection: React.FC = () => {
     movieDisplayCount: 6,
     minInputLength: 5,
     minWordCount: 1,
-    maxInputLength: 50,
   });
 
   // Automatically get AI recommendations for fresh popular movies when component mounts
   useEffect(() => {
+    // Prevent double execution in StrictMode
+    if (hasInitialized.current) {
+      return;
+    }
+    hasInitialized.current = true;
+
     const prompts = [
       "trending popular new movies 2024 2025",
       "fresh blockbuster releases popular cinema",
@@ -34,9 +40,7 @@ export const AiPicksSection: React.FC = () => {
 
     // Select a random prompt to get varied results
     const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-    // getRecommendations(randomPrompt);
 
-    console.log(randomPrompt);
     const fetchData = async () => {
       await getRecommendations(randomPrompt);
     };
@@ -67,13 +71,13 @@ export const AiPicksSection: React.FC = () => {
 
       {/* Movies Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, index) => (
             <SkeletonCard key={index} />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {aiPickedMovies.map((movie: Movie) => (
             <div
               key={movie.id}
