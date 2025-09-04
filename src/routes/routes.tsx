@@ -3,6 +3,7 @@ import { HomePage } from "../pages/HomePage";
 import { FavoritesPage } from "../pages/FavoritesPages";
 import { MovieDetailPage } from "../pages/MovieDetailPage";
 import { ByMoodPage } from "../pages/ByMoodPage";
+import { AboutPage } from "../pages/AboutPage";
 import { PageLayout } from "../components/layout/PageLayout/PageLayout";
 
 export const routes: RouteObject[] = [
@@ -13,6 +14,7 @@ export const routes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: "favorites", element: <FavoritesPage /> },
       { path: "by-mood", element: <ByMoodPage /> },
+      { path: "about", element: <AboutPage /> },
       { path: "movie/:movieId", element: <MovieDetailPage /> },
       // { path: "profile", element: <ProfilePage /> },
     ],

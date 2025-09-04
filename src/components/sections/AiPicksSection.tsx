@@ -48,10 +48,6 @@ export const AiPicksSection: React.FC = () => {
     fetchData();
   }, []); // Only run once on mount
 
-  useEffect(() => {
-    console.log(aiPickedMovies);
-  }, [aiPickedMovies]);
-
   return (
     <div className="my-16 px-4 max-w-7xl mx-auto">
       {/* Section Header */}
