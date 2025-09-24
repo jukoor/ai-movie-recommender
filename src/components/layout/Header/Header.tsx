@@ -82,12 +82,12 @@ export const NavBar = () => {
   };
 
   return (
-    <header className="bg-gray-900/95 backdrop-blur-lg border-b border-gray-800 sticky top-0 z-50 shadow-lg">
+    <header className="glass-card border-b border-purple-500/20 sticky top-0 z-50 shadow-2xl shadow-purple-500/10">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative p-2 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 rounded-xl group-hover:from-yellow-500 group-hover:via-orange-600 group-hover:to-red-700 transition-all duration-300 shadow-lg group-hover:shadow-xl transform group-hover:scale-105 shadow-orange-500/20">
+            <div className="relative p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300 shadow-lg group-hover:shadow-xl transform group-hover:scale-105 shadow-purple-500/30">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-xl"></div>
               <div
                 className="relative w-6 h-6 text-white text-xl"
@@ -97,10 +97,10 @@ export const NavBar = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-yellow-400 group-hover:to-orange-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
+              <span className="text-xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
                 PopcornAI
               </span>
-              <span className="text-xs text-gray-400 group-hover:text-orange-400 transition-colors font-medium">
+              <span className="text-xs text-gray-400 group-hover:text-purple-400 transition-colors font-medium">
                 Smart Movie Picks
               </span>
             </div>
@@ -137,14 +137,14 @@ export const NavBar = () => {
                         (isPending
                           ? "pending"
                           : isActive
-                          ? "bg-gradient-to-r from-yellow-400/10 to-orange-500/10 text-orange-400 border border-orange-500/20"
-                          : "text-gray-300 hover:text-white hover:bg-gray-800/50 hover:border-gray-700/50 border border-transparent")
+                          ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30 shadow-lg shadow-purple-500/10"
+                          : "text-gray-300 hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent")
                       }
                     >
                       <Icon className="w-4 h-4" />
                       {item.name}
                       {/* Active indicator */}
-                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                     </NavLink>
                   );
                 })}
@@ -152,26 +152,26 @@ export const NavBar = () => {
                   <div className="relative ml-4" ref={dropdownRef}>
                     <button
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors border border-gray-700"
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg glass-card hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40"
                     >
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-orange-600 flex items-center justify-center text-gray-900 text-xs font-bold">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
                         {user?.email ? getAvatarInitials(user.email) : "U"}
                       </div>
                       <span className="text-xs text-gray-300 max-w-32 truncate">
                         {user?.email}
                       </span>
                       <ChevronDown
-                        className={`w-4 h-4 text-gray-400 transition-transform ${
+                        className={`w-4 h-4 text-purple-400 transition-transform ${
                           isDropdownOpen ? "rotate-180" : ""
                         }`}
                       />
                     </button>
 
                     {isDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 py-1 z-50 backdrop-blur-lg">
+                      <div className="absolute right-0 mt-2 w-48 glass-card rounded-lg shadow-xl border border-purple-500/20 py-1 z-50 backdrop-blur-lg">
                         <button
                           onClick={handleLogout}
-                          className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:text-white hover:bg-gray-700 transition-colors flex items-center gap-2"
+                          className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors flex items-center gap-2"
                         >
                           <LogOut className="w-4 h-4" />
                           Logout
@@ -182,7 +182,7 @@ export const NavBar = () => {
                 ) : (
                   <button
                     onClick={() => setIsLoginOpen(true)}
-                    className="ml-4 px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600 text-gray-900 font-bold hover:from-yellow-400 hover:via-orange-400 hover:to-red-500 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2 shadow-orange-500/25"
+                    className="ml-4 px-4 py-2 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 border border-purple-500/20 hover:border-purple-500/40"
                   >
                     <LogIn className="w-4 h-4" />
                     Login
@@ -195,7 +195,7 @@ export const NavBar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors border border-gray-700/50"
+            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40"
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6" />
@@ -207,7 +207,7 @@ export const NavBar = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-800">
+          <div className="md:hidden py-4 border-t border-purple-500/20">
             <nav className="flex flex-col gap-1">
               {loading ? (
                 // Skeleton for mobile navigation
@@ -239,8 +239,8 @@ export const NavBar = () => {
                           (isPending
                             ? "pending"
                             : isActive
-                            ? "bg-gradient-to-r from-yellow-400/10 to-orange-500/10 text-orange-400 border-l-2 border-orange-500"
-                            : "text-gray-300 hover:text-white hover:bg-gray-800/50")
+                            ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-l-2 border-purple-500 shadow-lg shadow-purple-500/10"
+                            : "text-gray-300 hover:text-white hover:bg-purple-500/10")
                         }
                       >
                         <Icon className="w-5 h-5" />
@@ -249,9 +249,9 @@ export const NavBar = () => {
                     );
                   })}
                   {isLoggedIn ? (
-                    <div className="mt-2 border-t border-gray-800 pt-2">
+                    <div className="mt-2 border-t border-purple-500/20 pt-2">
                       <div className="flex items-center gap-3 px-4 py-2 text-xs text-gray-400">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-orange-600 flex items-center justify-center text-gray-900 text-xs font-bold">
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
                           {user?.email ? getAvatarInitials(user.email) : "U"}
                         </div>
                         <span className="flex-1 truncate">{user?.email}</span>
@@ -261,7 +261,7 @@ export const NavBar = () => {
                           handleLogout();
                           setIsMobileMenuOpen(false);
                         }}
-                        className="w-full mt-1 px-4 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors flex items-center gap-2 justify-center shadow-lg"
+                        className="w-full mt-1 px-4 py-3 rounded-lg bg-gradient-to-r from-red-500 to-pink-600 text-white font-medium hover:from-red-600 hover:to-pink-700 transition-all duration-300 flex items-center gap-2 justify-center shadow-lg shadow-red-500/20"
                       >
                         <LogOut className="w-5 h-5" />
                         Logout
@@ -270,7 +270,7 @@ export const NavBar = () => {
                   ) : (
                     <button
                       onClick={() => setIsLoginOpen(true)}
-                      className="mt-2 px-6 py-3 rounded-lg bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600 text-gray-900 font-bold hover:from-yellow-400 hover:via-orange-400 hover:to-red-500 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 justify-center shadow-orange-500/25"
+                      className="mt-2 px-6 py-3 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 justify-center border border-purple-500/20 hover:border-purple-500/40"
                     >
                       <LogIn className="w-5 h-5" />
                       Login

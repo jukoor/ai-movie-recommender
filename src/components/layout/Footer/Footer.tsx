@@ -1,16 +1,36 @@
 export const Footer = () => {
   return (
-    <footer className="bg-slate-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="border-t border-slate-700 mt-8 pt-8 text-slate-400 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+    <footer className="relative bg-gradient-to-b from-transparent via-gray-900/50 to-gray-900 backdrop-blur-sm border-t border-white/10">
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+
+      <div className="relative max-w-7xl mx-auto px-4 py-16">
+        {/* Main footer content */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">AI</span>
+            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Movie Recommender
+            </span>
+          </div>
+          <p className="text-gray-400 max-w-md mx-auto">
+            Discover your next favorite movie with AI-powered recommendations
+          </p>
+        </div>
+
+        {/* Bottom section */}
+        <div className="border-t border-white/10 pt-8 text-gray-400 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
           <p>&copy; 2025 AI Movie Recommender. All rights reserved.</p>
-          <p>
-            Coded by{" "}
+          <p className="flex items-center gap-1">
+            Crafted with <span className="text-red-400 animate-pulse">♥</span>{" "}
+            by{" "}
             <a
               href="https://julianorth.de"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ textDecoration: "underline" }}
+              className="text-purple-400 hover:text-purple-300 transition-colors duration-300 underline decoration-purple-400/50 hover:decoration-purple-300 underline-offset-2"
             >
               Julian Orth
             </a>

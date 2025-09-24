@@ -16,9 +16,9 @@ const moods: Mood[] = [
     label: "Happy",
     description: "Uplifting and feel-good movies",
     searchQuery: "uplifting feel-good comedy heartwarming positive",
-    color: "text-yellow-600",
+    color: "text-yellow-400",
     pageGradient:
-      "bg-gradient-to-br from-yellow-100 via-amber-50 to-orange-100",
+      "radial-gradient(ellipse at center, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 80%)",
   },
   {
     id: "peaceful",
@@ -26,8 +26,9 @@ const moods: Mood[] = [
     label: "Peaceful",
     description: "Calm and relaxing movies",
     searchQuery: "peaceful calm relaxing gentle soothing meditative quiet",
-    color: "text-teal-600",
-    pageGradient: "bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100",
+    color: "text-teal-400",
+    pageGradient:
+      "radial-gradient(ellipse at center, rgba(20, 184, 166, 0.1) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 80%)",
   },
   {
     id: "romantic",
@@ -35,8 +36,9 @@ const moods: Mood[] = [
     label: "Romantic",
     description: "Love stories and romantic comedies",
     searchQuery: "romantic love story romance heartfelt emotional",
-    color: "text-pink-600",
-    pageGradient: "bg-gradient-to-br from-pink-100 via-rose-50 to-red-100",
+    color: "text-pink-400",
+    pageGradient:
+      "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.05) 50%, transparent 80%)",
   },
   {
     id: "adventurous",
@@ -44,8 +46,9 @@ const moods: Mood[] = [
     label: "Adventurous",
     description: "Action-packed and thrilling adventures",
     searchQuery: "adventure action thrilling exciting epic journey",
-    color: "text-blue-600",
-    pageGradient: "bg-gradient-to-br from-blue-100 via-cyan-50 to-teal-100",
+    color: "text-blue-400",
+    pageGradient:
+      "radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 80%)",
   },
   {
     id: "intense",
@@ -53,8 +56,9 @@ const moods: Mood[] = [
     label: "Intense",
     description: "High-stakes and adrenaline-pumping",
     searchQuery: "intense action high-stakes adrenaline explosive dramatic",
-    color: "text-orange-600",
-    pageGradient: "bg-gradient-to-br from-orange-100 via-red-50 to-yellow-100",
+    color: "text-orange-400",
+    pageGradient:
+      "radial-gradient(ellipse at center, rgba(251, 146, 60, 0.1) 0%, rgba(249, 115, 22, 0.05) 50%, transparent 80%)",
   },
 ];
 
@@ -118,7 +122,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             >
               {moods[currentIndex].label}
             </h3>
-            <p className="text-gray-600 text-sm max-w-xs mx-auto">
+            <p className="text-gray-300 text-sm max-w-xs mx-auto">
               {moods[currentIndex].description}
             </p>
           </motion.div>
@@ -132,7 +136,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             max={moods.length - 1}
             value={currentIndex}
             onChange={handleSliderChange}
-            className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer focus:outline-none focus:shadow-none"
+            className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer focus:outline-none focus:shadow-none slider-thumb"
           />
 
           {/* Mood Labels on Slider */}
@@ -164,9 +168,11 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => onMoodSelect(moods[currentIndex])}
-            className="px-8 py-4 rounded-full font-semibold text-white bg-emerald-500 hover:bg-emerald-600 shadow-lg transition-all duration-300"
+            className="group relative px-8 py-4 rounded-full font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-500/20 overflow-hidden"
           >
-            <div className="flex items-center gap-2">
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div className="relative z-10 flex items-center gap-2">
               <WandSparkles className="w-5 h-5" />
               Find {moods[currentIndex].label} Movies
             </div>

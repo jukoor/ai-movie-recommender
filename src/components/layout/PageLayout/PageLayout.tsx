@@ -6,12 +6,12 @@ import { ScrollToTop } from "./ScrollToTop";
 
 export const PageLayout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-dark-gradient text-white">
       {/* Navigation Bar */}
       <NavBar />
 
       {/* Main Content */}
-      <main>
+      <main className="relative">
         <ScrollToTop />
         <Outlet />
       </main>

@@ -8,7 +8,15 @@ import {
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { useShowToast } from "../../../context/ToastContext";
-import { X, Mail, Lock, User as UserIcon, Sparkles } from "lucide-react";
+import {
+  X,
+  Mail,
+  Lock,
+  User as UserIcon,
+  Sparkles,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
 
 interface LoginDialogProps {
   open: boolean;
@@ -127,10 +135,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         aria-hidden="true"
       />
-      <div className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full mx-auto border border-slate-200/50 overflow-hidden">
+      <div className="relative glass-card rounded-3xl shadow-2xl max-w-md w-full mx-auto border border-gray-700/30 overflow-hidden">
         {/* Header with gradient background */}
-        <div className="bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-600 px-8 py-6 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+        <div className="bg-gradient-to-r from-pink-500/80 via-pink-600/80 to-purple-500/80 px-8 py-6 relative overflow-hidden backdrop-blur-sm">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
           <div className="relative flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
@@ -148,7 +156,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               <X className="w-5 h-5" />
             </button>
           </div>
-          <p className="text-emerald-100 mt-2 relative">
+          <p className="text-pink-100 mt-2 relative">
             {dialogTab === "login"
               ? "Sign in to discover your next favorite movie"
               : "Create your account to get personalized recommendations"}
@@ -158,22 +166,22 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         {/* Content */}
         <div className="p-8">
           {/* Tab switcher */}
-          <div className="flex gap-1 mb-8 p-1 bg-slate-100 rounded-xl">
+          <div className="flex gap-1 mb-8 p-1 bg-gray-800/30 rounded-xl border border-gray-700/20">
             <button
-              className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
+              className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                 dialogTab === "login"
-                  ? "bg-white text-emerald-700 shadow-sm"
-                  : "text-slate-600 hover:text-slate-800"
+                  ? "bg-pink-500/15 text-pink-300 shadow-sm border border-pink-500/20"
+                  : "text-gray-400 hover:text-gray-200 hover:bg-gray-700/30"
               }`}
               onClick={handleLoginTabClick}
             >
               Sign In
             </button>
             <button
-              className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
+              className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                 dialogTab === "signup"
-                  ? "bg-white text-emerald-700 shadow-sm"
-                  : "text-slate-600 hover:text-slate-800"
+                  ? "bg-pink-500/15 text-pink-300 shadow-sm border border-pink-500/20"
+                  : "text-gray-400 hover:text-gray-200 hover:bg-gray-700/30"
               }`}
               onClick={handleSignupTabClick}
             >
@@ -186,26 +194,26 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               <div className="space-y-4">
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-slate-400" />
+                    <Mail className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
                     ref={emailRef}
                     type="email"
                     placeholder="Enter your email"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 focus:bg-white transition-all duration-200 placeholder-slate-500"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-slate-400" />
+                    <Lock className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
                     ref={passwordRef}
                     type="password"
                     placeholder="Enter your password"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 focus:bg-white transition-all duration-200 placeholder-slate-500"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
               </div>
@@ -214,7 +222,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl px-6 py-3 font-semibold hover:from-emerald-700 hover:to-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                  className="w-full bg-gradient-to-r from-pink-500/90 to-pink-600/90 text-white rounded-xl px-6 py-3 font-medium hover:from-pink-600/90 hover:to-pink-700/90 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg backdrop-blur-sm border border-pink-400/20"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -222,16 +230,19 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       Signing in...
                     </div>
                   ) : (
-                    "Sign In"
+                    <div className="flex items-center justify-center gap-2">
+                      <LogIn className="w-5 h-5" />
+                      Sign In
+                    </div>
                   )}
                 </button>
 
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-slate-200"></div>
+                    <div className="w-full border-t border-gray-600/50"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-3 bg-white text-slate-500">or</span>
+                    <span className="px-3 glass-card text-gray-300">or</span>
                   </div>
                 </div>
 
@@ -239,7 +250,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                   type="button"
                   onClick={handleDemoLogin}
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl px-6 py-3 font-semibold hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02] flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-teal-500/80 to-cyan-500/80 text-white rounded-xl px-6 py-3 font-medium hover:from-teal-600/80 hover:to-cyan-600/80 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg backdrop-blur-sm border border-teal-400/20 flex items-center justify-center gap-2"
                 >
                   <Sparkles className="w-5 h-5" />
                   {loading ? "Accessing demo..." : "Try Demo Account"}
@@ -251,26 +262,26 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               <div className="space-y-4">
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-slate-400" />
+                    <Mail className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
                     ref={emailRef}
                     type="email"
                     placeholder="Enter your email"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 focus:bg-white transition-all duration-200 placeholder-slate-500"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-slate-400" />
+                    <Lock className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
                     ref={passwordRef}
                     type="password"
                     placeholder="Create a password"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-slate-50 focus:bg-white transition-all duration-200 placeholder-slate-500"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
               </div>
@@ -278,7 +289,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl px-6 py-3 font-semibold hover:from-emerald-700 hover:to-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                className="w-full bg-gradient-to-r from-pink-500/90 to-pink-600/90 text-white rounded-xl px-6 py-3 font-medium hover:from-pink-600/90 hover:to-pink-700/90 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg backdrop-blur-sm border border-pink-400/20"
               >
                 {loading ? (
                   <div className="flex items-center justify-center gap-2">
@@ -286,7 +297,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                     Creating account...
                   </div>
                 ) : (
-                  "Create Account"
+                  <div className="flex items-center justify-center gap-2">
+                    <UserPlus className="w-5 h-5" />
+                    Create Account
+                  </div>
                 )}
               </button>
             </form>

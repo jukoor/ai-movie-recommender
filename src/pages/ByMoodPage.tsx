@@ -52,16 +52,30 @@ export const ByMoodPage: React.FC = () => {
   };
 
   return (
-    <div
-      className={`min-h-screen transition-all duration-1000 ${
-        selectedMood
-          ? selectedMood.pageGradient
-          : "bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50"
-      }`}
-    >
+    <div className="min-h-screen relative overflow-hidden">
       <PageTitle title="By Mood" />
 
-      <div className="container mx-auto px-4 py-12">
+      {/* Dark background with gradient overlay */}
+      <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
+
+      {/* Dynamic mood gradient overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-all duration-1000"
+        style={{
+          background: selectedMood ? selectedMood.pageGradient : "transparent",
+          opacity: selectedMood ? 1 : 0,
+        }}
+      ></div>
+
+      {/* Animated background particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-2 h-2 bg-purple-500/30 rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-32 w-1 h-1 bg-blue-500/40 rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-40 w-1.5 h-1.5 bg-pink-500/30 rounded-full animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-20 w-1 h-1 bg-emerald-500/40 rounded-full animate-pulse delay-700"></div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -70,11 +84,11 @@ export const ByMoodPage: React.FC = () => {
           className="text-center mb-12"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Movie Mood Search
             </h1>
           </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Let PopcornAI find the perfect movies based on how you're feeling.
             <br />
             Slide to choose an emoji that matches your mood!
@@ -104,13 +118,13 @@ export const ByMoodPage: React.FC = () => {
               exit={{ opacity: 0, scale: 0.95 }}
               className="max-w-2xl mx-auto mb-8"
             >
-              <div className="bg-red-50 border border-red-200 rounded-xl p-6 flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+              <div className="glass-card border border-red-500/20 rounded-xl p-6 flex items-start gap-3 bg-red-500/10">
+                <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-red-800 mb-1">
+                  <h3 className="font-semibold text-red-300 mb-1">
                     Oops! Something went wrong
                   </h3>
-                  <p className="text-red-700">{error}</p>
+                  <p className="text-red-200">{error}</p>
                 </div>
               </div>
             </motion.div>
@@ -134,10 +148,10 @@ export const ByMoodPage: React.FC = () => {
                   <Sparkles className="w-12 h-12 text-emerald-500" />
                 </motion.div>
                 <div className="space-y-2">
-                  <h3 className="text-xl font-semibold text-gray-700">
+                  <h3 className="text-xl font-semibold text-white">
                     Finding Your Perfect Movies...
                   </h3>
-                  <p className="text-gray-500">
+                  <p className="text-gray-300">
                     AI is analyzing your mood and preferences
                   </p>
                 </div>
@@ -158,7 +172,7 @@ export const ByMoodPage: React.FC = () => {
               {/* Results Header */}
               <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-2xl font-bold text-white">
                     Perfect Matches for Your Mood
                   </h2>
                 </div>
@@ -169,10 +183,10 @@ export const ByMoodPage: React.FC = () => {
                     disabled={loading}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="group relative flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                    className="group relative flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden border border-purple-500/20"
                   >
                     {/* Animated background overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     {/* Shimmer effect */}
                     <div className="absolute inset-0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />

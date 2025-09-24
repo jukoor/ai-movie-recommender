@@ -1,157 +1,258 @@
 import React from "react";
-import { Github, ExternalLink, Sparkles, Heart } from "lucide-react";
+import { Sparkles, Heart, Brain, Code, Film, Server, Zap } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-900 via-purple-900 via-pink-800 via-orange-700 via-yellow-600 to-emerald-600">
+    <div className="min-h-screen relative overflow-hidden">
       <PageTitle title="About" />
 
-      {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/20"></div>
+      {/* Dark background with gradient overlay */}
+      <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
 
       <div className="relative z-10 pt-20 pb-16 px-4">
-        <div className="max-w-3xl mx-auto">
-          {/* Hero */}
-          <div className="text-center mb-16 animate-fadeIn">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
-              About AI Movie Recommender
-            </h1>
-            <p className="text-xl text-white/90 mb-8 leading-relaxed drop-shadow">
-              Modern AI movie recommendations in combination with movie DB API
-            </p>
-            <a
-              href="https://github.com/jukoor/ai-movie-recommender"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-8 py-4 rounded-full transition-all duration-300 border border-white/30"
-            >
-              <Github className="w-5 h-5" />
-              View On GitHub
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          </div>
-
-          {/* How It Works */}
-          <div
-            className="mb-16 animate-fadeIn"
-            style={{ animationDelay: "300ms", animationFillMode: "both" }}
-          >
-            <h2 className="text-3xl font-bold text-white text-center mb-10 drop-shadow">
-              How It Works
-            </h2>
-
-            <p>
-              How the App Works The app helps users discover personalized movie
-              recommendations through an intelligent AI-powered system. Users
-              can browse movies, get tailored suggestions, and manage their
-              preferences through a modern web interface. The application learns
-              from user interactions to provide increasingly accurate
-              recommendations over time. Technology Stack Frontend: Built with
-              Vite for fast development and optimized builds Uses modern
-              JavaScript/TypeScript for the user interface Responsive design for
-              seamless experience across devices Backend & APIs: TMDB (The Movie
-              Database) API provides comprehensive movie data, ratings, and
-              metadata Firebase handles user authentication, data storage, and
-              real-time syncing OpenRouter API with Mistral-7B model powers the
-              AI recommendation engine AI Integration: The app leverages
-              OpenRouter's Mistral-7B language model to analyze user preferences
-              and generate intelligent movie recommendations AI processes user
-              viewing history, ratings, and preferences to suggest relevant
-              films Natural language processing helps understand user queries
-              and provide contextual suggestions
-            </p>
-
-            <div className="space-y-6">
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-                <h3 className="text-xl font-semibold text-white mb-3">
-                  Just Ask
-                </h3>
-                <p className="text-white/80 leading-relaxed">
-                  Describe your mood or what kind of movie you want. No forms to
-                  fill out, just natural conversation.
-                </p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-                <h3 className="text-xl font-semibold text-white mb-3">
-                  AI Understanding
-                </h3>
-                <p className="text-white/80 leading-relaxed">
-                  Smart AI analyzes your request and searches through thousands
-                  of movies to find what matches your vibe.
-                </p>
-              </div>
-
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-                <h3 className="text-xl font-semibold text-white mb-3">
-                  Perfect Matches
-                </h3>
-                <p className="text-white/80 leading-relaxed">
-                  Get personalized recommendations with explanations of why each
-                  movie fits what you're looking for.
+        <div className="min-h-screen text-gray-100 mx-auto max-w-5xl">
+          {/* Hero Section */}
+          <div className="relative overflow-hidden">
+            <div className="relative max-w-4xl mx-auto px-6 py-20">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl mb-6">
+                  <Sparkles className="w-8 h-8 text-white" />
+                </div>
+                <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  About PopcornAI
+                </h1>
+                <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                  Modern movie recommendations app powered by React and AI
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Tech */}
-          <div
-            className="mb-16 animate-fadeIn"
-            style={{ animationDelay: "600ms", animationFillMode: "both" }}
-          >
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 text-center">
-              <Sparkles className="w-12 h-12 text-white mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Built with Care
-              </h3>
-              <p className="text-white/80 leading-relaxed mb-6">
-                This app combines React, TypeScript, and OpenAI to create
-                something actually useful. No overengineering, just a tool that
-                works well and feels nice to use.
-              </p>
-              <div className="flex flex-wrap justify-center gap-3 text-sm">
-                <span className="bg-white/20 text-white px-3 py-1 rounded-full">
-                  React
-                </span>
-                <span className="bg-white/20 text-white px-3 py-1 rounded-full">
-                  TypeScript
-                </span>
-                <span className="bg-white/20 text-white px-3 py-1 rounded-full">
-                  OpenAI
-                </span>
-                <span className="bg-white/20 text-white px-3 py-1 rounded-full">
-                  Firebase
-                </span>
+          {/* Mission Section */}
+          <div className="max-w-4xl mx-auto px-6 py-16">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-pink-500 to-orange-500 rounded-xl mb-6">
+                <Heart className="w-6 h-6 text-white" />
               </div>
+              <h2 className="text-3xl font-bold mb-6 text-white">
+                How It Works
+              </h2>
+              <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
+                PopcornAI combines movie data from TMDB with AI technology
+                (mistral-7b) to create personalized movie recommendations
+                tailored to your preferences. You can search using free text,
+                tags, or mood-based input. Your prompt gets preprocessed and
+                sent to our AI model, which generates a curated list of movie
+                titles. These titles are then cross-referenced with the TMDB
+                database to pull in detailed movie information and metadata.
+              </p>
             </div>
           </div>
 
-          {/* Developer */}
-          <div
-            className="text-center animate-fadeIn"
-            style={{ animationDelay: "900ms", animationFillMode: "both" }}
-          >
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-              <div className="mb-4">
-                <h2 className="text-3xl font-bold text-white mb-2">
-                  Julian Orth
-                </h2>
-                <p className="text-white/80">
-                  Developer who loves movies and clean code
+          {/* Features Section */}
+          {/* <div className="max-w-6xl mx-auto px-6 py-16">
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="group p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-500/30 transition-colors">
+                  <Brain className="w-6 h-6 text-purple-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  Smart AI Engine
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Advanced algorithms analyze your preferences to deliver
+                  personalized movie suggestions
                 </p>
               </div>
 
-              <p className="text-white/70 leading-relaxed mb-6">
-                I built this because I was tired of spending more time choosing
-                what to watch than actually watching. Sometimes you just want
-                something that gets it.
-              </p>
+              <div className="group p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+                <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors">
+                  <Film className="w-6 h-6 text-blue-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  Vast Movie Database
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Access thousands of films across genres, decades, and cultures
+                </p>
+              </div>
 
-              <div className="flex items-center justify-center gap-2 text-white/60">
-                <span>Made with</span>
-                <Heart className="w-4 h-4 text-red-400 fill-current" />
-                <span>and lots of coffee</span>
+              <div className="group p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300">
+                <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-500/30 transition-colors">
+                  <Zap className="w-6 h-6 text-emerald-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  Instant Results
+                </h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Get lightning-fast recommendations tailored to your mood and
+                  taste
+                </p>
+              </div>
+            </div>
+          </div> */}
+
+          {/* Tech Stack Section */}
+          <div className="max-w-4xl mx-auto px-6 py-16">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl mb-6">
+                <Code className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold mb-4 text-white">Tech Stack</h2>
+            </div>
+
+            <div className="space-y-8">
+              {/* Frontend */}
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-4 text-center">
+                  Frontend
+                </h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                      <Code className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">React</h4>
+                      <p className="text-sm text-gray-400">UI framework</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                      <Code className="w-5 h-5 text-indigo-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">TypeScript</h4>
+                      <p className="text-sm text-gray-400">Type safety</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-cyan-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">Tailwind CSS</h4>
+                      <p className="text-sm text-gray-400">Styling</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-blue-300" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">Flowbite</h4>
+                      <p className="text-sm text-gray-400">UI components</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center">
+                      <Heart className="w-5 h-5 text-pink-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">Lucide Icons</h4>
+                      <p className="text-sm text-gray-400">Icon library</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-purple-300" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">
+                        Framer Motion
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        Animation framework
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Backend & Database */}
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-4 text-center">
+                  Backend & Database
+                </h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                      <Server className="w-5 h-5 text-green-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">Express.js</h4>
+                      <p className="text-sm text-gray-400">Backend server</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-yellow-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">
+                        Firebase Auth
+                      </h4>
+                      <p className="text-sm text-gray-400">Authentication</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-orange-600/20 rounded-lg flex items-center justify-center">
+                      <Server className="w-5 h-5 text-orange-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">Firebase DB</h4>
+                      <p className="text-sm text-gray-400">NoSQL database</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Build Tools & APIs */}
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-4 text-center">
+                  Build Tool & APIs
+                </h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-orange-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">Vite</h4>
+                      <p className="text-sm text-gray-400">Build tool</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
+                      <Film className="w-5 h-5 text-red-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">TMDB API</h4>
+                      <p className="text-sm text-gray-400">Movie database</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
+                    <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                      <Brain className="w-5 h-5 text-purple-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">OpenRouter</h4>
+                      <p className="text-sm text-gray-400">
+                        LLM integration (mistral-7b)
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -49,41 +49,68 @@ export const AiPicksSection: React.FC = () => {
   }, []); // Only run once on mount
 
   return (
-    <div className="my-16 px-4 max-w-7xl mx-auto">
-      {/* Section Header */}
-      <div className="text-center mb-12">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+    <div className="relative px-4 max-w-7xl mx-auto">
+      {/* Section Header with Enhanced Styling */}
+      <div className="text-center mb-16">
+        <div className="relative inline-block mb-6">
+          <div className="flex items-center justify-center gap-4">
+            <div className="relative">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                <Sparkles className="w-7 h-7 text-white" />
+              </div>
+              <div className="absolute -inset-2 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-lg"></div>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+              Fresh AI Picks
+            </h2>
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Fresh AI Picks
-          </h2>
+          {/* Animated underline */}
+          <div className="mt-4 h-1 w-32 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
         </div>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+        <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
           Discover new and popular movies handpicked by our AI algorithm
         </p>
       </div>
 
-      {/* Movies Grid */}
+      {/* Enhanced Movies Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {Array.from({ length: 6 }).map((_, index) => (
-            <SkeletonCard key={index} />
+            <div
+              key={index}
+              className="glass-card rounded-2xl p-4 animate-pulse"
+            >
+              <SkeletonCard />
+            </div>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {aiPickedMovies.map((movie: Movie) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {aiPickedMovies.map((movie: Movie, index) => (
             <div
               key={movie.id}
-              className="transform hover:scale-105 transition-transform duration-300"
+              className="group relative transform hover:scale-105 transition-all duration-500 ease-out"
+              style={{
+                animationDelay: `${index * 100}ms`,
+                animation: "fadeInUp 0.8s ease-out forwards",
+              }}
             >
-              <MovieCard
-                movie={movie}
-                genres={genres}
-                currentMovies={aiPickedMovies}
-              />
+              {/* Glow effect on hover */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+
+              {/* Movie Card Container */}
+              <div className="relative glass-card-hover rounded-2xl overflow-hidden">
+                <MovieCard
+                  movie={movie}
+                  genres={genres}
+                  currentMovies={aiPickedMovies}
+                />
+              </div>
+
+              {/* Floating number indicator */}
+              <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg backdrop-blur-sm border border-white/20">
+                {index + 1}
+              </div>
             </div>
           ))}
         </div>
