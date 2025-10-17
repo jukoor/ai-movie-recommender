@@ -91,7 +91,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
 
   return (
     <motion.div
-      className="bg-white rounded-xl h-full shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group"
+      className="glass-card glass-card-hover rounded-xl h-full overflow-hidden group border border-gray-700/30"
       animate={{
         scale: isAnimating ? [1, 1.02, 1] : 1,
       }}
@@ -126,10 +126,10 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         </div>
         <motion.button
           onClick={handleFavorite}
-          className={`absolute top-4 left-4 rounded-full p-2 shadow flex items-center transition-all duration-300 ${
+          className={`absolute top-4 left-4 rounded-full p-2 shadow flex items-center transition-all duration-300 backdrop-blur-sm border ${
             isFavorite
-              ? "bg-rose-500 text-white shadow-lg shadow-rose-500/25"
-              : "bg-white/90 hover:bg-white text-rose-600 hover:shadow-lg"
+              ? "bg-rose-500/90 text-white shadow-lg shadow-rose-500/25 border-rose-400/50"
+              : "bg-gray-800/80 hover:bg-gray-700/90 text-rose-400 hover:text-rose-300 hover:shadow-lg border-gray-600/50 hover:border-rose-400/50"
           }`}
           aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
           title={isFavorite ? "Remove from favorites" : "Add to favorites"}
@@ -155,7 +155,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           >
             <Star
               className={`w-5 h-5 transition-colors duration-300 ${
-                isFavorite ? "text-white" : "text-rose-600"
+                isFavorite ? "text-white" : "text-rose-400"
               }`}
               fill={isFavorite ? "currentColor" : "none"}
             />
@@ -198,7 +198,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
       <div className="p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
           <h3
-            className="text-xl font-bold text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors cursor-pointer"
+            className="text-xl font-bold text-white leading-tight group-hover:text-emerald-400 transition-colors cursor-pointer"
             onClick={() =>
               navigate(`/movie/${movie.id}`, {
                 state: {
@@ -213,7 +213,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           </h3>
         </div>
 
-        <div className="flex items-center gap-4 text-sm text-slate-600 mb-4">
+        <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
           <div className="flex items-center gap-1">
             <Calendar className="w-4 h-4" />
             {movie.release_date.split("-")[0]}
@@ -225,14 +225,14 @@ export const MovieCard: React.FC<MovieCardProps> = ({
             <span
               key={index}
               style={{ fontSize: "10px" }}
-              className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full font-medium hover:bg-emerald-100 hover:text-emerald-800 transition-colors"
+              className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full font-medium hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors backdrop-blur-sm border border-gray-600/30"
             >
               {genres.find((g) => g.id === genre)?.name || "Unknown"}
             </span>
           ))}
         </div>
 
-        <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
+        <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
           {movie.overview}
         </p>
       </div>

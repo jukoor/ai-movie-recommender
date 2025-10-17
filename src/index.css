@@ -21,6 +21,12 @@
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
+/* Dark mode body styles */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 /* Dark mode custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Search, X, ChevronDown } from "lucide-react";
 
 interface SearchBarProps {
@@ -18,6 +19,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState(searchTerm);
   const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({
+    top: 0,
+    left: 0,
+    width: 0,
+  });
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -30,24 +38,83 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     onSearchChange("");
   };
 
+  const handleDropdownToggle = () => {
+    if (!isGenreDropdownOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY + 4,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      });
+    }
+    setIsGenreDropdownOpen(!isGenreDropdownOpen);
+  };
+
+  // Handle dropdown interactions
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isGenreDropdownOpen) return;
+
+      if (event.key === "Escape") {
+        setIsGenreDropdownOpen(false);
+      }
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsGenreDropdownOpen(false);
+      }
+    };
+
+    const updatePosition = () => {
+      if (buttonRef.current && isGenreDropdownOpen) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        setDropdownPosition({
+          top: rect.bottom + window.scrollY + 4,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+        });
+      }
+    };
+
+    if (isGenreDropdownOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", updatePosition);
+      window.addEventListener("resize", updatePosition);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", updatePosition);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [isGenreDropdownOpen]);
+
   return (
     <div className="w-full max-w-4xl mx-auto mb-12 px-4">
-      <div className="flex flex-col gap-3 items-stretch bg-white rounded-xl shadow-lg p-4 border border-slate-100">
+      <div className="flex flex-col gap-3 items-stretch glass-card rounded-xl p-4 border border-gray-700/30">
         {/* Search Input and Genre Filter Row */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
               placeholder="Search your favorite movies..."
               value={inputValue}
               onChange={handleInputChange}
-              className="w-full pl-12 pr-12 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-slate-700 placeholder-slate-400 bg-slate-50 focus:bg-white"
+              className="w-full pl-12 pr-12 py-3 border border-gray-600/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-white placeholder-gray-400 bg-gray-800/50 focus:bg-gray-800/70 backdrop-blur-sm"
             />
             {inputValue && (
               <button
                 onClick={handleClear}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400 hover:text-slate-600 transition-colors duration-200 focus:outline-none"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 hover:text-gray-200 transition-colors duration-200 focus:outline-none"
                 aria-label="Clear search"
                 title="Clear search"
               >
@@ -60,61 +127,77 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           {availableGenres.length > 0 && (
             <div className="relative sm:w-48">
               <button
-                onClick={() => setIsGenreDropdownOpen(!isGenreDropdownOpen)}
-                className="w-full px-4 py-2.5 border border-slate-200 rounded-lg bg-slate-50 hover:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-left flex items-center justify-between"
+                ref={buttonRef}
+                onClick={handleDropdownToggle}
+                className="w-full px-4 py-2.5 border border-gray-600/30 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-left flex items-center justify-between backdrop-blur-sm"
+                aria-expanded={isGenreDropdownOpen}
+                aria-haspopup="listbox"
               >
-                <span className="text-slate-700 truncate">
+                <span className="text-white truncate">
                   {selectedGenre || "All genres"}
                 </span>
                 <ChevronDown
-                  className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
                     isGenreDropdownOpen ? "rotate-180" : ""
                   }`}
                 />
               </button>
 
-              {isGenreDropdownOpen && (
-                <>
-                  {/* Backdrop to close dropdown */}
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setIsGenreDropdownOpen(false)}
-                  />
+              {isGenreDropdownOpen &&
+                createPortal(
+                  <>
+                    {/* Backdrop to close dropdown */}
+                    <div className="fixed inset-0 z-40" aria-hidden="true" />
 
-                  {/* Dropdown content */}
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-20 max-h-60 overflow-y-auto">
-                    <button
-                      onClick={() => {
-                        onGenreChange("");
-                        setIsGenreDropdownOpen(false);
+                    {/* Dropdown content */}
+                    <div
+                      ref={dropdownRef}
+                      className="fixed glass-card border border-gray-600/30 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto backdrop-blur-md"
+                      style={{
+                        top: `${dropdownPosition.top}px`,
+                        left: `${dropdownPosition.left}px`,
+                        width: `${dropdownPosition.width}px`,
                       }}
-                      className={`w-full px-4 py-2.5 text-left hover:bg-slate-50 transition-colors duration-150 ${
-                        !selectedGenre
-                          ? "bg-emerald-50 text-emerald-700 font-medium"
-                          : "text-slate-700"
-                      }`}
                     >
-                      All genres
-                    </button>
-                    {availableGenres.map((genre) => (
-                      <button
-                        key={genre}
-                        onClick={() => {
-                          onGenreChange(genre);
-                          setIsGenreDropdownOpen(false);
-                        }}
-                        className={`w-full px-4 py-2.5 text-left hover:bg-slate-50 transition-colors duration-150 ${
-                          selectedGenre === genre
-                            ? "bg-emerald-50 text-emerald-700 font-medium"
-                            : "text-slate-700"
-                        }`}
-                      >
-                        {genre}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
+                      <div role="listbox" className="py-1">
+                        <button
+                          role="option"
+                          aria-selected={!selectedGenre}
+                          onClick={() => {
+                            onGenreChange("");
+                            setIsGenreDropdownOpen(false);
+                          }}
+                          className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 ${
+                            !selectedGenre
+                              ? "bg-emerald-500/20 text-emerald-300 font-medium"
+                              : "text-gray-300"
+                          }`}
+                        >
+                          All genres
+                        </button>
+                        {availableGenres.map((genre) => (
+                          <button
+                            key={genre}
+                            role="option"
+                            aria-selected={selectedGenre === genre}
+                            onClick={() => {
+                              onGenreChange(genre);
+                              setIsGenreDropdownOpen(false);
+                            }}
+                            className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 ${
+                              selectedGenre === genre
+                                ? "bg-emerald-500/20 text-emerald-300 font-medium"
+                                : "text-gray-300"
+                            }`}
+                          >
+                            {genre}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </>,
+                  document.body
+                )}
             </div>
           )}
         </div>

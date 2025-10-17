@@ -12,7 +12,7 @@ export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
   const { genres } = useReadGenres();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-transparent">
       <div className="max-w-7xl mx-auto px-4" style={{ paddingBottom: 80 }}>
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
