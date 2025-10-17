@@ -14,15 +14,17 @@ export const AboutPage: React.FC = () => {
         <div className="min-h-screen text-gray-100 mx-auto max-w-5xl">
           {/* Hero Section */}
           <div className="relative overflow-hidden">
-            <div className="relative max-w-4xl mx-auto px-6 py-20">
+            <div className="relative max-w-4xl mx-auto px-4 py-1">
               <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl mb-6">
-                  <Sparkles className="w-8 h-8 text-white" />
+                <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
+                  <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 animate-fadeIn">
+                    About PopcornAI
+                  </h1>
                 </div>
-                <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                  About PopcornAI
-                </h1>
-                <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                <p
+                  className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
+                  style={{ animationDelay: "200ms", animationFillMode: "both" }}
+                >
                   Modern movie recommendations app powered by React and AI
                 </p>
               </div>

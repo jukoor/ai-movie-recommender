@@ -66,16 +66,10 @@ export const AiRecommender = () => {
       {/* Hero Header */}
       <div className="container mx-auto px-6 py-20 flex-1 flex flex-col">
         <div className="text-center mb-16">
-          <div className="relative inline-block">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fadeIn">
-              <span className="text-white">AI Movie</span>
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-pulse">
-                Discovery
-              </span>
+          <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-fadeIn">
+              AI Movie Discovery
             </h1>
-            {/* Glowing effect behind text */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 blur-2xl -z-10"></div>
           </div>
           <p
             className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto animate-fadeIn leading-relaxed"

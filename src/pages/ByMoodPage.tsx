@@ -77,23 +77,21 @@ export const ByMoodPage: React.FC = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-fadeIn">
               Movie Mood Search
             </h1>
           </div>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p
+            className="text-xl text-gray-300 max-w-3xl mx-auto animate-fadeIn"
+            style={{ animationDelay: "200ms", animationFillMode: "both" }}
+          >
             Let PopcornAI find the perfect movies based on how you're feeling.
             <br />
             Slide to choose an emoji that matches your mood!
           </p>
-        </motion.div>
+        </div>
 
         {/* Mood Selector */}
         <motion.div
