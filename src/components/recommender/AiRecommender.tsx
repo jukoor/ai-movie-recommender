@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { useReadGenres } from "../../hooks/useReadGenres";
 import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations";
+import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 
@@ -30,6 +31,8 @@ export const AiRecommender = () => {
     minWordCount: 2,
     maxInputLength: 100,
   });
+
+  const gridRef = useEqualRowHeights([replyMovies], true);
 
   // Restore movies from location state when coming back from detail page
   useEffect(() => {
@@ -245,7 +248,13 @@ export const AiRecommender = () => {
             </div>
 
             {/* Movies Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div
+              ref={gridRef}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              style={{
+                gridAutoRows: "minmax(auto, max-content)",
+              }}
+            >
               {replyMovies.map((movie, index) => (
                 <motion.div
                   key={movie.id}

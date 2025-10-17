@@ -3,6 +3,7 @@ import { Sparkles } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 import { useReadGenres } from "../../hooks/useReadGenres";
 import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations";
+import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 import { SkeletonCard } from "../skeleton/SkeletonCard";
 import { Movie } from "../../types/tmdb/Movie";
 
@@ -21,6 +22,8 @@ export const AiPicksSection: React.FC = () => {
     minInputLength: 5,
     minWordCount: 1,
   });
+
+  const gridRef = useEqualRowHeights([aiPickedMovies], true);
 
   // Automatically get AI recommendations for fresh popular movies when component mounts
   useEffect(() => {
@@ -74,7 +77,12 @@ export const AiPicksSection: React.FC = () => {
 
       {/* Enhanced Movies Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          style={{
+            gridAutoRows: "minmax(auto, max-content)",
+          }}
+        >
           {Array.from({ length: 6 }).map((_, index) => (
             <div
               key={index}
@@ -85,7 +93,13 @@ export const AiPicksSection: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          style={{
+            gridAutoRows: "minmax(auto, max-content)",
+          }}
+        >
           {aiPickedMovies.map((movie: Movie, index) => (
             <div
               key={movie.id}

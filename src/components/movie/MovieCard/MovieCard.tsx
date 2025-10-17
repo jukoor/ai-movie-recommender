@@ -91,7 +91,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
 
   return (
     <motion.div
-      className="glass-card glass-card-hover rounded-xl h-full overflow-hidden group border border-gray-700/30"
+      className="glass-card glass-card-hover rounded-xl h-full overflow-hidden group border border-gray-700/30 flex flex-col"
       animate={{
         scale: isAnimating ? [1, 1.02, 1] : 1,
       }}
@@ -195,7 +195,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         </motion.button>
       </div>
 
-      <div className="p-6">
+      <div className="p-6 flex-1 flex flex-col">
         <div className="flex items-start justify-between gap-4 mb-3">
           <h3
             className="text-xl font-bold text-white leading-tight group-hover:text-emerald-400 transition-colors cursor-pointer"
@@ -232,7 +232,16 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           ))}
         </div>
 
-        <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+        <p
+          className="text-gray-300 text-sm leading-relaxed mb-4 flex-1 overflow-hidden"
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 4,
+            WebkitBoxOrient: "vertical",
+            lineHeight: "1.5rem",
+            maxHeight: "6rem", // 4 lines * 1.5rem line-height
+          }}
+        >
           {movie.overview}
         </p>
       </div>

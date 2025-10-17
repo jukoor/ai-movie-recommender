@@ -2,11 +2,12 @@ import { ArrowRight, Link, Star } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 import { useReadTopRatedMovies } from "../../hooks/useReadTopRatedMovies";
 import { useReadGenres } from "../../hooks/useReadGenres";
+import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 
 export const TopRatedMoviesSection: React.FC = () => {
-  const { topRatedMovies, loading, error } = useReadTopRatedMovies();
-
+  const { topRatedMovies } = useReadTopRatedMovies();
   const { genres } = useReadGenres();
+  const gridRef = useEqualRowHeights([topRatedMovies], true);
 
   return (
     <section className="max-w-7xl mx-auto px-4">
@@ -14,7 +15,13 @@ export const TopRatedMoviesSection: React.FC = () => {
         <Star className="w-6 h-6 text-emerald-600" />
         <h2 className="text-3xl font-bold text-slate-800">Featured Movies</h2>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        ref={gridRef}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        style={{
+          gridAutoRows: "minmax(auto, max-content)",
+        }}
+      >
         {topRatedMovies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} genres={genres} />
         ))}

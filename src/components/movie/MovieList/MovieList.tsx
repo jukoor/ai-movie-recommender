@@ -1,6 +1,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReadGenres } from "../../../hooks/useReadGenres";
+import { useEqualRowHeights } from "../../../hooks/useEqualRowHeights";
 import { Movie } from "../../../types/tmdb/Movie";
 import { MovieCard } from "../MovieCard/MovieCard";
 
@@ -10,12 +11,17 @@ interface MovieListProps {
 
 export const MovieList: React.FC<MovieListProps> = ({ movies }) => {
   const { genres } = useReadGenres();
+  const gridRef = useEqualRowHeights([movies], true);
 
   return (
     <div className="min-h-screen bg-transparent">
       <div className="max-w-7xl mx-auto px-4" style={{ paddingBottom: 80 }}>
         <motion.div
+          ref={gridRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          style={{
+            gridAutoRows: "minmax(auto, max-content)",
+          }}
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           layout

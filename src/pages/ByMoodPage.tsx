@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReadGenres } from "../hooks/useReadGenres";
 import { useAiMovieRecommendations } from "../hooks/useAiMovieRecommendations";
+import { useEqualRowHeights } from "../hooks/useEqualRowHeights";
 import { MoodSelector } from "../components/mood/MoodSelector/MoodSelector";
 import { MovieCard } from "../components/movie/MovieCard/MovieCard";
 import { RefreshCw, AlertCircle, Sparkles } from "lucide-react";
@@ -23,6 +24,8 @@ export const ByMoodPage: React.FC = () => {
       minWordCount: 2,
       maxInputLength: 200,
     });
+
+  const gridRef = useEqualRowHeights([movies], true);
 
   const searchMoviesByMood = async (query: string) => {
     setShowResults(false);
@@ -209,10 +212,14 @@ export const ByMoodPage: React.FC = () => {
 
               {/* Movie Grid */}
               <motion.div
+                ref={gridRef}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+                style={{
+                  gridAutoRows: "minmax(auto, max-content)",
+                }}
               >
                 {movies
                   .sort((a, b) => b.popularity - a.popularity)
