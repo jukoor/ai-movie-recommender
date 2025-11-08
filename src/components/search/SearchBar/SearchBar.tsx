@@ -103,22 +103,30 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         {/* Search Input and Genre Filter Row */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <label htmlFor="movie-search" className="sr-only">
+              Search movies by title
+            </label>
+            <Search
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+              aria-hidden="true"
+            />
             <input
+              id="movie-search"
               type="text"
               placeholder="Search your favorite movies..."
               value={inputValue}
               onChange={handleInputChange}
+              aria-label="Search movies by title"
               className="w-full pl-12 pr-12 py-3 border border-gray-600/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-white placeholder-gray-400 bg-gray-800/50 focus:bg-gray-800/70 backdrop-blur-sm"
             />
             {inputValue && (
               <button
                 onClick={handleClear}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 hover:text-gray-200 transition-colors duration-200 focus:outline-none"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                 aria-label="Clear search"
                 title="Clear search"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -132,6 +140,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 className="w-full px-4 py-2.5 border border-gray-600/30 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-left flex items-center justify-between backdrop-blur-sm"
                 aria-expanded={isGenreDropdownOpen}
                 aria-haspopup="listbox"
+                aria-label={`Filter by genre, currently selected: ${
+                  selectedGenre || "All genres"
+                }`}
               >
                 <span className="text-white truncate">
                   {selectedGenre || "All genres"}
@@ -140,6 +151,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
                     isGenreDropdownOpen ? "rotate-180" : ""
                   }`}
+                  aria-hidden="true"
                 />
               </button>
 
@@ -159,7 +171,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                         width: `${dropdownPosition.width}px`,
                       }}
                     >
-                      <div role="listbox" className="py-1">
+                      <div
+                        role="listbox"
+                        aria-label="Filter movies by genre"
+                        className="py-1"
+                      >
                         <button
                           role="option"
                           aria-selected={!selectedGenre}
@@ -167,7 +183,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                             onGenreChange("");
                             setIsGenreDropdownOpen(false);
                           }}
-                          className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 ${
+                          className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 focus:ring-2 focus:ring-emerald-500/50 ${
                             !selectedGenre
                               ? "bg-emerald-500/20 text-emerald-300 font-medium"
                               : "text-gray-300"
@@ -184,7 +200,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                               onGenreChange(genre);
                               setIsGenreDropdownOpen(false);
                             }}
-                            className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 ${
+                            className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 focus:ring-2 focus:ring-emerald-500/50 ${
                               selectedGenre === genre
                                 ? "bg-emerald-500/20 text-emerald-300 font-medium"
                                 : "text-gray-300"

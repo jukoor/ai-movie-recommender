@@ -91,12 +91,15 @@ export const AiRecommender = () => {
               htmlFor="ai-movie-recommendations"
               className="mb-2 text-sm font-medium text-white sr-only"
             >
-              Get AI Recommendations
+              Get AI Movie Recommendations
             </label>
 
             <div className="relative glass-card rounded-2xl p-2">
               <div className="absolute inset-y-0 start-0 flex items-center ps-6 pointer-events-none z-10">
-                <Search className="w-5 h-5 text-purple-400" />
+                <Search
+                  className="w-5 h-5 text-purple-400"
+                  aria-hidden="true"
+                />
               </div>
               <input
                 type="search"
@@ -113,20 +116,35 @@ export const AiRecommender = () => {
                 placeholder="Describe your ideal movie..."
                 autoComplete="off"
                 disabled={loading}
+                aria-label="Describe your ideal movie to get AI recommendations"
+                aria-describedby="ai-recommender-instructions"
               />
+              <span id="ai-recommender-instructions" className="sr-only">
+                Enter a description of movies you want to watch, such as genre,
+                mood, or theme
+              </span>
               <button
                 type="submit"
                 disabled={loading}
+                aria-disabled={loading}
+                aria-label={
+                  loading
+                    ? "Fetching movie recommendations"
+                    : "Get movie recommendations"
+                }
                 className="absolute right-2 top-2 bottom-2 px-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 backdrop-blur-sm"
               >
                 {loading ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <RefreshCw
+                      className="w-4 h-4 animate-spin"
+                      aria-hidden="true"
+                    />
                     Fetching...
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4" />
+                    <Sparkles className="w-4 h-4" aria-hidden="true" />
                     Get Movies
                   </>
                 )}
@@ -137,9 +155,16 @@ export const AiRecommender = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="flex justify-center mb-8">
+          <div
+            className="flex justify-center mb-8"
+            role="alert"
+            aria-live="assertive"
+          >
             <div className="flex items-center gap-3 glass-card bg-red-500/10 border-red-500/30 text-red-300 px-6 py-4 rounded-xl shadow-lg max-w-md backdrop-blur-md">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <AlertCircle
+                className="w-5 h-5 flex-shrink-0"
+                aria-hidden="true"
+              />
               <span className="text-sm font-medium">{error}</span>
             </div>
           </div>
@@ -147,11 +172,17 @@ export const AiRecommender = () => {
 
         {/* Modern Quick Search Tags */}
         <div className="flex justify-center mb-12">
-          <div className="flex flex-wrap gap-3 max-w-4xl justify-center">
+          <div
+            className="flex flex-wrap gap-3 max-w-4xl justify-center"
+            role="group"
+            aria-label="Quick search suggestions"
+          >
             {quickSearchTags.map((tag) => (
               <button
                 key={tag}
                 onClick={() => handleQuickSearch(tag)}
+                aria-label={`Quick search for ${tag} movies`}
+                aria-pressed={activeQuickSearchTag === tag}
                 className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 backdrop-blur-md border focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${
                   activeQuickSearchTag === tag
                     ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white border-transparent shadow-lg transform scale-105"
@@ -164,6 +195,18 @@ export const AiRecommender = () => {
             ))}
           </div>
         </div>
+
+        {/* Loading announcement for screen readers */}
+        {loading && (
+          <div
+            className="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            Finding your perfect movies based on your preferences
+          </div>
+        )}
 
         {/* Modern Loading State */}
         <AnimatePresence>
@@ -236,6 +279,9 @@ export const AiRecommender = () => {
                 },
               },
             }}
+            role="region"
+            aria-label="AI-curated movie recommendations"
+            aria-live="polite"
           >
             {/* Results Header */}
             <div className="text-center mb-12">

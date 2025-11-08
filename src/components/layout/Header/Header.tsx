@@ -82,16 +82,24 @@ export const NavBar = () => {
   };
 
   return (
-    <header className="glass-card border-b border-purple-500/20 sticky top-0 z-50 shadow-2xl shadow-purple-500/10">
+    <header
+      className="glass-card border-b border-purple-500/20 sticky top-0 z-50 shadow-2xl shadow-purple-500/10"
+      role="banner"
+    >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link
+            to="/"
+            className="flex items-center gap-3 group"
+            aria-label="PopcornAI Home"
+          >
             <div className="relative p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300 shadow-lg group-hover:shadow-xl transform group-hover:scale-105 shadow-purple-500/30">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-xl"></div>
               <div
                 className="relative w-6 h-6 text-white text-xl"
                 style={{ fontSize: "26px", left: "-1px", top: "-2px" }}
+                aria-hidden="true"
               >
                 🍿
               </div>
@@ -107,7 +115,11 @@ export const NavBar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav
+            className="hidden md:flex items-center gap-1"
+            role="navigation"
+            aria-label="Main navigation"
+          >
             {loading ? (
               // Skeleton for desktop navigation
               <>
@@ -133,18 +145,26 @@ export const NavBar = () => {
                       key={item.name}
                       to={item.href}
                       className={({ isActive, isPending }) =>
-                        `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 relative group ` +
+                        `flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 relative group focus:outline-none focus:ring-2 focus:ring-purple-500/50 ` +
                         (isPending
                           ? "pending"
                           : isActive
                           ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30 shadow-lg shadow-purple-500/10"
                           : "text-gray-300 hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent")
                       }
+                      aria-label={`Navigate to ${item.name}`}
                     >
-                      <Icon className="w-4 h-4" />
-                      {item.name}
-                      {/* Active indicator */}
-                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                      {({ isActive }) => (
+                        <>
+                          <Icon className="w-4 h-4" aria-hidden="true" />
+                          {item.name}
+                          {/* Active indicator */}
+                          <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                          {isActive && (
+                            <span className="sr-only">(current page)</span>
+                          )}
+                        </>
+                      )}
                     </NavLink>
                   );
                 })}
@@ -152,9 +172,15 @@ export const NavBar = () => {
                   <div className="relative ml-4" ref={dropdownRef}>
                     <button
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg glass-card hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40"
+                      aria-expanded={isDropdownOpen}
+                      aria-haspopup="true"
+                      aria-label={`Account menu for ${user?.email}`}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg glass-card hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                     >
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold">
+                      <div
+                        className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold"
+                        aria-hidden="true"
+                      >
                         {user?.email ? getAvatarInitials(user.email) : "U"}
                       </div>
                       <span className="text-xs text-gray-300 max-w-32 truncate">
@@ -164,16 +190,21 @@ export const NavBar = () => {
                         className={`w-4 h-4 text-purple-400 transition-transform ${
                           isDropdownOpen ? "rotate-180" : ""
                         }`}
+                        aria-hidden="true"
                       />
                     </button>
 
                     {isDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-48 glass-card rounded-lg shadow-xl border border-purple-500/20 py-1 z-50 backdrop-blur-lg">
+                      <div
+                        className="absolute right-0 mt-2 w-48 glass-card rounded-lg shadow-xl border border-purple-500/20 py-1 z-50 backdrop-blur-lg"
+                        role="menu"
+                      >
                         <button
                           onClick={handleLogout}
-                          className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors flex items-center gap-2"
+                          role="menuitem"
+                          className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors flex items-center gap-2 focus:outline-none focus:bg-purple-500/10"
                         >
-                          <LogOut className="w-4 h-4" />
+                          <LogOut className="w-4 h-4" aria-hidden="true" />
                           Logout
                         </button>
                       </div>
@@ -182,9 +213,10 @@ export const NavBar = () => {
                 ) : (
                   <button
                     onClick={() => setIsLoginOpen(true)}
-                    className="ml-4 px-4 py-2 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 border border-purple-500/20 hover:border-purple-500/40"
+                    aria-label="Open login dialog"
+                    className="ml-4 px-4 py-2 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   >
-                    <LogIn className="w-4 h-4" />
+                    <LogIn className="w-4 h-4" aria-hidden="true" />
                     Login
                   </button>
                 )}
@@ -195,12 +227,14 @@ export const NavBar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40"
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Toggle mobile menu"
+            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
           >
             {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6" aria-hidden="true" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu className="w-6 h-6" aria-hidden="true" />
             )}
           </button>
         </div>

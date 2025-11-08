@@ -130,13 +130,22 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
 
         {/* Custom Slider */}
         <div className="relative mb-8">
+          <label htmlFor="mood-slider" className="sr-only">
+            Select your mood using the slider (currently:{" "}
+            {moods[currentIndex].label})
+          </label>
           <input
+            id="mood-slider"
             type="range"
             min="0"
             max={moods.length - 1}
             value={currentIndex}
             onChange={handleSliderChange}
-            className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer focus:outline-none focus:shadow-none slider-thumb"
+            aria-valuemin={0}
+            aria-valuemax={moods.length - 1}
+            aria-valuenow={currentIndex}
+            aria-valuetext={`${moods[currentIndex].label}: ${moods[currentIndex].description}`}
+            className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/50 slider-thumb"
           />
 
           {/* Mood Labels on Slider */}
@@ -145,13 +154,17 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
               <button
                 key={mood.id}
                 onClick={() => handleMoodClick(mood, index)}
-                className={`flex flex-col items-center transition-all duration-300 focus:outline-none focus:shadow-none ${
+                aria-label={`Select ${mood.label} mood: ${mood.description}`}
+                aria-pressed={index === currentIndex}
+                className={`flex flex-col items-center transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 rounded-lg p-2 ${
                   index === currentIndex
                     ? "transform scale-110"
                     : "opacity-60 hover:opacity-80"
                 }`}
               >
-                <div className="text-2xl mb-1">{mood.emoji}</div>
+                <div className="text-2xl mb-1" aria-hidden="true">
+                  {mood.emoji}
+                </div>
                 <span
                   className={`text-xs font-medium ${mood.color} hidden sm:block`}
                 >
@@ -168,12 +181,13 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => onMoodSelect(moods[currentIndex])}
-            className="group relative px-8 py-4 rounded-full font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-500/20 overflow-hidden"
+            aria-label={`Find movies that match your ${moods[currentIndex].label} mood`}
+            className="group relative px-8 py-4 rounded-full font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-500/20 overflow-hidden focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2"
           >
             {/* Shimmer effect */}
             <div className="absolute inset-0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             <div className="relative z-10 flex items-center gap-2">
-              <WandSparkles className="w-5 h-5" />
+              <WandSparkles className="w-5 h-5" aria-hidden="true" />
               Find {moods[currentIndex].label} Movies
             </div>
           </motion.button>

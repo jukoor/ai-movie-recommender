@@ -166,8 +166,16 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         {/* Content */}
         <div className="p-8">
           {/* Tab switcher */}
-          <div className="flex gap-1 mb-8 p-1 bg-gray-800/30 rounded-lg border border-gray-700/30">
+          <div
+            className="flex gap-1 mb-8 p-1 bg-gray-800/30 rounded-lg border border-gray-700/30"
+            role="tablist"
+            aria-label="Authentication type"
+          >
             <button
+              role="tab"
+              aria-selected={dialogTab === "login"}
+              aria-controls="login-panel"
+              id="login-tab"
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                 dialogTab === "login"
                   ? "bg-emerald-500/15 text-emerald-300 shadow-sm border border-emerald-500/20"
@@ -178,6 +186,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               Sign In
             </button>
             <button
+              role="tab"
+              aria-selected={dialogTab === "signup"}
+              aria-controls="signup-panel"
+              id="signup-tab"
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                 dialogTab === "signup"
                   ? "bg-emerald-500/15 text-emerald-300 shadow-sm border border-emerald-500/20"
@@ -189,122 +201,172 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
             </button>
           </div>
 
-          {dialogTab === "login" ? (
-            <form onSubmit={handleLoginSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
+          <div
+            id={dialogTab === "login" ? "login-panel" : "signup-panel"}
+            role="tabpanel"
+            aria-labelledby={dialogTab === "login" ? "login-tab" : "signup-tab"}
+          >
+            {dialogTab === "login" ? (
+              <form onSubmit={handleLoginSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  <div className="relative">
+                    <label htmlFor="login-email" className="sr-only">
+                      Email address
+                    </label>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      ref={emailRef}
+                      id="login-email"
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      required
+                      autoComplete="email"
+                      aria-required="true"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
+                    />
                   </div>
-                  <input
-                    ref={emailRef}
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
-                  />
-                </div>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
+                  <div className="relative">
+                    <label htmlFor="login-password" className="sr-only">
+                      Password
+                    </label>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Lock className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      ref={passwordRef}
+                      id="login-password"
+                      name="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      required
+                      autoComplete="current-password"
+                      aria-required="true"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
+                    />
                   </div>
-                  <input
-                    ref={passwordRef}
-                    type="password"
-                    placeholder="Enter your password"
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
-                  />
                 </div>
-              </div>
 
-              <div className="space-y-3">
+                <div className="space-y-3">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    aria-disabled={loading}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg px-6 py-3 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+                  >
+                    {loading ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div
+                          className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"
+                          role="status"
+                          aria-label="Signing in"
+                        ></div>
+                        Signing in...
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center gap-2">
+                        <LogIn className="w-5 h-5" aria-hidden="true" />
+                        Sign In
+                      </div>
+                    )}
+                  </button>
+
+                  <div className="relative" role="separator" aria-label="or">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-600/50"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-3 glass-card text-gray-300">or</span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleDemoLogin}
+                    disabled={loading}
+                    aria-disabled={loading}
+                    aria-label="Try demo account with pre-filled credentials"
+                    className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-lg px-6 py-3 font-medium focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                  >
+                    <Sparkles className="w-5 h-5" aria-hidden="true" />
+                    {loading ? "Accessing demo..." : "Try Demo Account"}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleSignupSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  <div className="relative">
+                    <label htmlFor="signup-email" className="sr-only">
+                      Email address
+                    </label>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      ref={emailRef}
+                      id="signup-email"
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      required
+                      autoComplete="email"
+                      aria-required="true"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
+                    />
+                  </div>
+                  <div className="relative">
+                    <label htmlFor="signup-password" className="sr-only">
+                      Password
+                    </label>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Lock className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      ref={passwordRef}
+                      id="signup-password"
+                      name="password"
+                      type="password"
+                      placeholder="Create a password"
+                      required
+                      autoComplete="new-password"
+                      aria-required="true"
+                      aria-describedby="password-requirements"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
+                    />
+                    <p id="password-requirements" className="sr-only">
+                      Password must be at least 6 characters long
+                    </p>
+                  </div>
+                </div>
+
                 <button
                   type="submit"
                   disabled={loading}
+                  aria-disabled={loading}
                   className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg px-6 py-3 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center gap-2">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      Signing in...
+                      <div
+                        className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"
+                        role="status"
+                        aria-label="Creating account"
+                      ></div>
+                      Creating account...
                     </div>
                   ) : (
                     <div className="flex items-center justify-center gap-2">
-                      <LogIn className="w-5 h-5" />
-                      Sign In
+                      <UserPlus className="w-5 h-5" aria-hidden="true" />
+                      Create Account
                     </div>
                   )}
                 </button>
-
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-600/50"></div>
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-3 glass-card text-gray-300">or</span>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleDemoLogin}
-                  disabled={loading}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-lg px-6 py-3 font-medium focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                >
-                  <Sparkles className="w-5 h-5" />
-                  {loading ? "Accessing demo..." : "Try Demo Account"}
-                </button>
-              </div>
-            </form>
-          ) : (
-            <form onSubmit={handleSignupSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    ref={emailRef}
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
-                  />
-                </div>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    ref={passwordRef}
-                    type="password"
-                    placeholder="Create a password"
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg px-6 py-3 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    Creating account...
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <UserPlus className="w-5 h-5" />
-                    Create Account
-                  </div>
-                )}
-              </button>
-            </form>
-          )}
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </Dialog>

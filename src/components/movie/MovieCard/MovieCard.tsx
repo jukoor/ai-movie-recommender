@@ -100,28 +100,42 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         duration: 0.4,
         ease: "easeOut",
       }}
+      role="article"
+      aria-label={`${movie.title} movie card`}
     >
       <div className="relative overflow-hidden">
         <div>
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
+            alt={`${movie.title} movie poster`}
             className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute top-4 right-4 bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
-          <Star className="w-4 h-4 fill-current" />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute top-4 right-4 bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1"
+          role="status"
+          aria-label={`Rating: ${movie.vote_average.toFixed(1)} out of 10`}
+        >
+          <Star className="w-4 h-4 fill-current" aria-hidden="true" />
           {movie.vote_average.toFixed(1)}
         </div>
         <motion.button
           onClick={handleFavorite}
-          className={`absolute top-4 left-4 rounded-full p-2 shadow flex items-center transition-all duration-300 backdrop-blur-sm border ${
+          className={`absolute top-4 left-4 rounded-full p-2 shadow flex items-center transition-all duration-300 backdrop-blur-sm border focus:outline-none focus:ring-2 focus:ring-offset-2 ${
             isFavorite
-              ? "bg-rose-500/90 text-white shadow-lg shadow-rose-500/25 border-rose-400/50"
-              : "bg-gray-800/80 hover:bg-gray-700/90 text-rose-400 hover:text-rose-300 hover:shadow-lg border-gray-600/50 hover:border-rose-400/50"
+              ? "bg-rose-500/90 text-white shadow-lg shadow-rose-500/25 border-rose-400/50 focus:ring-rose-500"
+              : "bg-gray-800/80 hover:bg-gray-700/90 text-rose-400 hover:text-rose-300 hover:shadow-lg border-gray-600/50 hover:border-rose-400/50 focus:ring-rose-400"
           }`}
-          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          aria-label={
+            isFavorite
+              ? `Remove ${movie.title} from favorites`
+              : `Add ${movie.title} to favorites`
+          }
+          aria-pressed={isFavorite}
           title={isFavorite ? "Remove from favorites" : "Add to favorites"}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.85 }}
@@ -148,6 +162,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                 isFavorite ? "text-white" : "text-rose-400"
               }`}
               fill={isFavorite ? "currentColor" : "none"}
+              aria-hidden="true"
             />
           </motion.div>
 
@@ -187,8 +202,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({
 
       <div className="p-6 flex-1 flex flex-col">
         <div className="flex items-start justify-between gap-4 mb-3">
-          <h3
-            className="text-xl font-bold text-white leading-tight group-hover:text-emerald-400 transition-colors cursor-pointer"
+          <button
+            className="text-xl font-bold text-white leading-tight group-hover:text-emerald-400 transition-colors text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
             onClick={() =>
               navigate(`/movie/${movie.id}`, {
                 state: {
@@ -198,22 +213,31 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                 },
               })
             }
+            aria-label={`View details for ${movie.title}`}
           >
             {movie.title}
-          </h3>
+          </button>
         </div>
 
         <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-          <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
+          <div
+            className="flex items-center gap-1"
+            aria-label={`Released in ${movie.release_date.split("-")[0]}`}
+          >
+            <Calendar className="w-4 h-4" aria-hidden="true" />
             {movie.release_date.split("-")[0]}
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div
+          className="flex flex-wrap gap-2 mb-4"
+          role="list"
+          aria-label="Movie genres"
+        >
           {movie.genre_ids.map((genre, index) => (
             <span
               key={index}
+              role="listitem"
               style={{ fontSize: "10px" }}
               className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full font-medium hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors backdrop-blur-sm border border-gray-600/30"
             >
