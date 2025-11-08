@@ -16,6 +16,7 @@ import { getAuth } from "firebase/auth";
 import { Movie } from "../types/tmdb/Movie";
 import { Genre } from "../types/tmdb/Genre";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { MetaTags } from "../components/layout/Header/MetaTags";
 import { useShowToast } from "../context/ToastContext";
 import { db } from "../utils/firebase";
 import { MovieImagePlaceholder } from "../components/ui/MovieImagePlaceholder";
@@ -138,7 +139,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
   };
 
   return (
-    <motion.div
+    <motion.main
       className="min-h-screen bg-dark-gradient"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -149,6 +150,22 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
       }}
     >
       <PageTitle title={movie.title} />
+      <MetaTags
+        title={`${movie.title} - Movie Details | PopcornAI`}
+        description={
+          movie.overview ||
+          `Discover more about ${movie.title} on PopcornAI. View ratings, cast, and personalized recommendations.`
+        }
+        ogTitle={movie.title}
+        ogDescription={movie.overview}
+        ogImage={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
+            : undefined
+        }
+        canonical={`https://popcornai.app/movie/${movie.id}`}
+        ogUrl={`https://popcornai.app/movie/${movie.id}`}
+      />
 
       {/* Hero Section with Backdrop */}
       <motion.div
@@ -628,6 +645,6 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
           </motion.div>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.main>
   );
 };

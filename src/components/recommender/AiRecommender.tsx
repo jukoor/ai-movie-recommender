@@ -182,10 +182,10 @@ export const AiRecommender = () => {
           </div>
         )}
 
-        {/* Modern Quick Search Tags */}
+        {/* Quick Search Tags */}
         <div className="flex justify-center mb-12">
           <div
-            className="flex flex-wrap gap-3 max-w-4xl justify-center"
+            className="flex flex-wrap gap-3 max-w-3xl justify-center"
             role="group"
             aria-label={t.quickSearch.ariaLabel}
           >

@@ -12,6 +12,7 @@ import { LoginDialog } from "../components/auth/LoginDialog/LoginDialog";
 import { MovieList } from "../components/movie/MovieList/MovieList";
 import { SearchBar } from "../components/search/SearchBar/SearchBar";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { MetaTags } from "../components/layout/Header/MetaTags";
 import { favoritesTranslations } from "../translations";
 
 export const FavoritesPage: React.FC = () => {
@@ -120,11 +121,20 @@ export const FavoritesPage: React.FC = () => {
   // Show login prompt if user is not authenticated
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen relative overflow-hidden">
+      <main className="min-h-screen relative overflow-hidden">
         {/* Dark background with gradient overlay */}
-        <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
+        <div
+          className="absolute inset-0 bg-hero-gradient pointer-events-none"
+          aria-hidden="true"
+        ></div>
         <div className="relative z-10">
           <PageTitle title={t.pageTitle} />
+          <MetaTags
+            title="My Favorite Movies - Personalized Collection | PopcornAI"
+            description="Access your personalized collection of favorite movies on PopcornAI. Save and manage your favorite films in one place."
+            canonical="https://popcornai.app/favorites"
+            ogUrl="https://popcornai.app/favorites"
+          />
           <div className="text-center mb-12 mt-16">
             <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
               <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
@@ -158,14 +168,24 @@ export const FavoritesPage: React.FC = () => {
           open={showLoginDialog}
           onClose={() => setShowLoginDialog(false)}
         />
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <main className="min-h-screen relative overflow-hidden">
+      <PageTitle title={t.pageTitle} />
+      <MetaTags
+        title="My Favorite Movies - Personalized Collection | PopcornAI"
+        description="Access your personalized collection of favorite movies on PopcornAI. Save and manage your favorite films in one place."
+        canonical="https://popcornai.app/favorites"
+        ogUrl="https://popcornai.app/favorites"
+      />
       {/* Dark background with gradient overlay */}
-      <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
+      <div
+        className="absolute inset-0 bg-hero-gradient pointer-events-none"
+        aria-hidden="true"
+      ></div>
       <div className="relative z-10">
         <PageTitle title={t.pageTitle} />
 
@@ -267,6 +287,6 @@ export const FavoritesPage: React.FC = () => {
           count={movies.length}
         />
       </div>
-    </div>
+    </main>
   );
 };

@@ -8,6 +8,7 @@ import { MovieCard } from "../components/movie/MovieCard/MovieCard";
 import { SkeletonCard } from "../components/skeleton/SkeletonCard";
 import { RefreshCw, AlertCircle, Sparkles } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { MetaTags } from "../components/layout/Header/MetaTags";
 import { Mood } from "../types/Mood";
 import { byMoodTranslations } from "../translations";
 
@@ -58,11 +59,20 @@ export const ByMoodPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <main className="min-h-screen relative overflow-hidden">
       <PageTitle title={t.pageTitle} />
+      <MetaTags
+        title="Movie Mood Search - Find Films by Your Feelings | PopcornAI"
+        description="Discover movies that match your mood with PopcornAI's intelligent mood-based search. Select an emoji representing how you feel and get personalized movie recommendations."
+        canonical="https://popcornai.app/by-mood"
+        ogUrl="https://popcornai.app/by-mood"
+      />
 
       {/* Dark background with gradient overlay */}
-      <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
+      <div
+        className="absolute inset-0 bg-hero-gradient pointer-events-none"
+        aria-hidden="true"
+      ></div>
 
       {/* Dynamic mood gradient overlay */}
       <div
@@ -71,10 +81,11 @@ export const ByMoodPage: React.FC = () => {
           background: selectedMood ? selectedMood.pageGradient : "transparent",
           opacity: selectedMood ? 1 : 0,
         }}
+        aria-hidden="true"
       ></div>
 
       {/* Animated background particles */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-20 left-20 w-2 h-2 bg-purple-500/30 rounded-full animate-pulse"></div>
         <div className="absolute top-40 right-32 w-1 h-1 bg-blue-500/40 rounded-full animate-pulse delay-1000"></div>
         <div className="absolute bottom-40 left-40 w-1.5 h-1.5 bg-pink-500/30 rounded-full animate-pulse delay-500"></div>
@@ -83,7 +94,7 @@ export const ByMoodPage: React.FC = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
+        <header className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
             <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-fadeIn">
               {t.hero.title}
@@ -97,7 +108,7 @@ export const ByMoodPage: React.FC = () => {
             <br />
             {t.hero.instruction}
           </p>
-        </div>
+        </header>
 
         {/* Mood Selector */}
         <motion.div
@@ -254,6 +265,6 @@ export const ByMoodPage: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </main>
   );
 };

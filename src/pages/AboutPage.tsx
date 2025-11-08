@@ -1,22 +1,44 @@
 import React from "react";
-import { Sparkles, Heart, Brain, Code, Film, Server, Zap } from "lucide-react";
+import {
+  Sparkles,
+  Heart,
+  Brain,
+  Code,
+  Film,
+  Server,
+  Zap,
+  Search,
+  Database,
+  Shield,
+  Rocket,
+} from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { MetaTags } from "../components/layout/Header/MetaTags";
 import { aboutTranslations } from "../translations";
 
 export const AboutPage: React.FC = () => {
   const t = aboutTranslations;
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <main className="min-h-screen relative overflow-hidden">
       <PageTitle title={t.pageTitle} />
+      <MetaTags
+        title="About PopcornAI - AI Movie Recommendation Technology"
+        description="Learn how PopcornAI uses advanced AI technology and TMDB data to deliver personalized movie recommendations. Discover the tech stack behind our intelligent film discovery platform."
+        canonical="https://popcornai.app/about"
+        ogUrl="https://popcornai.app/about"
+      />
 
       {/* Dark background with gradient overlay */}
-      <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
+      <div
+        className="absolute inset-0 bg-hero-gradient pointer-events-none"
+        aria-hidden="true"
+      ></div>
 
       <div className="relative z-10 pt-20 pb-16 px-4">
-        <div className="min-h-screen text-gray-100 mx-auto max-w-5xl">
+        <article className="min-h-screen text-gray-100 mx-auto max-w-5xl">
           {/* Hero Section */}
-          <div className="relative overflow-hidden">
+          <header className="relative overflow-hidden">
             <div className="relative max-w-4xl mx-auto px-4 py-1">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
@@ -32,7 +54,7 @@ export const AboutPage: React.FC = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </header>
 
           {/* Mission Section */}
           <div className="max-w-4xl mx-auto px-6 py-16">
@@ -49,48 +71,135 @@ export const AboutPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Features Section */}
-          {/* <div className="max-w-6xl mx-auto px-6 py-16">
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="group p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300">
-                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-500/30 transition-colors">
-                  <Brain className="w-6 h-6 text-purple-400" />
+          {/* Core Features Section */}
+          <div className="max-w-4xl mx-auto px-6 py-16">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl mb-6">
+                <Rocket className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="text-3xl font-bold mb-4 text-white">
+                Core Features
+              </h2>
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                Smart movie discovery powered by AI and modern APIs
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* AI-Powered Recommendations */}
+              <div className="group p-6 rounded-xl glass-card border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-purple-500/30 transition-colors">
+                    <Brain className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      AI Movie Recommendations
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed">
+                      Natural language queries processed by Mistral-7B LLM via
+                      OpenRouter API. Converts conversational input into
+                      personalized movie suggestions.
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-white">
-                  Smart AI Engine
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  Advanced algorithms analyze your preferences to deliver
-                  personalized movie suggestions
-                </p>
               </div>
 
-              <div className="group p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors">
-                  <Film className="w-6 h-6 text-blue-400" />
+              {/* Mood-Based Search */}
+              <div className="group p-6 rounded-xl glass-card border border-gray-700/30 hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-blue-500/30 transition-colors">
+                    <Search className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Mood-Based Discovery
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed">
+                      Search movies by mood tags, genres, or free text.
+                      Debounced API calls prevent unnecessary requests while
+                      typing.
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-white">
-                  Vast Movie Database
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  Access thousands of films across genres, decades, and cultures
-                </p>
               </div>
 
-              <div className="group p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300">
-                <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-500/30 transition-colors">
-                  <Zap className="w-6 h-6 text-emerald-400" />
+              {/* User Authentication */}
+              <div className="group p-6 rounded-xl glass-card border border-gray-700/30 hover:border-yellow-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-500/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-yellow-500/30 transition-colors">
+                    <Shield className="w-6 h-6 text-yellow-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      User Authentication
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed">
+                      Firebase Authentication with secure login. Persistent
+                      sessions and protected routes for personalized features.
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-white">
-                  Instant Results
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  Get lightning-fast recommendations tailored to your mood and
-                  taste
-                </p>
+              </div>
+
+              {/* Favorites Management */}
+              <div className="group p-6 rounded-xl glass-card border border-gray-700/30 hover:border-pink-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-pink-500/30 transition-colors">
+                    <Heart className="w-6 h-6 text-pink-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Favorites Collection
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed">
+                      Save favorite movies to your personal collection. Data
+                      synced to Firebase Firestore with real-time updates across
+                      devices.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Movie Database */}
+              <div className="group p-6 rounded-xl glass-card border border-gray-700/30 hover:border-red-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-red-500/30 transition-colors">
+                    <Database className="w-6 h-6 text-red-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Extensive Movie Database
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed">
+                      Access to TMDB's database with detailed metadata including
+                      ratings, cast, genres, and high-quality posters for
+                      thousands of movies.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Detailed Movie Info */}
+              <div className="group p-6 rounded-xl glass-card border border-gray-700/30 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-cyan-500/30 transition-colors">
+                    <Film className="w-6 h-6 text-cyan-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Rich Movie Details
+                    </h3>
+                    <p className="text-gray-400 leading-relaxed">
+                      Comprehensive movie pages with synopsis, ratings, release
+                      dates, runtime, and genre information pulled from TMDB
+                      API.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div> */}
+          </div>
 
           {/* Tech Stack Section */}
           <div className="max-w-4xl mx-auto px-6 py-16">
@@ -269,8 +378,8 @@ export const AboutPage: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </article>
       </div>
-    </div>
+    </main>
   );
 };
