@@ -101,18 +101,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         ease: "easeOut",
       }}
     >
-      <div
-        className="relative overflow-hidden cursor-pointer"
-        onClick={() =>
-          navigate(`/movie/${movie.id}`, {
-            state: {
-              movie,
-              genres,
-              previousMovies: currentMovies,
-            },
-          })
-        }
-      >
+      <div className="relative overflow-hidden">
         <div>
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

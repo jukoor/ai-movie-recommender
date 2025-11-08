@@ -12,12 +12,12 @@ export const FavoritesPageSkeleton: React.FC = () => {
       <SkeletonHeadline />
 
       {/* Skeleton movie list */}
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="min-h-screen bg-dark-gradient">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="mb-6">
             <div className="flex items-center justify-between">
               {/* "Showing X movies" skeleton */}
-              <div className="h-5 bg-slate-200 rounded w-32 animate-pulse"></div>
+              <div className="h-5 bg-gray-700 rounded w-32 animate-pulse"></div>
             </div>
           </div>
 

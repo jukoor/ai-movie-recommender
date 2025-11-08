@@ -198,11 +198,9 @@ export const ByMoodPage: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <motion.button
+                  <button
                     onClick={handleRefresh}
                     disabled={loading}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                     className="group relative flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden border border-purple-500/20"
                   >
                     {/* Animated background overlay */}
@@ -225,16 +223,13 @@ export const ByMoodPage: React.FC = () => {
                     <span className="relative z-10">
                       {loading ? "Finding..." : "Refresh"}
                     </span>
-                  </motion.button>
+                  </button>
                 </div>
               </div>
 
               {/* Movie Grid */}
-              <motion.div
+              <div
                 ref={gridRef}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                 style={{
                   gridAutoRows: "minmax(auto, max-content)",
@@ -242,12 +237,9 @@ export const ByMoodPage: React.FC = () => {
               >
                 {movies
                   .sort((a, b) => b.popularity - a.popularity)
-                  .map((movie, index) => (
-                    <motion.div
+                  .map((movie) => (
+                    <div
                       key={movie.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: index * 0.1, duration: 0.6 }}
                       className="glass-card rounded-2xl overflow-hidden"
                     >
                       <MovieCard
@@ -255,9 +247,9 @@ export const ByMoodPage: React.FC = () => {
                         genres={genres}
                         currentMovies={movies}
                       />
-                    </motion.div>
+                    </div>
                   ))}
-              </motion.div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

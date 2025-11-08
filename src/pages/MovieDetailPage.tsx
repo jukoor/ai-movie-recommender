@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Star,
   Calendar,
@@ -11,9 +11,13 @@ import {
   Award,
   ExternalLink,
 } from "lucide-react";
+import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { Movie } from "../types/tmdb/Movie";
 import { Genre } from "../types/tmdb/Genre";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { useShowToast } from "../context/ToastContext";
+import { db } from "../utils/firebase";
 
 interface MovieDetailPageProps {
   movie?: Movie;
@@ -26,6 +30,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { showToast } = useShowToast();
 
   // Get movie data from navigation state or props
   const movieFromState = location.state?.movie;
@@ -34,26 +39,86 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
   const movie = passedMovie || movieFromState;
   const genres = passedGenres || genresFromState || [];
 
+  // Favorites state
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showParticles, setShowParticles] = useState(false);
+
+  // Check if movie is in favorites
+  useEffect(() => {
+    const fetchFavoriteStatus = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user || !movie) return;
+      const favDocRef = doc(db, `/users/${user.uid}/movieLists/favorites`);
+      const favDocSnap = await getDoc(favDocRef);
+      if (favDocSnap.exists()) {
+        const movies = favDocSnap.data().movies || [];
+        setIsFavorite(movies.some((m: Movie) => m.id === movie.id));
+      }
+    };
+    fetchFavoriteStatus();
+  }, [movie]);
+
+  const handleFavorite = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        showToast("You must be logged in to add favorites.", "error");
+        return;
+      }
+
+      if (!movie) return;
+
+      // Trigger animations
+      setIsAnimating(true);
+      setShowParticles(true);
+
+      const favDocRef = doc(db, `/users/${user.uid}/movieLists/favorites`);
+      const favDocSnap = await getDoc(favDocRef);
+
+      if (favDocSnap.exists()) {
+        const movies = favDocSnap.data().movies || [];
+        if (isFavorite) {
+          // Remove from favorites
+          const updatedMovies = movies.filter((m: Movie) => m.id !== movie.id);
+          await updateDoc(favDocRef, { movies: updatedMovies });
+          setIsFavorite(false);
+          showToast(`"${movie.title}" removed from favorites!`, "success");
+        } else {
+          // Add to favorites
+          await updateDoc(favDocRef, { movies: arrayUnion(movie) });
+          setIsFavorite(true);
+          showToast(`"${movie.title}" added to favorites!`, "success");
+        }
+      } else {
+        // Create favorites list with this movie
+        await setDoc(favDocRef, { movies: [movie] });
+        setIsFavorite(true);
+        showToast(`"${movie.title}" added to favorites!`, "success");
+      }
+
+      // Reset animations after a delay
+      setTimeout(() => {
+        setIsAnimating(false);
+        setShowParticles(false);
+      }, 600);
+    } catch (error) {
+      showToast("Failed to update favorites: " + error, "error");
+      setIsAnimating(false);
+      setShowParticles(false);
+    }
+  };
+
   const handleBackClick = () => {
     // Use browser's back navigation
     navigate(-1);
   };
 
   if (!movie) {
-    return (
-      <motion.div
-        className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-600 mx-auto mb-4"></div>
-          <p className="text-slate-600">Loading movie details...</p>
-        </div>
-      </motion.div>
-    );
+    return null; // Don't show loading spinner, just return null
   }
 
   const formatCurrency = (amount: number) => {
@@ -73,7 +138,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
   return (
     <motion.div
-      className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100"
+      className="min-h-screen bg-dark-gradient"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -180,6 +245,78 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
+                {/* Favorite Button */}
+                <motion.button
+                  onClick={handleFavorite}
+                  className={`w-full font-semibold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg ${
+                    isFavorite
+                      ? "bg-rose-500 hover:bg-rose-600 text-white shadow-rose-500/25"
+                      : "bg-gray-800 hover:bg-gray-700 text-rose-400 hover:text-rose-300 border border-gray-600"
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{
+                    scale: isAnimating ? [1, 1.05, 1] : 1,
+                  }}
+                  transition={{
+                    duration: 0.4,
+                    ease: "easeOut",
+                  }}
+                >
+                  <div className="relative">
+                    <motion.div
+                      animate={{
+                        scale: isFavorite ? [1, 1.3, 1] : 1,
+                        rotate: isAnimating
+                          ? [0, isFavorite ? 360 : -360, 0]
+                          : 0,
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      <Star
+                        className={`w-5 h-5 transition-colors duration-300`}
+                        fill={isFavorite ? "currentColor" : "none"}
+                      />
+                    </motion.div>
+
+                    {/* Particle Effects */}
+                    <AnimatePresence>
+                      {showParticles && (
+                        <>
+                          {[...Array(6)].map((_, i) => (
+                            <motion.div
+                              key={i}
+                              className={`absolute w-1.5 h-1.5 rounded-full ${
+                                isFavorite ? "bg-yellow-400" : "bg-rose-400"
+                              }`}
+                              style={{
+                                top: "50%",
+                                left: "50%",
+                              }}
+                              initial={{ scale: 0, x: 0, y: 0, opacity: 1 }}
+                              animate={{
+                                scale: [0, 1, 0],
+                                x: Math.cos((i * 60 * Math.PI) / 180) * 25,
+                                y: Math.sin((i * 60 * Math.PI) / 180) * 25,
+                                opacity: [0, 1, 0],
+                              }}
+                              transition={{
+                                duration: 0.6,
+                                delay: 0.1,
+                                ease: "easeOut",
+                              }}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                </motion.button>
+
                 {movie.homepage && (
                   <a
                     href={movie.homepage}
@@ -220,10 +357,8 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <h2 className="text-2xl font-bold text-slate-800 mb-4">
-                Overview
-              </h2>
-              <p className="text-slate-700 leading-relaxed text-lg">
+              <h2 className="text-2xl font-bold text-white mb-4">Overview</h2>
+              <p className="text-gray-300 leading-relaxed text-lg">
                 {movie.overview}
               </p>
             </motion.section>
@@ -235,7 +370,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 }}
               >
-                <h3 className="text-xl font-semibold text-slate-800 mb-3">
+                <h3 className="text-xl font-semibold text-white mb-3">
                   Genres
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -244,7 +379,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     return genre ? (
                       <span
                         key={genreId}
-                        className="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full font-medium"
+                        className="px-4 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-full font-medium"
                       >
                         {genre.name}
                       </span>
@@ -260,16 +395,14 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">
-                Details
-              </h3>
+              <h3 className="text-xl font-semibold text-white mb-4">Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-emerald-600" />
+                    <Calendar className="w-5 h-5 text-emerald-400" />
                     <div>
-                      <p className="font-medium text-slate-800">Release Date</p>
-                      <p className="text-slate-600">
+                      <p className="font-medium text-white">Release Date</p>
+                      <p className="text-gray-400">
                         {new Date(movie.release_date).toLocaleDateString(
                           "en-US",
                           {
@@ -284,10 +417,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
                   {movie.runtime > 0 && (
                     <div className="flex items-center gap-3">
-                      <Clock className="w-5 h-5 text-emerald-600" />
+                      <Clock className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-slate-800">Runtime</p>
-                        <p className="text-slate-600">
+                        <p className="font-medium text-white">Runtime</p>
+                        <p className="text-gray-400">
                           {formatRuntime(movie.runtime)}
                         </p>
                       </div>
@@ -295,12 +428,12 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   )}
 
                   <div className="flex items-center gap-3">
-                    <Globe className="w-5 h-5 text-emerald-600" />
+                    <Globe className="w-5 h-5 text-emerald-400" />
                     <div>
-                      <p className="font-medium text-slate-800">
+                      <p className="font-medium text-white">
                         Original Language
                       </p>
-                      <p className="text-slate-600 uppercase">
+                      <p className="text-gray-400 uppercase">
                         {movie.original_language}
                       </p>
                     </div>
@@ -310,10 +443,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 <div className="space-y-4">
                   {movie.budget > 0 && (
                     <div className="flex items-center gap-3">
-                      <DollarSign className="w-5 h-5 text-emerald-600" />
+                      <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-slate-800">Budget</p>
-                        <p className="text-slate-600">
+                        <p className="font-medium text-white">Budget</p>
+                        <p className="text-gray-400">
                           {formatCurrency(movie.budget)}
                         </p>
                       </div>
@@ -322,10 +455,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
                   {movie.revenue > 0 && (
                     <div className="flex items-center gap-3">
-                      <DollarSign className="w-5 h-5 text-emerald-600" />
+                      <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-slate-800">Revenue</p>
-                        <p className="text-slate-600">
+                        <p className="font-medium text-white">Revenue</p>
+                        <p className="text-gray-400">
                           {formatCurrency(movie.revenue)}
                         </p>
                       </div>
@@ -333,12 +466,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   )}
 
                   <div className="flex items-center gap-3">
-                    <Star className="w-5 h-5 text-emerald-600" />
+                    <Star className="w-5 h-5 text-emerald-400" />
                     <div>
-                      <p className="font-medium text-slate-800">
-                        Popularity Score
-                      </p>
-                      <p className="text-slate-600">
+                      <p className="font-medium text-white">Popularity Score</p>
+                      <p className="text-gray-400">
                         {movie.popularity.toFixed(1)}
                       </p>
                     </div>
@@ -346,12 +477,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
                   {movie.original_title !== movie.title && (
                     <div className="flex items-center gap-3">
-                      <Globe className="w-5 h-5 text-emerald-600" />
+                      <Globe className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-slate-800">
-                          Original Title
-                        </p>
-                        <p className="text-slate-600">{movie.original_title}</p>
+                        <p className="font-medium text-white">Original Title</p>
+                        <p className="text-gray-400">{movie.original_title}</p>
                       </div>
                     </div>
                   )}
@@ -367,26 +496,24 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.9 }}
                 >
-                  <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                  <h3 className="text-xl font-semibold text-white mb-4">
                     Production Companies
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {movie.production_companies.map((company: any) => (
                       <div
                         key={company.id}
-                        className="bg-white rounded-lg p-4 shadow-sm border border-slate-200"
+                        className="glass-card rounded-lg p-4"
                       >
                         {company.logo_path && (
                           <img
                             src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
                             alt={company.name}
-                            className="h-12 object-contain mb-2"
+                            className="h-12 object-contain mb-2 brightness-0 invert"
                           />
                         )}
-                        <p className="font-medium text-slate-800">
-                          {company.name}
-                        </p>
-                        <p className="text-sm text-slate-600">
+                        <p className="font-medium text-white">{company.name}</p>
+                        <p className="text-sm text-gray-400">
                           {company.origin_country}
                         </p>
                       </div>
@@ -403,14 +530,14 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 1.0 }}
                 >
-                  <h3 className="text-xl font-semibold text-slate-800 mb-3">
+                  <h3 className="text-xl font-semibold text-white mb-3">
                     Production Countries
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {movie.production_countries.map((country: any) => (
                       <span
                         key={country.iso_3166_1}
-                        className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm"
+                        className="px-3 py-1 bg-purple-600/20 text-purple-300 border border-purple-500/30 rounded-full text-sm"
                       >
                         {country.name}
                       </span>
@@ -426,14 +553,14 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.1 }}
               >
-                <h3 className="text-xl font-semibold text-slate-800 mb-3">
+                <h3 className="text-xl font-semibold text-white mb-3">
                   Spoken Languages
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {movie.spoken_languages.map((language: any) => (
                     <span
                       key={language.iso_639_1}
-                      className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm"
+                      className="px-3 py-1 bg-blue-600/20 text-blue-300 border border-blue-500/30 rounded-full text-sm"
                     >
                       {language.english_name}
                     </span>
