@@ -1,15 +1,16 @@
 import { Sparkles, Film, TrendingUp } from "lucide-react";
-import { homeTranslations } from "../../../../translations";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 export const FeaturesSection = () => {
-  const t = homeTranslations.features;
+  const { t } = useLanguage();
+  const featuresT = t.home.features;
 
   return (
     <div className="relative px-4 max-w-6xl mx-auto">
       {/* Section Header */}
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          {t.title}
+          {featuresT.title}
         </h2>
         <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
       </div>
@@ -28,10 +29,10 @@ export const FeaturesSection = () => {
             </div>
 
             <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-purple-300 transition-colors duration-300">
-              {t.aiPowered.title}
+              {featuresT.aiPowered.title}
             </h3>
             <p className="text-gray-300 text-base leading-relaxed">
-              {t.aiPowered.description}
+              {featuresT.aiPowered.description}
             </p>
 
             {/* Animated background particles */}
@@ -52,10 +53,10 @@ export const FeaturesSection = () => {
             </div>
 
             <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-blue-300 transition-colors duration-300">
-              {t.vastLibrary.title}
+              {featuresT.vastLibrary.title}
             </h3>
             <p className="text-gray-300 text-base leading-relaxed">
-              {t.vastLibrary.description}
+              {featuresT.vastLibrary.description}
             </p>
 
             {/* Animated background particles */}
@@ -76,10 +77,10 @@ export const FeaturesSection = () => {
             </div>
 
             <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-emerald-300 transition-colors duration-300">
-              {t.personalized.title}
+              {featuresT.personalized.title}
             </h3>
             <p className="text-gray-300 text-base leading-relaxed">
-              {t.personalized.description}
+              {featuresT.personalized.description}
             </p>
 
             {/* Animated background particles */}

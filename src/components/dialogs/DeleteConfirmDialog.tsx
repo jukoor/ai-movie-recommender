@@ -1,6 +1,6 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { Trash2, X } from "lucide-react";
-import { deleteDialogTranslations } from "../../translations";
+import { useLanguage } from "../../context/LanguageContext";
 
 interface DeleteConfirmDialogProps {
   isOpen: boolean;
@@ -17,11 +17,14 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
   onClose,
   onConfirm,
   isLoading = false,
-  title = deleteDialogTranslations.title,
-  message = deleteDialogTranslations.message,
+  title,
+  message,
   count,
 }) => {
-  const t = deleteDialogTranslations;
+  const { t } = useLanguage();
+  const deleteT = t.deleteDialog;
+  const dialogTitle = title || deleteT.title;
+  const dialogMessage = message || deleteT.message;
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       {/* Backdrop */}
@@ -47,17 +50,17 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
             </div>
             <DialogTitle className="mb-4 text-lg font-semibold text-white">
               {count !== undefined
-                ? `${t.deleteCount} ${count} ${
-                    count !== 1 ? t.favorites : t.favorite
+                ? `${deleteT.deleteCount} ${count} ${
+                    count !== 1 ? deleteT.favorites : deleteT.favorite
                   }?`
-                : title}
+                : dialogTitle}
             </DialogTitle>
             <p className="mb-6 text-sm text-gray-300">
               {count !== undefined && count > 0
-                ? `${t.deleteMessage} ${count} ${
-                    count !== 1 ? t.favorites : t.favorite
-                  } ${t.fromFavorites} ${message}`
-                : message}
+                ? `${deleteT.deleteMessage} ${count} ${
+                    count !== 1 ? deleteT.favorites : deleteT.favorite
+                  } ${deleteT.fromFavorites} ${dialogMessage}`
+                : dialogMessage}
             </p>
             <div className="flex justify-end gap-3">
               <button
@@ -65,14 +68,14 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
                 disabled={isLoading}
                 className="py-2.5 px-5 text-sm font-medium text-gray-300 focus:outline-none bg-transparent rounded-lg border border-gray-600 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
-                {t.buttons.cancel}
+                {deleteT.buttons.cancel}
               </button>
               <button
                 onClick={onConfirm}
                 disabled={isLoading}
                 className="bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
-                {isLoading ? t.buttons.deleting : t.buttons.delete}
+                {isLoading ? deleteT.buttons.deleting : deleteT.buttons.delete}
               </button>
             </div>
           </div>

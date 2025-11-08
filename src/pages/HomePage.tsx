@@ -4,14 +4,15 @@ import { FeaturesSection } from "../components/pages/01_home/sections/FeaturesSe
 import { AiPicksSection } from "../components/sections/AiPicksSection";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
-import { homeTranslations } from "../translations";
+import { useLanguage } from "../context/LanguageContext";
 
 export const HomePage: React.FC = () => {
-  const t = homeTranslations;
+  const { t } = useLanguage();
+  const homeT = t.home;
 
   return (
     <main className="min-h-screen relative overflow-hidden">
-      <PageTitle title={t.pageTitle} />
+      <PageTitle title={homeT.pageTitle} />
       <MetaTags
         title="PopcornAI - AI-Powered Movie Recommendations & Discovery"
         description="Discover your next favorite movie with PopcornAI's intelligent AI recommendations. Get personalized film suggestions based on your mood and preferences."

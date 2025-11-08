@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { metaTranslations } from "../../../translations";
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface MetaTagsProps {
   title?: string;
@@ -24,27 +24,28 @@ export const MetaTags: FC<MetaTagsProps> = ({
   twitterCard = "summary_large_image",
   canonical,
 }) => {
-  const t = metaTranslations;
+  const { t } = useLanguage();
+  const metaT = t.meta;
 
   useEffect(() => {
     // Update document title
-    const pageTitle = title || t.title;
+    const pageTitle = title || metaT.title;
     document.title = pageTitle;
 
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute("content", description || t.description);
+      metaDescription.setAttribute("content", description || metaT.description);
     }
 
     // Update meta keywords
     const metaKeywords = document.querySelector('meta[name="keywords"]');
     if (metaKeywords) {
-      metaKeywords.setAttribute("content", keywords || t.keywords);
+      metaKeywords.setAttribute("content", keywords || metaT.keywords);
     }
 
     // Update html lang attribute
-    document.documentElement.lang = t.language;
+    document.documentElement.lang = metaT.language;
 
     // Update or create Open Graph meta tags
     const updateOrCreateMetaTag = (property: string, content: string) => {
@@ -58,10 +59,10 @@ export const MetaTags: FC<MetaTagsProps> = ({
     };
 
     // Open Graph tags
-    updateOrCreateMetaTag("og:title", ogTitle || title || t.title);
+    updateOrCreateMetaTag("og:title", ogTitle || title || metaT.title);
     updateOrCreateMetaTag(
       "og:description",
-      ogDescription || description || t.description
+      ogDescription || description || metaT.description
     );
     if (ogImage) {
       updateOrCreateMetaTag("og:image", ogImage);
@@ -82,10 +83,10 @@ export const MetaTags: FC<MetaTagsProps> = ({
     };
 
     updateOrCreateTwitterTag("card", twitterCard);
-    updateOrCreateTwitterTag("title", ogTitle || title || t.title);
+    updateOrCreateTwitterTag("title", ogTitle || title || metaT.title);
     updateOrCreateTwitterTag(
       "description",
-      ogDescription || description || t.description
+      ogDescription || description || metaT.description
     );
     if (ogImage) {
       updateOrCreateTwitterTag("image", ogImage);
@@ -116,7 +117,7 @@ export const MetaTags: FC<MetaTagsProps> = ({
     ogUrl,
     twitterCard,
     canonical,
-    t,
+    metaT,
   ]);
 
   return null;

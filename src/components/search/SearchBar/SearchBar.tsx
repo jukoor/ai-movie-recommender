@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Search, X, ChevronDown } from "lucide-react";
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface SearchBarProps {
   searchTerm: string;
@@ -18,6 +19,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   availableGenres,
 }) => {
   const [inputValue, setInputValue] = useState(searchTerm);
+  const { t } = useLanguage();
   const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({
     top: 0,
@@ -118,7 +120,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             <input
               id="movie-search"
               type="text"
-              placeholder="Search your favorite movies..."
+              placeholder={t.common.searchPlaceholder}
               value={inputValue}
               onChange={handleInputChange}
               aria-label="Search movies by title"

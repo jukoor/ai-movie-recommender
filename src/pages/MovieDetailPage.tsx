@@ -20,6 +20,7 @@ import { MetaTags } from "../components/layout/Header/MetaTags";
 import { useShowToast } from "../context/ToastContext";
 import { db } from "../utils/firebase";
 import { MovieImagePlaceholder } from "../components/ui/MovieImagePlaceholder";
+import { useLanguage } from "../context/LanguageContext";
 
 interface MovieDetailPageProps {
   movie?: Movie;
@@ -33,6 +34,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useShowToast();
+  const { t } = useLanguage();
 
   // Get movie data from navigation state or props
   const movieFromState = location.state?.movie;
@@ -68,7 +70,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
-        showToast("You must be logged in to add favorites.", "error");
+        showToast(t.common.errors.loginRequired, "error");
         return;
       }
 
@@ -88,18 +90,27 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
           const updatedMovies = movies.filter((m: Movie) => m.id !== movie.id);
           await updateDoc(favDocRef, { movies: updatedMovies });
           setIsFavorite(false);
-          showToast(`"${movie.title}" removed from favorites!`, "success");
+          showToast(
+            `"${movie.title}" ${t.common.favorites.removedFromFavorites}`,
+            "success"
+          );
         } else {
           // Add to favorites
           await updateDoc(favDocRef, { movies: arrayUnion(movie) });
           setIsFavorite(true);
-          showToast(`"${movie.title}" added to favorites!`, "success");
+          showToast(
+            `"${movie.title}" ${t.common.favorites.addedToFavorites}`,
+            "success"
+          );
         }
       } else {
         // Create favorites list with this movie
         await setDoc(favDocRef, { movies: [movie] });
         setIsFavorite(true);
-        showToast(`"${movie.title}" added to favorites!`, "success");
+        showToast(
+          `"${movie.title}" ${t.common.favorites.addedToFavorites}`,
+          "success"
+        );
       }
 
       // Reset animations after a delay
@@ -108,7 +119,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
         setShowParticles(false);
       }, 600);
     } catch (error) {
-      showToast("Failed to update favorites: " + error, "error");
+      showToast(t.common.errors.updateFavorites + ": " + error, "error");
       setIsAnimating(false);
       setShowParticles(false);
     }

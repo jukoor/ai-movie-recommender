@@ -9,6 +9,7 @@ import { Genre } from "../../../types/tmdb/Genre";
 import { Movie } from "../../../types/tmdb/Movie";
 import { db } from "../../../utils/firebase";
 import { MovieImagePlaceholder } from "../../ui/MovieImagePlaceholder";
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface MovieCardProps {
   movie: Movie;
@@ -25,6 +26,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
   const [isAnimating, setIsAnimating] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
   const { showToast } = useShowToast();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,12 +68,18 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           const updatedMovies = movies.filter((m: Movie) => m.id !== movie.id);
           await updateDoc(favDocRef, { movies: updatedMovies });
           setIsFavorite(false);
-          showToast(`"${movie.title}" removed from favorites!`, "success");
+          showToast(
+            `"${movie.title}" ${t.common.favorites.removedFromFavorites}`,
+            "success"
+          );
         } else {
           // Add to favorites
           await updateDoc(favDocRef, { movies: arrayUnion(movie) });
           setIsFavorite(true);
-          showToast(`"${movie.title}" added to favorites!`, "success");
+          showToast(
+            `"${movie.title}" ${t.common.favorites.addedToFavorites}`,
+            "success"
+          );
         }
       } else {
         // Create favorites list with this movie

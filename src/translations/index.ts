@@ -1,20 +1,23 @@
-import translations from "./en.json";
+import enTranslations from "./en.json";
+import deTranslations from "./de.json";
 
-export const t = translations;
+// Export both translation objects
+export { enTranslations, deTranslations };
 
-// Export individual sections for convenience
-export const metaTranslations = translations.meta;
-export const headerTranslations = translations.header;
-export const footerTranslations = translations.footer;
-export const homeTranslations = translations.home;
-export const aboutTranslations = translations.about;
-export const byMoodTranslations = translations.byMood;
-export const favoritesTranslations = translations.favorites;
-export const aiRecommenderTranslations = translations.aiRecommender;
-export const movieCardTranslations = translations.movieCard;
-export const loginDialogTranslations = translations.loginDialog;
-export const deleteDialogTranslations = translations.deleteDialog;
-export const commonTranslations = translations.common;
+// Export default (English) for backward compatibility
+export const t = enTranslations;
+export default enTranslations;
 
-// Export the full translations object as default
-export default translations;
+// Export individual sections for convenience (English by default for backward compatibility)
+export const metaTranslations = enTranslations.meta;
+export const headerTranslations = enTranslations.header;
+export const footerTranslations = enTranslations.footer;
+export const homeTranslations = enTranslations.home;
+export const aboutTranslations = enTranslations.about;
+export const byMoodTranslations = enTranslations.byMood;
+export const favoritesTranslations = enTranslations.favorites;
+export const aiRecommenderTranslations = enTranslations.aiRecommender;
+export const movieCardTranslations = enTranslations.movieCard;
+export const loginDialogTranslations = enTranslations.loginDialog;
+export const deleteDialogTranslations = enTranslations.deleteDialog;
+export const commonTranslations = enTranslations.common;

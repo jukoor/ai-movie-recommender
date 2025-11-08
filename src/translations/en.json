@@ -217,6 +217,14 @@
     "loading": {
       "title": "Finding Your Perfect Movies",
       "subtitle": "Our AI is analyzing your preferences to find the best matches..."
+    },
+    "errors": {
+      "emptyInput": "Please enter at least 2 words or 8 characters.",
+      "inappropriateLanguage": "Please keep your movie preferences family-friendly. No inappropriate language allowed.",
+      "tooShort": "Please provide either at least {minWords} words or {minChars} characters.",
+      "tooLong": "Please keep your movie preferences under {maxChars} characters.",
+      "aiParseError": "Whoops! The AI got a little too creative. Please try again with a different prompt.",
+      "fetchError": "Error. Could not fetch AI recommendations. Please try again."
     }
   },
   "movieCard": {
@@ -291,11 +299,21 @@
     "delete": "Delete",
     "edit": "Edit",
     "search": "Search",
+    "searchPlaceholder": "Search your favorite movies...",
     "filter": "Filter",
     "noResults": "No results found",
     "showMore": "Show More",
     "showLess": "Show Less",
     "viewAll": "View All",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "errors": {
+      "loginRequired": "You must be logged in to add favorites.",
+      "updateFavorites": "Failed to update favorites:",
+      "fetchMovies": "Failed to fetch movies. Try again."
+    },
+    "favorites": {
+      "addedToFavorites": "added to favorites!",
+      "removedFromFavorites": "removed from favorites!"
+    }
   }
 }

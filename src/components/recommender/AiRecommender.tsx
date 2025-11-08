@@ -6,15 +6,13 @@ import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations
 import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 import { RefreshCw, Search, Sparkles, AlertCircle, X } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
-import {
-  homeTranslations,
-  aiRecommenderTranslations,
-} from "../../translations";
+import { useLanguage } from "../../context/LanguageContext";
 
 export const AiRecommender = () => {
   const location = useLocation();
-  const t = aiRecommenderTranslations;
-  const heroT = homeTranslations.hero;
+  const { t } = useLanguage();
+  const aiRecommenderT = t.aiRecommender;
+  const heroT = t.home.hero;
 
   const [userInputValue, setUserInputValue] = useState(``);
   const [activeQuickSearchTag, setActiveQuickSearchTag] = useState<
@@ -47,7 +45,7 @@ export const AiRecommender = () => {
     }
   }, [location.state, setReplyMovies]);
 
-  const quickSearchTags = t.quickSearch.tags;
+  const quickSearchTags = aiRecommenderT.quickSearch.tags;
 
   const handleQuickSearch = (tag: string) => {
     setUserInputValue(tag);
@@ -86,7 +84,7 @@ export const AiRecommender = () => {
               htmlFor="ai-movie-recommendations"
               className="mb-2 text-sm font-medium text-white sr-only"
             >
-              {t.form.label}
+              {aiRecommenderT.form.label}
             </label>
 
             <div className="relative glass-card rounded-2xl p-2">
@@ -108,14 +106,14 @@ export const AiRecommender = () => {
                     setActiveQuickSearchTag(null);
                   }
                 }}
-                placeholder={t.form.placeholder}
+                placeholder={aiRecommenderT.form.placeholder}
                 autoComplete="off"
                 disabled={loading}
-                aria-label={t.form.placeholder}
+                aria-label={aiRecommenderT.form.placeholder}
                 aria-describedby="ai-recommender-instructions"
               />
               <span id="ai-recommender-instructions" className="sr-only">
-                {t.form.instructions}
+                {aiRecommenderT.form.instructions}
               </span>
               {userInputValue && (
                 <button
@@ -125,8 +123,8 @@ export const AiRecommender = () => {
                     setActiveQuickSearchTag(null);
                   }}
                   className="absolute right-24 sm:right-44 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-700/50 hover:bg-gray-600/70 text-gray-300 hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                  aria-label={t.form.clearInput}
-                  title={t.form.clearInput}
+                  aria-label={aiRecommenderT.form.clearInput}
+                  title={aiRecommenderT.form.clearInput}
                 >
                   <X className="w-4 h-4" aria-hidden="true" />
                 </button>
@@ -135,8 +133,16 @@ export const AiRecommender = () => {
                 type="submit"
                 disabled={loading}
                 aria-disabled={loading}
-                aria-label={loading ? t.form.submitting : t.form.submitButton}
-                title={loading ? t.form.submitting : t.form.submitButton}
+                aria-label={
+                  loading
+                    ? aiRecommenderT.form.submitting
+                    : aiRecommenderT.form.submitButton
+                }
+                title={
+                  loading
+                    ? aiRecommenderT.form.submitting
+                    : aiRecommenderT.form.submitButton
+                }
                 className="absolute right-2 top-2 bottom-2 px-3 sm:px-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 backdrop-blur-sm"
               >
                 {loading ? (
@@ -146,7 +152,7 @@ export const AiRecommender = () => {
                       aria-hidden="true"
                     />
                     <span className="hidden sm:inline">
-                      {t.form.submitting}
+                      {aiRecommenderT.form.submitting}
                     </span>
                   </>
                 ) : (
@@ -156,7 +162,7 @@ export const AiRecommender = () => {
                       aria-hidden="true"
                     />
                     <span className="hidden sm:inline">
-                      {t.form.submitButton}
+                      {aiRecommenderT.form.submitButton}
                     </span>
                   </>
                 )}
@@ -187,7 +193,7 @@ export const AiRecommender = () => {
           <div
             className="flex flex-wrap gap-3 max-w-3xl justify-center"
             role="group"
-            aria-label={t.quickSearch.ariaLabel}
+            aria-label={aiRecommenderT.quickSearch.ariaLabel}
           >
             {quickSearchTags.map((tag) => (
               <button
@@ -247,10 +253,10 @@ export const AiRecommender = () => {
                   </div>
                   <div className="space-y-3 text-center">
                     <h3 className="text-2xl font-bold text-white">
-                      {t.loading.title}
+                      {aiRecommenderT.loading.title}
                     </h3>
                     <p className="text-gray-300 text-lg">
-                      {t.loading.subtitle}
+                      {aiRecommenderT.loading.subtitle}
                     </p>
                     <div className="flex justify-center space-x-1 mt-4">
                       {[0, 1, 2].map((i) => (
@@ -298,9 +304,11 @@ export const AiRecommender = () => {
             {/* Results Header */}
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-white mb-4">
-                🎬 {t.results.title}
+                🎬 {aiRecommenderT.results.title}
               </h2>
-              <p className="text-gray-300 text-lg">{t.results.subtitle}</p>
+              <p className="text-gray-300 text-lg">
+                {aiRecommenderT.results.subtitle}
+              </p>
             </div>
 
             {/* Movies Grid */}

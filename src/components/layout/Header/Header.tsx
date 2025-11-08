@@ -8,15 +8,16 @@ import {
   ChevronDown,
   LogOut,
   Info,
+  Languages,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { useShowToast } from "../../../context/ToastContext";
+import { useLanguage } from "../../../context/LanguageContext";
 import { NavigationItem } from "../../../types/NavigationItem";
 import { LoginDialog } from "../../auth/LoginDialog/LoginDialog";
-import { headerTranslations } from "../../../translations";
 
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,19 +25,20 @@ export const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { showToast } = useShowToast();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const t = headerTranslations;
+  const { language, setLanguage, t } = useLanguage();
+  const headerT = t.header;
 
   const { user, isLoggedIn, loading } = useAuth();
 
   const navigation: NavigationItem[] = [
-    { name: t.navigation.home, href: "/", icon: Home },
-    { name: t.navigation.byMood, href: "/by-mood", icon: Smile },
+    { name: headerT.navigation.home, href: "/", icon: Home },
+    { name: headerT.navigation.byMood, href: "/by-mood", icon: Smile },
     {
-      name: t.navigation.favorites,
+      name: headerT.navigation.favorites,
       href: "/favorites",
       icon: Star,
     },
-    { name: t.navigation.about, href: "/about", icon: Info },
+    { name: headerT.navigation.about, href: "/about", icon: Info },
     // { name: "Profile", href: "/profile", icon: User },
   ];
 
@@ -62,9 +64,9 @@ export const NavBar = () => {
     try {
       await signOut(getAuth());
       setIsDropdownOpen(false);
-      showToast(t.toast.logoutSuccess, "success");
+      showToast(headerT.toast.logoutSuccess, "success");
     } catch (error: any) {
-      showToast(error.message || t.toast.logoutError, "error");
+      showToast(error.message || headerT.toast.logoutError, "error");
     }
   };
 
@@ -88,7 +90,7 @@ export const NavBar = () => {
           <Link
             to="/"
             className="flex items-center gap-3 group"
-            aria-label={t.ariaLabels.home}
+            aria-label={headerT.ariaLabels.home}
           >
             <div className="relative p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300 shadow-lg group-hover:shadow-xl transform group-hover:scale-105 shadow-purple-500/30">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-xl"></div>
@@ -102,10 +104,10 @@ export const NavBar = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
-                {t.logo.appName}
+                {headerT.logo.appName}
               </span>
               <span className="text-xs text-gray-400 group-hover:text-purple-400 transition-colors font-medium">
-                {t.logo.tagline}
+                {headerT.logo.tagline}
               </span>
             </div>
           </Link>
@@ -114,7 +116,7 @@ export const NavBar = () => {
           <nav
             className="hidden md:flex items-center gap-1"
             role="navigation"
-            aria-label={t.ariaLabels.mainNavigation}
+            aria-label={headerT.ariaLabels.mainNavigation}
           >
             {loading ? (
               // Skeleton for desktop navigation
@@ -148,7 +150,7 @@ export const NavBar = () => {
                           ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30 shadow-lg shadow-purple-500/10"
                           : "text-gray-300 hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent")
                       }
-                      aria-label={`${t.ariaLabels.navigateTo} ${item.name}`}
+                      aria-label={`${headerT.ariaLabels.navigateTo} ${item.name}`}
                     >
                       {({ isActive }) => (
                         <>
@@ -164,13 +166,31 @@ export const NavBar = () => {
                     </NavLink>
                   );
                 })}
+
+                {/* Language Toggle */}
+                <button
+                  onClick={() => setLanguage(language === "en" ? "de" : "en")}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 text-gray-300 hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  aria-label={`Switch to ${
+                    language === "en" ? "German" : "English"
+                  }`}
+                  title={`Switch to ${
+                    language === "en" ? "German" : "English"
+                  }`}
+                >
+                  <Languages className="w-4 h-4" aria-hidden="true" />
+                  <span className="text-sm font-semibold">
+                    {language === "en" ? "DE" : "EN"}
+                  </span>
+                </button>
+
                 {isLoggedIn ? (
                   <div className="relative ml-4" ref={dropdownRef}>
                     <button
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                       aria-expanded={isDropdownOpen}
                       aria-haspopup="true"
-                      aria-label={`${t.ariaLabels.accountMenu} ${user?.email}`}
+                      aria-label={`${headerT.ariaLabels.accountMenu} ${user?.email}`}
                       className="flex items-center gap-2 px-3 py-2 rounded-lg glass-card hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                     >
                       <div
@@ -201,7 +221,7 @@ export const NavBar = () => {
                           className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors flex items-center gap-2 focus:outline-none focus:bg-purple-500/10"
                         >
                           <LogOut className="w-4 h-4" aria-hidden="true" />
-                          {t.auth.logout}
+                          {headerT.auth.logout}
                         </button>
                       </div>
                     )}
@@ -209,11 +229,11 @@ export const NavBar = () => {
                 ) : (
                   <button
                     onClick={() => setIsLoginOpen(true)}
-                    aria-label={t.ariaLabels.openLoginDialog}
+                    aria-label={headerT.ariaLabels.openLoginDialog}
                     className="ml-4 px-4 py-2 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   >
                     <LogIn className="w-4 h-4" aria-hidden="true" />
-                    {t.auth.login}
+                    {headerT.auth.login}
                   </button>
                 )}
               </>
@@ -224,7 +244,7 @@ export const NavBar = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
-            aria-label={t.ariaLabels.toggleMobileMenu}
+            aria-label={headerT.ariaLabels.toggleMobileMenu}
             className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
           >
             {isMobileMenuOpen ? (
@@ -278,6 +298,19 @@ export const NavBar = () => {
                       </NavLink>
                     );
                   })}
+
+                  {/* Language Toggle - Mobile */}
+                  <button
+                    onClick={() => setLanguage(language === "en" ? "de" : "en")}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-300 hover:text-white hover:bg-purple-500/10 mt-2 border-t border-purple-500/20 pt-4"
+                    aria-label={`Switch to ${
+                      language === "en" ? "German" : "English"
+                    }`}
+                  >
+                    <Languages className="w-5 h-5" aria-hidden="true" />
+                    <span>{language === "en" ? "Deutsch" : "English"}</span>
+                  </button>
+
                   {isLoggedIn ? (
                     <div className="mt-2 border-t border-purple-500/20 pt-2">
                       <div className="flex items-center gap-3 px-4 py-2 text-xs text-gray-400">
@@ -294,7 +327,7 @@ export const NavBar = () => {
                         className="w-full mt-1 px-4 py-3 rounded-lg bg-gradient-to-r from-red-500 to-pink-600 text-white font-medium hover:from-red-600 hover:to-pink-700 transition-all duration-300 flex items-center gap-2 justify-center shadow-lg shadow-red-500/20"
                       >
                         <LogOut className="w-5 h-5" />
-                        {t.auth.logout}
+                        {headerT.auth.logout}
                       </button>
                     </div>
                   ) : (
@@ -303,7 +336,7 @@ export const NavBar = () => {
                       className="mt-2 px-6 py-3 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 justify-center border border-purple-500/20 hover:border-purple-500/40"
                     >
                       <LogIn className="w-5 h-5" />
-                      {t.auth.login}
+                      {headerT.auth.login}
                     </button>
                   )}
                 </>

@@ -14,14 +14,15 @@ import {
 } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
-import { aboutTranslations } from "../translations";
+import { useLanguage } from "../context/LanguageContext";
 
 export const AboutPage: React.FC = () => {
-  const t = aboutTranslations;
+  const { t } = useLanguage();
+  const aboutT = t.about;
 
   return (
     <main className="min-h-screen relative overflow-hidden">
-      <PageTitle title={t.pageTitle} />
+      <PageTitle title={aboutT.pageTitle} />
       <MetaTags
         title="About PopcornAI - AI Movie Recommendation Technology"
         description="Learn how PopcornAI uses advanced AI technology and TMDB data to deliver personalized movie recommendations. Discover the tech stack behind our intelligent film discovery platform."
@@ -43,14 +44,14 @@ export const AboutPage: React.FC = () => {
               <div className="text-center">
                 <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
                   <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 animate-fadeIn">
-                    {t.hero.title}
+                    {aboutT.hero.title}
                   </h1>
                 </div>
                 <p
                   className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
                   style={{ animationDelay: "200ms", animationFillMode: "both" }}
                 >
-                  {t.hero.subtitle}
+                  {aboutT.hero.subtitle}
                 </p>
               </div>
             </div>
@@ -63,10 +64,10 @@ export const AboutPage: React.FC = () => {
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-3xl font-bold mb-6 text-white">
-                {t.mission.title}
+                {aboutT.mission.title}
               </h2>
               <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
-                {t.mission.description}
+                {aboutT.mission.description}
               </p>
             </div>
           </div>
@@ -208,7 +209,7 @@ export const AboutPage: React.FC = () => {
                 <Code className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-3xl font-bold mb-4 text-white">
-                {t.techStack.title}
+                {aboutT.techStack.title}
               </h2>
             </div>
 
@@ -216,7 +217,7 @@ export const AboutPage: React.FC = () => {
               {/* Frontend */}
               <div>
                 <h3 className="text-xl font-semibold text-white mb-4 text-center">
-                  {t.techStack.frontend}
+                  {aboutT.techStack.frontend}
                 </h3>
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
@@ -225,10 +226,10 @@ export const AboutPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-white">
-                        {t.techStack.technologies.react.name}
+                        {aboutT.techStack.technologies.react.name}
                       </h4>
                       <p className="text-sm text-gray-400">
-                        {t.techStack.technologies.react.description}
+                        {aboutT.techStack.technologies.react.description}
                       </p>
                     </div>
                   </div>
@@ -239,10 +240,10 @@ export const AboutPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-white">
-                        {t.techStack.technologies.typescript.name}
+                        {aboutT.techStack.technologies.typescript.name}
                       </h4>
                       <p className="text-sm text-gray-400">
-                        {t.techStack.technologies.typescript.description}
+                        {aboutT.techStack.technologies.typescript.description}
                       </p>
                     </div>
                   </div>
@@ -253,10 +254,10 @@ export const AboutPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-white">
-                        {t.techStack.technologies.tailwind.name}
+                        {aboutT.techStack.technologies.tailwind.name}
                       </h4>
                       <p className="text-sm text-gray-400">
-                        {t.techStack.technologies.tailwind.description}
+                        {aboutT.techStack.technologies.tailwind.description}
                       </p>
                     </div>
                   </div>

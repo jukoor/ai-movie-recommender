@@ -13,10 +13,11 @@ import { MovieList } from "../components/movie/MovieList/MovieList";
 import { SearchBar } from "../components/search/SearchBar/SearchBar";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
-import { favoritesTranslations } from "../translations";
+import { useLanguage } from "../context/LanguageContext";
 
 export const FavoritesPage: React.FC = () => {
-  const t = favoritesTranslations;
+  const { t } = useLanguage();
+  const favoritesT = t.favorites;
   const navigate = useNavigate();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -99,10 +100,10 @@ export const FavoritesPage: React.FC = () => {
       setShowDeleteDialog(false); // Close dialog immediately
       const docRef = doc(db, "users", user.uid, "movieLists", "favorites");
       await updateDoc(docRef, { movies: [] });
-      showToast(t.actions.removeSuccess, "success");
+      showToast(favoritesT.actions.removeSuccess, "success");
     } catch (error) {
       console.error("Error removing all favorites:", error);
-      showToast(t.actions.removeError, "error");
+      showToast(favoritesT.actions.removeError, "error");
     } finally {
       setIsRemoving(false);
     }
@@ -128,7 +129,7 @@ export const FavoritesPage: React.FC = () => {
           aria-hidden="true"
         ></div>
         <div className="relative z-10">
-          <PageTitle title={t.pageTitle} />
+          <PageTitle title={favoritesT.pageTitle} />
           <MetaTags
             title="My Favorite Movies - Personalized Collection | PopcornAI"
             description="Access your personalized collection of favorite movies on PopcornAI. Save and manage your favorite films in one place."
@@ -138,28 +139,30 @@ export const FavoritesPage: React.FC = () => {
           <div className="text-center mb-12 mt-16">
             <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
               <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
-                {t.hero.title}
+                {favoritesT.hero.title}
               </h1>
             </div>
             <p
               className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
               style={{ animationDelay: "200ms", animationFillMode: "both" }}
             >
-              {t.hero.subtitle}
+              {favoritesT.hero.subtitle}
             </p>
           </div>
           <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
             <div className="glass-card rounded-lg p-8 max-w-md w-full animate-fadeInUp border border-gray-700/30">
               <LogIn className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
               <h2 className="text-2xl font-semibold text-white mb-3">
-                {t.auth.signInRequired}
+                {favoritesT.auth.signInRequired}
               </h2>
-              <p className="text-gray-300 mb-6">{t.auth.signInMessage}</p>
+              <p className="text-gray-300 mb-6">
+                {favoritesT.auth.signInMessage}
+              </p>
               <button
                 onClick={() => setShowLoginDialog(true)}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 w-full"
               >
-                {t.auth.signInButton}
+                {favoritesT.auth.signInButton}
               </button>
             </div>
           </div>
@@ -174,7 +177,7 @@ export const FavoritesPage: React.FC = () => {
 
   return (
     <main className="min-h-screen relative overflow-hidden">
-      <PageTitle title={t.pageTitle} />
+      <PageTitle title={favoritesT.pageTitle} />
       <MetaTags
         title="My Favorite Movies - Personalized Collection | PopcornAI"
         description="Access your personalized collection of favorite movies on PopcornAI. Save and manage your favorite films in one place."
@@ -187,19 +190,19 @@ export const FavoritesPage: React.FC = () => {
         aria-hidden="true"
       ></div>
       <div className="relative z-10">
-        <PageTitle title={t.pageTitle} />
+        <PageTitle title={favoritesT.pageTitle} />
 
         <div className="text-center mb-12 mt-16">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
             <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
-              {t.hero.title}
+              {favoritesT.hero.title}
             </h1>
           </div>
           <p
             className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
-            {t.hero.subtitle}
+            {favoritesT.hero.subtitle}
           </p>
         </div>
 
@@ -211,14 +214,14 @@ export const FavoritesPage: React.FC = () => {
             <div className="glass-card rounded-lg p-8 max-w-md w-full border border-gray-700/30">
               <StarOff className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
               <h2 className="text-2xl font-semibold text-white mb-3">
-                {t.empty.title}
+                {favoritesT.empty.title}
               </h2>
-              <p className="text-gray-300 mb-6">{t.empty.message}</p>
+              <p className="text-gray-300 mb-6">{favoritesT.empty.message}</p>
               <button
                 onClick={() => navigate("/")}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 w-full"
               >
-                {t.empty.cta}
+                {favoritesT.empty.cta}
               </button>
             </div>
           </div>

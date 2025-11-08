@@ -10,10 +10,11 @@ import { RefreshCw, AlertCircle, Sparkles } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
 import { Mood } from "../types/Mood";
-import { byMoodTranslations } from "../translations";
+import { useLanguage } from "../context/LanguageContext";
 
 export const ByMoodPage: React.FC = () => {
-  const t = byMoodTranslations;
+  const { t } = useLanguage();
+  const byMoodT = t.byMood;
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -60,7 +61,7 @@ export const ByMoodPage: React.FC = () => {
 
   return (
     <main className="min-h-screen relative overflow-hidden">
-      <PageTitle title={t.pageTitle} />
+      <PageTitle title={byMoodT.pageTitle} />
       <MetaTags
         title="Movie Mood Search - Find Films by Your Feelings | PopcornAI"
         description="Discover movies that match your mood with PopcornAI's intelligent mood-based search. Select an emoji representing how you feel and get personalized movie recommendations."
@@ -97,16 +98,16 @@ export const ByMoodPage: React.FC = () => {
         <header className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
             <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-fadeIn">
-              {t.hero.title}
+              {byMoodT.hero.title}
             </h1>
           </div>
           <p
             className="text-xl text-gray-300 max-w-3xl mx-auto animate-fadeIn"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
-            {t.hero.subtitle}
+            {byMoodT.hero.subtitle}
             <br />
-            {t.hero.instruction}
+            {byMoodT.hero.instruction}
           </p>
         </header>
 
@@ -137,7 +138,7 @@ export const ByMoodPage: React.FC = () => {
                 <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-red-300 mb-1">
-                    {t.error.title}
+                    {byMoodT.error.title}
                   </h3>
                   <p className="text-red-200">{error}</p>
                 </div>
@@ -168,10 +169,10 @@ export const ByMoodPage: React.FC = () => {
                     <Sparkles className="w-8 h-8 text-emerald-500" />
                   </motion.div>
                   <h2 className="text-2xl font-bold text-white">
-                    {t.loading.title}
+                    {byMoodT.loading.title}
                   </h2>
                 </div>
-                <p className="text-gray-300">{t.loading.subtitle}</p>
+                <p className="text-gray-300">{byMoodT.loading.subtitle}</p>
               </div>
 
               {/* Skeleton Grid */}
@@ -204,7 +205,7 @@ export const ByMoodPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
                 <div className="flex items-center gap-3">
                   <h2 className="text-2xl font-bold text-white">
-                    {t.results.title}
+                    {byMoodT.results.title}
                   </h2>
                 </div>
 
@@ -232,7 +233,9 @@ export const ByMoodPage: React.FC = () => {
                       <RefreshCw className="w-5 h-5" />
                     </motion.div>
                     <span className="relative z-10">
-                      {loading ? t.loading.title : t.buttons.refresh}
+                      {loading
+                        ? byMoodT.loading.title
+                        : byMoodT.buttons.refresh}
                     </span>
                   </button>
                 </div>

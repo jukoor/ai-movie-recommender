@@ -17,7 +17,7 @@ import {
   LogIn,
   UserPlus,
 } from "lucide-react";
-import { loginDialogTranslations } from "../../../translations";
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface LoginDialogProps {
   open: boolean;
@@ -25,7 +25,8 @@ interface LoginDialogProps {
 }
 
 export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
-  const t = loginDialogTranslations;
+  const { t } = useLanguage();
+  const loginT = t.loginDialog;
   const { showToast } = useShowToast();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -41,10 +42,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
-      showToast(t.toast.loginSuccess, "success");
+      showToast(loginT.toast.loginSuccess, "success");
       onClose();
     } catch (err: any) {
-      showToast(err.message || t.toast.loginError, "error");
+      showToast(err.message || loginT.toast.loginError, "error");
     } finally {
       setLoading(false);
     }
@@ -64,10 +65,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         password
       );
       await initializeUserLists(userCredential.user);
-      showToast(t.toast.signupSuccess, "success");
+      showToast(loginT.toast.signupSuccess, "success");
       onClose();
     } catch (err: any) {
-      showToast(err.message || t.toast.signupError, "error");
+      showToast(err.message || loginT.toast.signupError, "error");
     } finally {
       setLoading(false);
     }
@@ -79,10 +80,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, "demo@popcornai.com", "demo123");
-      showToast(t.toast.demoSuccess, "success");
+      showToast(loginT.toast.demoSuccess, "success");
       onClose();
     } catch (err: any) {
-      showToast(err.message || t.toast.demoError, "error");
+      showToast(err.message || loginT.toast.demoError, "error");
     } finally {
       setLoading(false);
     }
@@ -138,7 +139,9 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                 <UserIcon className="w-6 h-6 text-white" />
               </div>
               <DialogTitle className="text-2xl font-bold text-white">
-                {dialogTab === "login" ? t.titles.login : t.titles.signup}
+                {dialogTab === "login"
+                  ? loginT.titles.login
+                  : loginT.titles.signup}
               </DialogTitle>
             </div>
             <button
@@ -176,7 +179,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               }`}
               onClick={handleLoginTabClick}
             >
-              {t.tabs.login}
+              {loginT.tabs.login}
             </button>
             <button
               role="tab"
@@ -190,7 +193,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               }`}
               onClick={handleSignupTabClick}
             >
-              {t.tabs.signup}
+              {loginT.tabs.signup}
             </button>
           </div>
 
@@ -214,7 +217,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       id="login-email"
                       name="email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder={loginT.form.emailPlaceholder}
                       required
                       autoComplete="email"
                       aria-required="true"
@@ -233,7 +236,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       id="login-password"
                       name="password"
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder={loginT.form.passwordPlaceholder}
                       required
                       autoComplete="current-password"
                       aria-required="true"
@@ -303,7 +306,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       id="signup-email"
                       name="email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder={loginT.form.emailPlaceholder}
                       required
                       autoComplete="email"
                       aria-required="true"
@@ -322,7 +325,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       id="signup-password"
                       name="password"
                       type="password"
-                      placeholder="Create a password"
+                      placeholder={loginT.form.passwordPlaceholder}
                       required
                       autoComplete="new-password"
                       aria-required="true"

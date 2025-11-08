@@ -2,17 +2,26 @@
 
 ## Overview
 
-The application now has a centralized translation system using a single JSON file that makes it easy to translate text content into multiple languages. All text content has been extracted into a structured translation file.
+The application now has a centralized translation system with support for multiple languages. All text content has been extracted into structured translation files, and users can switch between languages using a toggle in the navigation bar.
+
+## Supported Languages
+
+- **English (en)** - Default language
+- **German (de)** - Deutsch
 
 ## Structure
 
 ```
-src/translations/
-├── index.ts              # TypeScript helper with exports
-└── en.json               # English translations (all content)
+src/
+├── translations/
+│   ├── index.ts          # TypeScript helper with exports
+│   ├── en.json           # English translations
+│   └── de.json           # German translations
+└── context/
+    └── LanguageContext.tsx # Language state management
 ```
 
-The `en.json` file contains all translations organized by section:
+Each translation file (`en.json`, `de.json`) contains all translations organized by section:
 
 - `meta` - HTML meta tags (title, description, keywords, language)
 - `header` - Header/Navigation translations
@@ -29,7 +38,31 @@ The `en.json` file contains all translations organized by section:
 
 ## Usage
 
-### Importing Translations
+### Using Language Context (Recommended for Dynamic Language Switching)
+
+For components that need to respond to language changes, use the `useLanguage` hook:
+
+```typescript
+import { useLanguage } from "../context/LanguageContext";
+
+export const MyComponent = () => {
+  const { t, language, setLanguage } = useLanguage();
+
+  return (
+    <div>
+      <h1>{t.header.navigation.home}</h1>
+      <p>Current language: {language}</p>
+      <button onClick={() => setLanguage(language === "en" ? "de" : "en")}>
+        Toggle Language
+      </button>
+    </div>
+  );
+};
+```
+
+### Using Static Imports (Backward Compatible)
+
+For components that don't need dynamic language switching:
 
 ```typescript
 // Import specific section translations
@@ -42,10 +75,11 @@ import translations from "../translations";
 ### Using Translations in Components
 
 ```typescript
-import { headerTranslations } from "../translations";
+import { useLanguage } from "../context/LanguageContext";
 
 export const MyComponent = () => {
-  const t = headerTranslations;
+  const { t } = useLanguage();
+  const headerT = t.header;
 
   return (
     <div>

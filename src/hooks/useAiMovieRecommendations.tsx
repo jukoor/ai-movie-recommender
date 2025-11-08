@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Movie } from "../types/tmdb/Movie";
 import { apiRequest } from "../utils/api";
+import { useLanguage } from "../context/LanguageContext";
 
 interface UseAiMovieRecommendationsConfig {
   moviesRequestCount?: number;
@@ -23,6 +24,8 @@ interface UseAiMovieRecommendationsReturn {
 export const useAiMovieRecommendations = (
   config: UseAiMovieRecommendationsConfig = {}
 ): UseAiMovieRecommendationsReturn => {
+  const { t } = useLanguage();
+  const errorsT = t.aiRecommender.errors;
   const {
     moviesRequestCount = 8,
     movieDisplayCount = 3,
@@ -38,7 +41,7 @@ export const useAiMovieRecommendations = (
   const preprocessPrompt = (userInput: string): string | null => {
     // Check for empty input first
     if (!userInput.trim()) {
-      setError("Please enter at least 2 words or 8 characters.");
+      setError(errorsT.emptyInput);
       return null;
     }
 
@@ -58,9 +61,7 @@ export const useAiMovieRecommendations = (
     });
 
     if (hasSwearWords) {
-      setError(
-        "Please keep your movie preferences family-friendly. No inappropriate language allowed."
-      );
+      setError(errorsT.inappropriateLanguage);
       return null;
     }
 
@@ -71,14 +72,16 @@ export const useAiMovieRecommendations = (
 
     if (wordCount < minWordCount && cleanedInput.length < minInputLength) {
       setError(
-        `Please provide either at least ${minWordCount} words or ${minInputLength} characters.`
+        errorsT.tooShort
+          .replace("{minWords}", minWordCount.toString())
+          .replace("{minChars}", minInputLength.toString())
       );
       return null;
     }
 
     if (cleanedInput.length > maxInputLength) {
       setError(
-        `Please keep your movie preferences under ${maxInputLength} characters.`
+        errorsT.tooLong.replace("{maxChars}", maxInputLength.toString())
       );
       return null;
     }
@@ -142,16 +145,14 @@ export const useAiMovieRecommendations = (
       try {
         movieTitles = JSON.parse(reply);
       } catch (e) {
-        setError(
-          "Whoops! The AI got a little too creative. Please try again with a different prompt."
-        );
+        setError(errorsT.aiParseError);
         setMovies([]);
         return;
       }
 
       await searchMoviesFromAiReply(movieTitles);
     } catch (err: any) {
-      setError("Error. Could not fetch AI recommendations. Please try again.");
+      setError(errorsT.fetchError);
     } finally {
       setLoading(false);
     }
