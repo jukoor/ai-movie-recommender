@@ -19,7 +19,7 @@ export const TopRatedMoviesSection: React.FC = () => {
         ref={gridRef}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         style={{
-          gridAutoRows: "minmax(auto, max-content)",
+          gridAutoRows: "1fr",
         }}
       >
         {topRatedMovies.map((movie) => (

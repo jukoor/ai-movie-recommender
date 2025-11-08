@@ -42,8 +42,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     if (!isGenreDropdownOpen && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setDropdownPosition({
-        top: rect.bottom + window.scrollY + 4,
-        left: rect.left + window.scrollX,
+        top: rect.bottom + 4,
+        left: rect.left,
         width: rect.width,
       });
     }
@@ -71,12 +71,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       }
     };
 
+    const handleScroll = () => {
+      // Close dropdown when scrolling for better UX
+      setIsGenreDropdownOpen(false);
+    };
+
     const updatePosition = () => {
       if (buttonRef.current && isGenreDropdownOpen) {
         const rect = buttonRef.current.getBoundingClientRect();
         setDropdownPosition({
-          top: rect.bottom + window.scrollY + 4,
-          left: rect.left + window.scrollX,
+          top: rect.bottom + 4,
+          left: rect.left,
           width: rect.width,
         });
       }
@@ -85,14 +90,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     if (isGenreDropdownOpen) {
       document.addEventListener("keydown", handleKeyDown);
       document.addEventListener("mousedown", handleClickOutside);
-      window.addEventListener("scroll", updatePosition);
+      window.addEventListener("scroll", handleScroll, true);
       window.addEventListener("resize", updatePosition);
     }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("scroll", updatePosition);
+      window.removeEventListener("scroll", handleScroll, true);
       window.removeEventListener("resize", updatePosition);
     };
   }, [isGenreDropdownOpen]);

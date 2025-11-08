@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useReadGenres } from "../../hooks/useReadGenres";
 import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations";
 import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
-import { RefreshCw, Search, Sparkles, AlertCircle } from "lucide-react";
+import { RefreshCw, Search, Sparkles, AlertCircle, X } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
 
 export const AiRecommender = () => {
@@ -95,16 +95,16 @@ export const AiRecommender = () => {
             </label>
 
             <div className="relative glass-card rounded-2xl p-2">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-6 pointer-events-none z-10">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-7 pointer-events-none z-10">
                 <Search
                   className="w-5 h-5 text-purple-400"
                   aria-hidden="true"
                 />
               </div>
               <input
-                type="search"
+                type="text"
                 id="ai-movie-recommendations"
-                className="block w-full p-5 ps-14 pr-32 text-lg text-white bg-transparent border-none focus:ring-2 focus:ring-purple-500/50 rounded-xl placeholder-gray-400 backdrop-blur-sm"
+                className="block w-full py-4 sm:py-5 pl-16 pr-40 sm:pr-52 text-base sm:text-lg text-white bg-transparent border-none focus:ring-2 focus:ring-purple-500/50 rounded-xl placeholder-gray-400 backdrop-blur-sm"
                 value={userInputValue}
                 onChange={(e) => {
                   setUserInputValue(e.target.value);
@@ -123,6 +123,20 @@ export const AiRecommender = () => {
                 Enter a description of movies you want to watch, such as genre,
                 mood, or theme
               </span>
+              {userInputValue && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUserInputValue("");
+                    setActiveQuickSearchTag(null);
+                  }}
+                  className="absolute right-24 sm:right-44 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-700/50 hover:bg-gray-600/70 text-gray-300 hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  aria-label="Clear input"
+                  title="Clear input"
+                >
+                  <X className="w-4 h-4" aria-hidden="true" />
+                </button>
+              )}
               <button
                 type="submit"
                 disabled={loading}
@@ -132,20 +146,28 @@ export const AiRecommender = () => {
                     ? "Fetching movie recommendations"
                     : "Get movie recommendations"
                 }
-                className="absolute right-2 top-2 bottom-2 px-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 backdrop-blur-sm"
+                title={
+                  loading
+                    ? "Fetching movie recommendations"
+                    : "Get movie recommendations"
+                }
+                className="absolute right-2 top-2 bottom-2 px-3 sm:px-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 backdrop-blur-sm"
               >
                 {loading ? (
                   <>
                     <RefreshCw
-                      className="w-4 h-4 animate-spin"
+                      className="w-5 h-5 sm:w-4 sm:h-4 animate-spin"
                       aria-hidden="true"
                     />
-                    Fetching...
+                    <span className="hidden sm:inline">Fetching...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4" aria-hidden="true" />
-                    Get Movies
+                    <Sparkles
+                      className="w-5 h-5 sm:w-4 sm:h-4"
+                      aria-hidden="true"
+                    />
+                    <span className="hidden sm:inline">Get Movies</span>
                   </>
                 )}
               </button>
@@ -298,7 +320,7 @@ export const AiRecommender = () => {
               ref={gridRef}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               style={{
-                gridAutoRows: "minmax(auto, max-content)",
+                gridAutoRows: "1fr",
               }}
             >
               {replyMovies.map((movie, index) => (

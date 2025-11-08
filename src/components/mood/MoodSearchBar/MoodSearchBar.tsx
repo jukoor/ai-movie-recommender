@@ -62,7 +62,7 @@ export const MoodSearchBar: React.FC<MoodSearchBarProps> = ({
             }
           `}
         >
-          <div className="flex items-center p-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-0 p-4 sm:p-6">
             <div className="relative flex-1">
               <label htmlFor="mood-search-input" className="sr-only">
                 Describe your mood or what you want to watch
@@ -91,7 +91,7 @@ export const MoodSearchBar: React.FC<MoodSearchBarProps> = ({
                 aria-label="Tell AI how you're feeling or what you want to watch"
                 aria-describedby="mood-search-instructions"
                 className={`
-                  w-full pl-16 pr-6 py-4 bg-transparent border-none outline-none text-lg
+                  w-full pl-16 pr-6 py-3 sm:py-4 bg-transparent border-none outline-none text-base sm:text-lg
                   placeholder-gray-400 text-gray-700 transition-all duration-200
                   ${loading ? "cursor-wait" : ""}
                 `}
@@ -109,27 +109,33 @@ export const MoodSearchBar: React.FC<MoodSearchBarProps> = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`
-                ml-4 px-6 py-3 rounded-xl font-semibold transition-all duration-200
-                flex items-center gap-2 min-w-[120px] justify-center
+                sm:ml-4 px-3 sm:px-6 py-3 rounded-xl font-semibold transition-all duration-200
+                flex items-center gap-2 sm:min-w-[120px] justify-center aspect-square sm:aspect-auto
                 ${
                   query.trim() && !loading
                     ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg hover:shadow-xl"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }
               `}
+              aria-label={
+                loading ? "Searching for movies" : "Search for movies"
+              }
             >
               {loading ? (
                 <>
                   <Loader2
-                    className="w-4 h-4 animate-spin"
+                    className="w-5 h-5 sm:w-4 sm:h-4 animate-spin"
                     aria-hidden="true"
                   />
-                  <span>Searching...</span>
+                  <span className="hidden sm:inline">Searching...</span>
                 </>
               ) : (
                 <>
-                  <Search className="w-4 h-4" aria-hidden="true" />
-                  <span>Search</span>
+                  <Search
+                    className="w-5 h-5 sm:w-4 sm:h-4"
+                    aria-hidden="true"
+                  />
+                  <span className="hidden sm:inline">Search</span>
                 </>
               )}
             </motion.button>

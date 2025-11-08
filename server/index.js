@@ -13,8 +13,6 @@ app.use(express.json());
 app.post("/api/recommend", async (req, res) => {
   const userPrompt = req.body.prompt;
 
-  console.log("Received user prompt:", userPrompt);
-
   const TODO_DELETE_APIKEY =
     "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";
 
@@ -36,13 +34,10 @@ app.post("/api/recommend", async (req, res) => {
   );
 
   const data = await response.json();
-  console.log(data);
   res.json({
     reply: data.choices?.[0]?.message?.content || "Received no response.",
   });
 });
 
 const PORT = 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => {});

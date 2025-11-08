@@ -1,0 +1,1 @@
+export { MovieImagePlaceholder } from "./MovieImagePlaceholder";

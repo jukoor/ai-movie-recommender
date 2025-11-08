@@ -91,7 +91,6 @@ export const useAiMovieRecommendations = (
 
   const searchMoviesFromAiReply = async (aiMoviesReply: string[]) => {
     const additionalMoviesCount = 2; // fetch additional movies to ensure we have enough to display when one fails
-    console.log("AI Movies Reply:", aiMoviesReply);
 
     // Select random movies from the reply
     const shuffled = aiMoviesReply.sort(() => 0.5 - Math.random());
@@ -99,8 +98,6 @@ export const useAiMovieRecommendations = (
       0,
       movieDisplayCount + additionalMoviesCount
     );
-
-    console.log("Selected random titles:", moviesToDisplay);
 
     const movieTitles = moviesToDisplay.map((title) => title.trim());
     const firstFoundMovies = await Promise.all(
@@ -116,7 +113,6 @@ export const useAiMovieRecommendations = (
     );
     // Filter out undefined results
     const filteredMovies = firstFoundMovies.filter(Boolean) as Movie[];
-    console.log("First found movies:", filteredMovies);
     setMovies(filteredMovies.slice(0, movieDisplayCount));
   };
 

@@ -18,6 +18,7 @@ import { Genre } from "../types/tmdb/Genre";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { useShowToast } from "../context/ToastContext";
 import { db } from "../utils/firebase";
+import { MovieImagePlaceholder } from "../components/ui/MovieImagePlaceholder";
 
 interface MovieDetailPageProps {
   movie?: Movie;
@@ -156,15 +157,38 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.1 }}
       >
-        {movie.backdrop_path && (
+        {movie.backdrop_path ? (
           <>
             <img
               src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
               alt={movie.title}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                const placeholder =
+                  e.currentTarget.nextElementSibling?.nextElementSibling;
+                if (placeholder) {
+                  (placeholder as HTMLElement).style.display = "flex";
+                }
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div style={{ display: "none" }} className="absolute inset-0">
+              <MovieImagePlaceholder
+                title={movie.title}
+                type="backdrop"
+                className="w-full h-full"
+              />
+            </div>
           </>
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black">
+            <MovieImagePlaceholder
+              title={movie.title}
+              type="backdrop"
+              className="w-full h-full"
+            />
+          </div>
         )}
 
         {/* Back Button */}
@@ -190,17 +214,22 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
               <div className="flex items-center gap-2">
                 <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
                 <span className="font-semibold">
-                  {movie.vote_average.toFixed(1)}
+                  {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
                 </span>
                 <span className="text-gray-300">
-                  ({movie.vote_count.toLocaleString()} votes)
+                  ({movie.vote_count ? movie.vote_count.toLocaleString() : "0"}{" "}
+                  votes)
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
-                <span>{new Date(movie.release_date).getFullYear()}</span>
+                <span>
+                  {movie.release_date
+                    ? new Date(movie.release_date).getFullYear()
+                    : "Unknown"}
+                </span>
               </div>
-              {movie.runtime > 0 && (
+              {movie.runtime && movie.runtime > 0 && (
                 <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5" />
                   <span>{formatRuntime(movie.runtime)}</span>
@@ -227,7 +256,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div className="sticky top-8">
-              {movie.poster_path && (
+              {movie.poster_path ? (
                 <motion.img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
@@ -235,8 +264,25 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    const placeholder = e.currentTarget.nextElementSibling;
+                    if (placeholder) {
+                      (placeholder as HTMLElement).style.display = "block";
+                    }
+                  }}
                 />
-              )}
+              ) : null}
+              <div
+                style={{ display: movie.poster_path ? "none" : "block" }}
+                className="mb-6"
+              >
+                <MovieImagePlaceholder
+                  title={movie.title}
+                  type="poster"
+                  className="w-full rounded-xl"
+                />
+              </div>
 
               {/* Action Buttons */}
               <motion.div
@@ -359,12 +405,12 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
             >
               <h2 className="text-2xl font-bold text-white mb-4">Overview</h2>
               <p className="text-gray-300 leading-relaxed text-lg">
-                {movie.overview}
+                {movie.overview || "No overview available for this movie."}
               </p>
             </motion.section>
 
             {/* Genres */}
-            {movie.genre_ids.length > 0 && (
+            {movie.genre_ids && movie.genre_ids.length > 0 && (
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -403,19 +449,21 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div>
                       <p className="font-medium text-white">Release Date</p>
                       <p className="text-gray-400">
-                        {new Date(movie.release_date).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )}
+                        {movie.release_date
+                          ? new Date(movie.release_date).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )
+                          : "Unknown"}
                       </p>
                     </div>
                   </div>
 
-                  {movie.runtime > 0 && (
+                  {movie.runtime && movie.runtime > 0 && (
                     <div className="flex items-center gap-3">
                       <Clock className="w-5 h-5 text-emerald-400" />
                       <div>
@@ -434,14 +482,14 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                         Original Language
                       </p>
                       <p className="text-gray-400 uppercase">
-                        {movie.original_language}
+                        {movie.original_language || "Unknown"}
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  {movie.budget > 0 && (
+                  {movie.budget && movie.budget > 0 && (
                     <div className="flex items-center gap-3">
                       <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
@@ -453,7 +501,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     </div>
                   )}
 
-                  {movie.revenue > 0 && (
+                  {movie.revenue && movie.revenue > 0 && (
                     <div className="flex items-center gap-3">
                       <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
@@ -465,15 +513,19 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     </div>
                   )}
 
-                  <div className="flex items-center gap-3">
-                    <Star className="w-5 h-5 text-emerald-400" />
-                    <div>
-                      <p className="font-medium text-white">Popularity Score</p>
-                      <p className="text-gray-400">
-                        {movie.popularity.toFixed(1)}
-                      </p>
+                  {movie.popularity && (
+                    <div className="flex items-center gap-3">
+                      <Star className="w-5 h-5 text-emerald-400" />
+                      <div>
+                        <p className="font-medium text-white">
+                          Popularity Score
+                        </p>
+                        <p className="text-gray-400">
+                          {movie.popularity.toFixed(1)}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {movie.original_title !== movie.title && (
                     <div className="flex items-center gap-3">
@@ -510,11 +562,16 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                             src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
                             alt={company.name}
                             className="h-12 object-contain mb-2 brightness-0 invert"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
                           />
                         )}
-                        <p className="font-medium text-white">{company.name}</p>
+                        <p className="font-medium text-white">
+                          {company.name || "Unknown Company"}
+                        </p>
                         <p className="text-sm text-gray-400">
-                          {company.origin_country}
+                          {company.origin_country || "Unknown"}
                         </p>
                       </div>
                     ))}

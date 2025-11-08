@@ -80,7 +80,7 @@ export const AiPicksSection: React.FC = () => {
         <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           style={{
-            gridAutoRows: "minmax(auto, max-content)",
+            gridAutoRows: "1fr",
           }}
         >
           {Array.from({ length: 6 }).map((_, index) => (
@@ -97,7 +97,7 @@ export const AiPicksSection: React.FC = () => {
           ref={gridRef}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           style={{
-            gridAutoRows: "minmax(auto, max-content)",
+            gridAutoRows: "1fr",
           }}
         >
           {aiPickedMovies.map((movie: Movie, index) => (

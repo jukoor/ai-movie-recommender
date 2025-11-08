@@ -22,7 +22,12 @@ export const FavoritesPageSkeleton: React.FC = () => {
           </div>
 
           {/* Grid of skeleton cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+            style={{
+              gridAutoRows: "1fr",
+            }}
+          >
             {/* Show 3 skeleton cards as preview */}
             {Array.from({ length: 3 }, (_, index) => (
               <SkeletonCard key={index} />

@@ -196,7 +196,7 @@ export const NavBar = () => {
 
                     {isDropdownOpen && (
                       <div
-                        className="absolute right-0 mt-2 w-48 glass-card rounded-lg shadow-xl border border-purple-500/20 py-1 z-50 backdrop-blur-lg"
+                        className="absolute right-0 mt-2 w-48 rounded-lg shadow-xl border border-purple-500/30 py-1 z-50 backdrop-blur-xl bg-gray-900/95"
                         role="menu"
                       >
                         <button

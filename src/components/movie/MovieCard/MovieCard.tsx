@@ -8,6 +8,7 @@ import { useShowToast } from "../../../context/ToastContext";
 import { Genre } from "../../../types/tmdb/Genre";
 import { Movie } from "../../../types/tmdb/Movie";
 import { db } from "../../../utils/firebase";
+import { MovieImagePlaceholder } from "../../ui/MovieImagePlaceholder";
 
 interface MovieCardProps {
   movie: Movie;
@@ -92,7 +93,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
 
   return (
     <motion.div
-      className="glass-card glass-card-hover rounded-xl h-full overflow-hidden group border border-gray-700/30 flex flex-col"
+      className="glass-card glass-card-hover rounded-xl overflow-hidden group border border-gray-700/30 flex flex-col h-full"
       animate={{
         scale: isAnimating ? [1, 1.02, 1] : 1,
       }}
@@ -103,13 +104,27 @@ export const MovieCard: React.FC<MovieCardProps> = ({
       role="article"
       aria-label={`${movie.title} movie card`}
     >
-      <div className="relative overflow-hidden">
-        <div>
+      <div className="relative overflow-hidden h-80 flex-shrink-0">
+        {movie.poster_path ? (
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={`${movie.title} movie poster`}
-            className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            onError={(e) => {
+              // Handle image load errors by hiding the image
+              e.currentTarget.style.display = "none";
+              const placeholder = e.currentTarget.nextElementSibling;
+              if (placeholder) {
+                (placeholder as HTMLElement).style.display = "flex";
+              }
+            }}
           />
+        ) : null}
+        <div
+          style={{ display: movie.poster_path ? "none" : "flex" }}
+          className="w-full h-full absolute inset-0"
+        >
+          <MovieImagePlaceholder title={movie.title} type="poster" />
         </div>
         <div
           className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -118,10 +133,12 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         <div
           className="absolute top-4 right-4 bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1"
           role="status"
-          aria-label={`Rating: ${movie.vote_average.toFixed(1)} out of 10`}
+          aria-label={`Rating: ${
+            movie.vote_average?.toFixed(1) || "N/A"
+          } out of 10`}
         >
           <Star className="w-4 h-4 fill-current" aria-hidden="true" />
-          {movie.vote_average.toFixed(1)}
+          {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
         </div>
         <motion.button
           onClick={handleFavorite}
@@ -222,10 +239,12 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
           <div
             className="flex items-center gap-1"
-            aria-label={`Released in ${movie.release_date.split("-")[0]}`}
+            aria-label={`Released in ${
+              movie.release_date ? movie.release_date.split("-")[0] : "Unknown"
+            }`}
           >
             <Calendar className="w-4 h-4" aria-hidden="true" />
-            {movie.release_date.split("-")[0]}
+            {movie.release_date ? movie.release_date.split("-")[0] : "Unknown"}
           </div>
         </div>
 
@@ -234,16 +253,20 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           role="list"
           aria-label="Movie genres"
         >
-          {movie.genre_ids.map((genre, index) => (
-            <span
-              key={index}
-              role="listitem"
-              style={{ fontSize: "10px" }}
-              className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full font-medium hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors backdrop-blur-sm border border-gray-600/30"
-            >
-              {genres.find((g) => g.id === genre)?.name || "Unknown"}
-            </span>
-          ))}
+          {movie.genre_ids && movie.genre_ids.length > 0 ? (
+            movie.genre_ids.map((genre, index) => (
+              <span
+                key={index}
+                role="listitem"
+                style={{ fontSize: "10px" }}
+                className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full font-medium hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors backdrop-blur-sm border border-gray-600/30"
+              >
+                {genres.find((g) => g.id === genre)?.name || "Unknown"}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-500 text-sm">No genres available</span>
+          )}
         </div>
 
         <p
@@ -256,7 +279,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
             maxHeight: "6rem", // 4 lines * 1.5rem line-height
           }}
         >
-          {movie.overview}
+          {movie.overview || "No description available."}
         </p>
       </div>
     </motion.div>
