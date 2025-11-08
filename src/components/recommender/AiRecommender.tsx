@@ -6,9 +6,15 @@ import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations
 import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 import { RefreshCw, Search, Sparkles, AlertCircle, X } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
+import {
+  homeTranslations,
+  aiRecommenderTranslations,
+} from "../../translations";
 
 export const AiRecommender = () => {
   const location = useLocation();
+  const t = aiRecommenderTranslations;
+  const heroT = homeTranslations.hero;
 
   const [userInputValue, setUserInputValue] = useState(``);
   const [activeQuickSearchTag, setActiveQuickSearchTag] = useState<
@@ -41,16 +47,7 @@ export const AiRecommender = () => {
     }
   }, [location.state, setReplyMovies]);
 
-  const quickSearchTags = [
-    "epic space adventure",
-    "romantic comedy",
-    "superhero action",
-    "horror thriller",
-    "animated family",
-    "war drama",
-    "crime noir",
-    "sci-fi dystopia",
-  ];
+  const quickSearchTags = t.quickSearch.tags;
 
   const handleQuickSearch = (tag: string) => {
     setUserInputValue(tag);
@@ -71,16 +68,14 @@ export const AiRecommender = () => {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
             <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-fadeIn">
-              AI Movie Discovery
+              {heroT.title}
             </h1>
           </div>
           <p
             className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto animate-fadeIn leading-relaxed"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
-            Discover your next favorite film with our cutting-edge AI
-            recommender. Just tell us what you like, and we'll find movies
-            you'll love!
+            {heroT.subtitle}
           </p>
         </div>
 
@@ -91,7 +86,7 @@ export const AiRecommender = () => {
               htmlFor="ai-movie-recommendations"
               className="mb-2 text-sm font-medium text-white sr-only"
             >
-              Get AI Movie Recommendations
+              {t.form.label}
             </label>
 
             <div className="relative glass-card rounded-2xl p-2">
@@ -113,15 +108,14 @@ export const AiRecommender = () => {
                     setActiveQuickSearchTag(null);
                   }
                 }}
-                placeholder="Describe your ideal movie..."
+                placeholder={t.form.placeholder}
                 autoComplete="off"
                 disabled={loading}
-                aria-label="Describe your ideal movie to get AI recommendations"
+                aria-label={t.form.placeholder}
                 aria-describedby="ai-recommender-instructions"
               />
               <span id="ai-recommender-instructions" className="sr-only">
-                Enter a description of movies you want to watch, such as genre,
-                mood, or theme
+                {t.form.instructions}
               </span>
               {userInputValue && (
                 <button
@@ -131,8 +125,8 @@ export const AiRecommender = () => {
                     setActiveQuickSearchTag(null);
                   }}
                   className="absolute right-24 sm:right-44 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-700/50 hover:bg-gray-600/70 text-gray-300 hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                  aria-label="Clear input"
-                  title="Clear input"
+                  aria-label={t.form.clearInput}
+                  title={t.form.clearInput}
                 >
                   <X className="w-4 h-4" aria-hidden="true" />
                 </button>
@@ -141,16 +135,8 @@ export const AiRecommender = () => {
                 type="submit"
                 disabled={loading}
                 aria-disabled={loading}
-                aria-label={
-                  loading
-                    ? "Fetching movie recommendations"
-                    : "Get movie recommendations"
-                }
-                title={
-                  loading
-                    ? "Fetching movie recommendations"
-                    : "Get movie recommendations"
-                }
+                aria-label={loading ? t.form.submitting : t.form.submitButton}
+                title={loading ? t.form.submitting : t.form.submitButton}
                 className="absolute right-2 top-2 bottom-2 px-3 sm:px-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 backdrop-blur-sm"
               >
                 {loading ? (
@@ -159,7 +145,9 @@ export const AiRecommender = () => {
                       className="w-5 h-5 sm:w-4 sm:h-4 animate-spin"
                       aria-hidden="true"
                     />
-                    <span className="hidden sm:inline">Fetching...</span>
+                    <span className="hidden sm:inline">
+                      {t.form.submitting}
+                    </span>
                   </>
                 ) : (
                   <>
@@ -167,7 +155,9 @@ export const AiRecommender = () => {
                       className="w-5 h-5 sm:w-4 sm:h-4"
                       aria-hidden="true"
                     />
-                    <span className="hidden sm:inline">Get Movies</span>
+                    <span className="hidden sm:inline">
+                      {t.form.submitButton}
+                    </span>
                   </>
                 )}
               </button>
@@ -197,7 +187,7 @@ export const AiRecommender = () => {
           <div
             className="flex flex-wrap gap-3 max-w-4xl justify-center"
             role="group"
-            aria-label="Quick search suggestions"
+            aria-label={t.quickSearch.ariaLabel}
           >
             {quickSearchTags.map((tag) => (
               <button
@@ -257,10 +247,10 @@ export const AiRecommender = () => {
                   </div>
                   <div className="space-y-3 text-center">
                     <h3 className="text-2xl font-bold text-white">
-                      Finding Your Perfect Movies...
+                      {t.loading.title}
                     </h3>
                     <p className="text-gray-300 text-lg">
-                      AI is analyzing your mood and preferences
+                      {t.loading.subtitle}
                     </p>
                     <div className="flex justify-center space-x-1 mt-4">
                       {[0, 1, 2].map((i) => (
@@ -308,11 +298,9 @@ export const AiRecommender = () => {
             {/* Results Header */}
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-white mb-4">
-                🎬 Your AI-Curated Movies
+                🎬 {t.results.title}
               </h2>
-              <p className="text-gray-300 text-lg">
-                Handpicked just for you based on your preferences
-              </p>
+              <p className="text-gray-300 text-lg">{t.results.subtitle}</p>
             </div>
 
             {/* Movies Grid */}

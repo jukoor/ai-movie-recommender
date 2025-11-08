@@ -16,6 +16,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { useShowToast } from "../../../context/ToastContext";
 import { NavigationItem } from "../../../types/NavigationItem";
 import { LoginDialog } from "../../auth/LoginDialog/LoginDialog";
+import { headerTranslations } from "../../../translations";
 
 export const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,18 +24,19 @@ export const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { showToast } = useShowToast();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const t = headerTranslations;
 
   const { user, isLoggedIn, loading } = useAuth();
 
   const navigation: NavigationItem[] = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "By Mood", href: "/by-mood", icon: Smile },
+    { name: t.navigation.home, href: "/", icon: Home },
+    { name: t.navigation.byMood, href: "/by-mood", icon: Smile },
     {
-      name: "Favorites",
+      name: t.navigation.favorites,
       href: "/favorites",
       icon: Star,
     },
-    { name: "About", href: "/about", icon: Info },
+    { name: t.navigation.about, href: "/about", icon: Info },
     // { name: "Profile", href: "/profile", icon: User },
   ];
 
@@ -60,15 +62,9 @@ export const NavBar = () => {
     try {
       await signOut(getAuth());
       setIsDropdownOpen(false);
-      showToast(
-        "You've been logged out successfully. See you next time!",
-        "success"
-      );
+      showToast(t.toast.logoutSuccess, "success");
     } catch (error: any) {
-      showToast(
-        error.message || "Failed to logout. Please try again.",
-        "error"
-      );
+      showToast(error.message || t.toast.logoutError, "error");
     }
   };
 
@@ -92,7 +88,7 @@ export const NavBar = () => {
           <Link
             to="/"
             className="flex items-center gap-3 group"
-            aria-label="PopcornAI Home"
+            aria-label={t.ariaLabels.home}
           >
             <div className="relative p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300 shadow-lg group-hover:shadow-xl transform group-hover:scale-105 shadow-purple-500/30">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-xl"></div>
@@ -106,10 +102,10 @@ export const NavBar = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
-                PopcornAI
+                {t.logo.appName}
               </span>
               <span className="text-xs text-gray-400 group-hover:text-purple-400 transition-colors font-medium">
-                Smart Movie Picks
+                {t.logo.tagline}
               </span>
             </div>
           </Link>
@@ -118,7 +114,7 @@ export const NavBar = () => {
           <nav
             className="hidden md:flex items-center gap-1"
             role="navigation"
-            aria-label="Main navigation"
+            aria-label={t.ariaLabels.mainNavigation}
           >
             {loading ? (
               // Skeleton for desktop navigation
@@ -152,7 +148,7 @@ export const NavBar = () => {
                           ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30 shadow-lg shadow-purple-500/10"
                           : "text-gray-300 hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent")
                       }
-                      aria-label={`Navigate to ${item.name}`}
+                      aria-label={`${t.ariaLabels.navigateTo} ${item.name}`}
                     >
                       {({ isActive }) => (
                         <>
@@ -174,7 +170,7 @@ export const NavBar = () => {
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                       aria-expanded={isDropdownOpen}
                       aria-haspopup="true"
-                      aria-label={`Account menu for ${user?.email}`}
+                      aria-label={`${t.ariaLabels.accountMenu} ${user?.email}`}
                       className="flex items-center gap-2 px-3 py-2 rounded-lg glass-card hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                     >
                       <div
@@ -205,7 +201,7 @@ export const NavBar = () => {
                           className="w-full px-4 py-2 text-left text-sm text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors flex items-center gap-2 focus:outline-none focus:bg-purple-500/10"
                         >
                           <LogOut className="w-4 h-4" aria-hidden="true" />
-                          Logout
+                          {t.auth.logout}
                         </button>
                       </div>
                     )}
@@ -213,11 +209,11 @@ export const NavBar = () => {
                 ) : (
                   <button
                     onClick={() => setIsLoginOpen(true)}
-                    aria-label="Open login dialog"
+                    aria-label={t.ariaLabels.openLoginDialog}
                     className="ml-4 px-4 py-2 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   >
                     <LogIn className="w-4 h-4" aria-hidden="true" />
-                    Login
+                    {t.auth.login}
                   </button>
                 )}
               </>
@@ -228,7 +224,7 @@ export const NavBar = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
-            aria-label="Toggle mobile menu"
+            aria-label={t.ariaLabels.toggleMobileMenu}
             className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors border border-purple-500/20 hover:border-purple-500/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
           >
             {isMobileMenuOpen ? (
@@ -298,7 +294,7 @@ export const NavBar = () => {
                         className="w-full mt-1 px-4 py-3 rounded-lg bg-gradient-to-r from-red-500 to-pink-600 text-white font-medium hover:from-red-600 hover:to-pink-700 transition-all duration-300 flex items-center gap-2 justify-center shadow-lg shadow-red-500/20"
                       >
                         <LogOut className="w-5 h-5" />
-                        Logout
+                        {t.auth.logout}
                       </button>
                     </div>
                   ) : (
@@ -307,7 +303,7 @@ export const NavBar = () => {
                       className="mt-2 px-6 py-3 rounded-lg text-gray-300 hover:text-white font-medium hover:bg-purple-500/10 transition-colors flex items-center gap-2 justify-center border border-purple-500/20 hover:border-purple-500/40"
                     >
                       <LogIn className="w-5 h-5" />
-                      Login
+                      {t.auth.login}
                     </button>
                   )}
                 </>

@@ -1,4 +1,9 @@
+import { footerTranslations } from "../../../translations";
+
 export const Footer = () => {
+  const t = footerTranslations;
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="relative bg-gradient-to-b from-transparent via-gray-900/50 to-gray-900 backdrop-blur-sm border-t border-white/10">
       {/* Subtle gradient overlay */}
@@ -12,27 +17,27 @@ export const Footer = () => {
               <span className="text-white font-bold text-sm">AI</span>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Movie Recommender
+              {t.appName}
             </span>
           </div>
-          <p className="text-gray-400 max-w-md mx-auto">
-            Discover your next favorite movie with AI-powered recommendations
-          </p>
+          <p className="text-gray-400 max-w-md mx-auto">{t.tagline}</p>
         </div>
 
         {/* Bottom section */}
         <div className="border-t border-white/10 pt-8 text-gray-400 text-sm flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
-          <p>&copy; 2025 AI Movie Recommender. All rights reserved.</p>
+          <p>
+            &copy; {currentYear} {t.copyright}
+          </p>
           <p className="flex items-center gap-1">
-            Crafted with <span className="text-red-400 animate-pulse">♥</span>{" "}
-            by{" "}
+            {t.codedWith} <span className="text-red-400 animate-pulse">♥</span>{" "}
+            {t.by}{" "}
             <a
-              href="https://julianorth.de"
+              href={t.authorUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-400 hover:text-purple-300 transition-colors duration-300 underline decoration-purple-400/50 hover:decoration-purple-300 underline-offset-2"
             >
-              Julian Orth
+              {t.authorName}
             </a>
           </p>
         </div>

@@ -12,8 +12,10 @@ import { LoginDialog } from "../components/auth/LoginDialog/LoginDialog";
 import { MovieList } from "../components/movie/MovieList/MovieList";
 import { SearchBar } from "../components/search/SearchBar/SearchBar";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { favoritesTranslations } from "../translations";
 
 export const FavoritesPage: React.FC = () => {
+  const t = favoritesTranslations;
   const navigate = useNavigate();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -96,10 +98,10 @@ export const FavoritesPage: React.FC = () => {
       setShowDeleteDialog(false); // Close dialog immediately
       const docRef = doc(db, "users", user.uid, "movieLists", "favorites");
       await updateDoc(docRef, { movies: [] });
-      showToast("All favorites removed successfully!", "success");
+      showToast(t.actions.removeSuccess, "success");
     } catch (error) {
       console.error("Error removing all favorites:", error);
-      showToast("Failed to remove favorites. Please try again.", "error");
+      showToast(t.actions.removeError, "error");
     } finally {
       setIsRemoving(false);
     }
@@ -122,35 +124,32 @@ export const FavoritesPage: React.FC = () => {
         {/* Dark background with gradient overlay */}
         <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
         <div className="relative z-10">
-          <PageTitle title="Favorites" />
+          <PageTitle title={t.pageTitle} />
           <div className="text-center mb-12 mt-16">
             <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
               <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
-                Your Favorites
+                {t.hero.title}
               </h1>
             </div>
             <p
               className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
               style={{ animationDelay: "200ms", animationFillMode: "both" }}
             >
-              Your personal collection of handpicked movies.
+              {t.hero.subtitle}
             </p>
           </div>
           <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
             <div className="glass-card rounded-lg p-8 max-w-md w-full animate-fadeInUp border border-gray-700/30">
               <LogIn className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
               <h2 className="text-2xl font-semibold text-white mb-3">
-                Sign In Required
+                {t.auth.signInRequired}
               </h2>
-              <p className="text-gray-300 mb-6">
-                Please sign in to your account to add movies to your favorites
-                list and view your saved movies.
-              </p>
+              <p className="text-gray-300 mb-6">{t.auth.signInMessage}</p>
               <button
                 onClick={() => setShowLoginDialog(true)}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 w-full"
               >
-                Sign In
+                {t.auth.signInButton}
               </button>
             </div>
           </div>
@@ -168,19 +167,19 @@ export const FavoritesPage: React.FC = () => {
       {/* Dark background with gradient overlay */}
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
       <div className="relative z-10">
-        <PageTitle title="Favorites" />
+        <PageTitle title={t.pageTitle} />
 
         <div className="text-center mb-12 mt-16">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
             <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
-              Your Favorites
+              {t.hero.title}
             </h1>
           </div>
           <p
             className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
-            Your personal collection of handpicked movies.
+            {t.hero.subtitle}
           </p>
         </div>
 
@@ -192,18 +191,14 @@ export const FavoritesPage: React.FC = () => {
             <div className="glass-card rounded-lg p-8 max-w-md w-full border border-gray-700/30">
               <StarOff className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
               <h2 className="text-2xl font-semibold text-white mb-3">
-                No Favorites Yet
+                {t.empty.title}
               </h2>
-              <p className="text-gray-300 mb-6">
-                Start building your personal movie collection by adding your
-                favorite films. Discover amazing movies and save them here for
-                later!
-              </p>
+              <p className="text-gray-300 mb-6">{t.empty.message}</p>
               <button
                 onClick={() => navigate("/")}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 w-full"
               >
-                Discover Movies
+                {t.empty.cta}
               </button>
             </div>
           </div>

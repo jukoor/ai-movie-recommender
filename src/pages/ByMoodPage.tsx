@@ -9,8 +9,10 @@ import { SkeletonCard } from "../components/skeleton/SkeletonCard";
 import { RefreshCw, AlertCircle, Sparkles } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { Mood } from "../types/Mood";
+import { byMoodTranslations } from "../translations";
 
 export const ByMoodPage: React.FC = () => {
+  const t = byMoodTranslations;
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -57,7 +59,7 @@ export const ByMoodPage: React.FC = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <PageTitle title="By Mood" />
+      <PageTitle title={t.pageTitle} />
 
       {/* Dark background with gradient overlay */}
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
@@ -84,16 +86,16 @@ export const ByMoodPage: React.FC = () => {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
             <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-fadeIn">
-              Movie Mood Search
+              {t.hero.title}
             </h1>
           </div>
           <p
             className="text-xl text-gray-300 max-w-3xl mx-auto animate-fadeIn"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
-            Let PopcornAI find the perfect movies based on how you're feeling.
+            {t.hero.subtitle}
             <br />
-            Slide to choose an emoji that matches your mood!
+            {t.hero.instruction}
           </p>
         </div>
 
@@ -124,7 +126,7 @@ export const ByMoodPage: React.FC = () => {
                 <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold text-red-300 mb-1">
-                    Oops! Something went wrong
+                    {t.error.title}
                   </h3>
                   <p className="text-red-200">{error}</p>
                 </div>
@@ -155,12 +157,10 @@ export const ByMoodPage: React.FC = () => {
                     <Sparkles className="w-8 h-8 text-emerald-500" />
                   </motion.div>
                   <h2 className="text-2xl font-bold text-white">
-                    Finding Your Perfect Movies...
+                    {t.loading.title}
                   </h2>
                 </div>
-                <p className="text-gray-300">
-                  AI is analyzing your mood and preferences
-                </p>
+                <p className="text-gray-300">{t.loading.subtitle}</p>
               </div>
 
               {/* Skeleton Grid */}
@@ -193,7 +193,7 @@ export const ByMoodPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
                 <div className="flex items-center gap-3">
                   <h2 className="text-2xl font-bold text-white">
-                    Perfect Matches for Your Mood
+                    {t.results.title}
                   </h2>
                 </div>
 
@@ -221,7 +221,7 @@ export const ByMoodPage: React.FC = () => {
                       <RefreshCw className="w-5 h-5" />
                     </motion.div>
                     <span className="relative z-10">
-                      {loading ? "Finding..." : "Refresh"}
+                      {loading ? t.loading.title : t.buttons.refresh}
                     </span>
                   </button>
                 </div>

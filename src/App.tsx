@@ -5,6 +5,7 @@ import { routes } from "./routes/routes";
 import "./utils/firebase";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./context/ToastContext";
+import { MetaTags } from "./components/layout/Header/MetaTags";
 
 function AppRoutes() {
   const element = useRoutes(routes);
@@ -22,6 +23,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <ToastProvider>
+          <MetaTags />
           <AppRoutes />
         </ToastProvider>
       </BrowserRouter>

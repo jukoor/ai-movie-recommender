@@ -1,5 +1,6 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { Trash2, X } from "lucide-react";
+import { deleteDialogTranslations } from "../../translations";
 
 interface DeleteConfirmDialogProps {
   isOpen: boolean;
@@ -16,10 +17,11 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
   onClose,
   onConfirm,
   isLoading = false,
-  title = "Delete favorites?",
-  message = "This action cannot be undone.",
+  title = deleteDialogTranslations.title,
+  message = deleteDialogTranslations.message,
   count,
 }) => {
+  const t = deleteDialogTranslations;
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       {/* Backdrop */}
@@ -45,14 +47,16 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
             </div>
             <DialogTitle className="mb-4 text-lg font-semibold text-white">
               {count !== undefined
-                ? `Delete ${count} favorite${count !== 1 ? "s" : ""}?`
+                ? `${t.deleteCount} ${count} ${
+                    count !== 1 ? t.favorites : t.favorite
+                  }?`
                 : title}
             </DialogTitle>
             <p className="mb-6 text-sm text-gray-300">
               {count !== undefined && count > 0
-                ? `You're about to delete ${count} movie${
-                    count !== 1 ? "s" : ""
-                  } from your favorites. ${message}`
+                ? `${t.deleteMessage} ${count} ${
+                    count !== 1 ? t.favorites : t.favorite
+                  } ${t.fromFavorites} ${message}`
                 : message}
             </p>
             <div className="flex justify-end gap-3">
@@ -61,14 +65,14 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
                 disabled={isLoading}
                 className="py-2.5 px-5 text-sm font-medium text-gray-300 focus:outline-none bg-transparent rounded-lg border border-gray-600 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
-                Cancel
+                {t.buttons.cancel}
               </button>
               <button
                 onClick={onConfirm}
                 disabled={isLoading}
                 className="bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
-                {isLoading ? "Deleting..." : "Delete"}
+                {isLoading ? t.buttons.deleting : t.buttons.delete}
               </button>
             </div>
           </div>

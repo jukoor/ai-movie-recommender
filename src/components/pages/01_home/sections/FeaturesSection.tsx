@@ -1,12 +1,15 @@
 import { Sparkles, Film, TrendingUp } from "lucide-react";
+import { homeTranslations } from "../../../../translations";
 
 export const FeaturesSection = () => {
+  const t = homeTranslations.features;
+
   return (
     <div className="relative px-4 max-w-6xl mx-auto">
       {/* Section Header */}
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          Why Choose Our AI?
+          {t.title}
         </h2>
         <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
       </div>
@@ -25,11 +28,10 @@ export const FeaturesSection = () => {
             </div>
 
             <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-purple-300 transition-colors duration-300">
-              AI Powered
+              {t.aiPowered.title}
             </h3>
             <p className="text-gray-300 text-base leading-relaxed">
-              Advanced machine learning algorithms analyze your preferences and
-              mood to deliver perfectly tailored recommendations
+              {t.aiPowered.description}
             </p>
 
             {/* Animated background particles */}
@@ -50,11 +52,10 @@ export const FeaturesSection = () => {
             </div>
 
             <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-blue-300 transition-colors duration-300">
-              Vast Library
+              {t.vastLibrary.title}
             </h3>
             <p className="text-gray-300 text-base leading-relaxed">
-              Access to millions of movies from every genre, era, and culture.
-              From blockbusters to hidden gems
+              {t.vastLibrary.description}
             </p>
 
             {/* Animated background particles */}
@@ -75,11 +76,10 @@ export const FeaturesSection = () => {
             </div>
 
             <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-emerald-300 transition-colors duration-300">
-              Personalized
+              {t.personalized.title}
             </h3>
             <p className="text-gray-300 text-base leading-relaxed">
-              Smart recommendations that evolve and improve with every
-              interaction, learning your unique taste
+              {t.personalized.description}
             </p>
 
             {/* Animated background particles */}

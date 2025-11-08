@@ -17,6 +17,7 @@ import {
   LogIn,
   UserPlus,
 } from "lucide-react";
+import { loginDialogTranslations } from "../../../translations";
 
 interface LoginDialogProps {
   open: boolean;
@@ -24,6 +25,7 @@ interface LoginDialogProps {
 }
 
 export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
+  const t = loginDialogTranslations;
   const { showToast } = useShowToast();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -39,10 +41,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
-      showToast("Welcome back! You've successfully logged in.", "success");
+      showToast(t.toast.loginSuccess, "success");
       onClose();
     } catch (err: any) {
-      showToast(err.message || "Login failed. Please try again.", "error");
+      showToast(err.message || t.toast.loginError, "error");
     } finally {
       setLoading(false);
     }
@@ -62,16 +64,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         password
       );
       await initializeUserLists(userCredential.user);
-      showToast(
-        "Account created successfully! Welcome to PopcornAI!",
-        "success"
-      );
+      showToast(t.toast.signupSuccess, "success");
       onClose();
     } catch (err: any) {
-      showToast(
-        err.message || "Account creation failed. Please try again.",
-        "error"
-      );
+      showToast(err.message || t.toast.signupError, "error");
     } finally {
       setLoading(false);
     }
@@ -83,13 +79,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
     try {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, "demo@popcornai.com", "demo123");
-      showToast(
-        "Welcome to the demo! Explore PopcornAI's features.",
-        "success"
-      );
+      showToast(t.toast.demoSuccess, "success");
       onClose();
     } catch (err: any) {
-      showToast(err.message || "Demo login failed. Please try again.", "error");
+      showToast(err.message || t.toast.demoError, "error");
     } finally {
       setLoading(false);
     }
@@ -145,7 +138,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                 <UserIcon className="w-6 h-6 text-white" />
               </div>
               <DialogTitle className="text-2xl font-bold text-white">
-                {dialogTab === "login" ? "Welcome Back" : "Join PopcornAI"}
+                {dialogTab === "login" ? t.titles.login : t.titles.signup}
               </DialogTitle>
             </div>
             <button
@@ -183,7 +176,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               }`}
               onClick={handleLoginTabClick}
             >
-              Sign In
+              {t.tabs.login}
             </button>
             <button
               role="tab"
@@ -197,7 +190,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               }`}
               onClick={handleSignupTabClick}
             >
-              Sign Up
+              {t.tabs.signup}
             </button>
           </div>
 

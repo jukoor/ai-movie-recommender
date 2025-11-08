@@ -1,0 +1,301 @@
+{
+  "meta": {
+    "title": "PopcornAI - AI-Powered Movie Recommendations",
+    "description": "AI Movie Recommender - Discover your next favorite movie with AI-powered personalized recommendations",
+    "keywords": "AI, Movie, Recommender, Film, Cinema, Movie Discovery",
+    "author": "Julian Orth",
+    "language": "en"
+  },
+  "header": {
+    "navigation": {
+      "home": "Home",
+      "byMood": "By Mood",
+      "favorites": "Favorites",
+      "about": "About"
+    },
+    "auth": {
+      "login": "Login",
+      "logout": "Logout"
+    },
+    "ariaLabels": {
+      "home": "PopcornAI Home",
+      "mainNavigation": "Main navigation",
+      "toggleMobileMenu": "Toggle mobile menu",
+      "accountMenu": "Account menu for",
+      "navigateTo": "Navigate to",
+      "openLoginDialog": "Open login dialog"
+    },
+    "toast": {
+      "logoutSuccess": "You've been logged out successfully. See you next time!",
+      "logoutError": "Failed to logout. Please try again."
+    },
+    "logo": {
+      "appName": "PopcornAI",
+      "tagline": "Smart Movie Picks"
+    }
+  },
+  "footer": {
+    "appName": "Movie Recommender",
+    "tagline": "Discover your next favorite movie with AI-powered recommendations",
+    "copyright": "AI Movie Recommender. All rights reserved.",
+    "codedWith": "Coded with",
+    "by": "by",
+    "authorName": "Julian Orth",
+    "authorUrl": "https://julianorth.de"
+  },
+  "home": {
+    "pageTitle": "Home",
+    "hero": {
+      "title": "AI Movie Discovery",
+      "subtitle": "Discover your next favorite film with our cutting-edge AI recommender. Just tell us what you like, and we'll find movies you'll love!"
+    },
+    "features": {
+      "title": "Why Choose Our AI?",
+      "aiPowered": {
+        "title": "AI Powered",
+        "description": "Advanced machine learning algorithms analyze your preferences and mood to deliver perfectly tailored recommendations"
+      },
+      "vastLibrary": {
+        "title": "Vast Library",
+        "description": "Access to millions of movies from every genre, era, and culture. From blockbusters to hidden gems"
+      },
+      "personalized": {
+        "title": "Personalized",
+        "description": "Smart recommendations that evolve and improve with every interaction, learning your unique taste"
+      }
+    },
+    "aiPicks": {
+      "title": "Fresh AI Picks",
+      "subtitle": "Discover new and popular movies handpicked by our AI algorithm"
+    }
+  },
+  "about": {
+    "pageTitle": "About",
+    "hero": {
+      "title": "About PopcornAI",
+      "subtitle": "Modern movie recommendations app powered by React and AI"
+    },
+    "mission": {
+      "title": "How It Works",
+      "description": "PopcornAI combines movie data from TMDB with AI technology (mistral-7b) to create personalized movie recommendations tailored to your preferences. You can search using free text, tags, or mood-based input. Your prompt gets preprocessed and sent to our AI model, which generates a curated list of movie titles. These titles are then cross-referenced with the TMDB database to pull in detailed movie information and metadata."
+    },
+    "techStack": {
+      "title": "Tech Stack",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "technologies": {
+        "react": {
+          "name": "React",
+          "description": "UI framework"
+        },
+        "typescript": {
+          "name": "TypeScript",
+          "description": "Type safety"
+        },
+        "tailwind": {
+          "name": "Tailwind CSS",
+          "description": "Styling"
+        },
+        "flowbite": {
+          "name": "Flowbite",
+          "description": "UI components"
+        },
+        "vite": {
+          "name": "Vite",
+          "description": "Build tool"
+        },
+        "nodejs": {
+          "name": "Node.js",
+          "description": "Server runtime"
+        },
+        "express": {
+          "name": "Express",
+          "description": "Web framework"
+        },
+        "firebase": {
+          "name": "Firebase",
+          "description": "Authentication & Database"
+        },
+        "tmdb": {
+          "name": "TMDB API",
+          "description": "Movie data"
+        },
+        "huggingface": {
+          "name": "Hugging Face",
+          "description": "AI model hosting"
+        }
+      }
+    },
+    "developer": {
+      "title": "About the Developer",
+      "description": "This project was created as a portfolio piece by Julian Orth, a frontend developer passionate about creating modern, user-friendly web applications. The goal was to combine AI technology with movie discovery to create an engaging and practical user experience."
+    }
+  },
+  "byMood": {
+    "pageTitle": "By Mood",
+    "hero": {
+      "title": "Movie Mood Search",
+      "subtitle": "Let PopcornAI find the perfect movies based on how you're feeling.",
+      "instruction": "Slide to choose an emoji that matches your mood!"
+    },
+    "loading": {
+      "title": "Finding Perfect Movies",
+      "subtitle": "Our AI is analyzing your mood to find the best matches..."
+    },
+    "results": {
+      "title": "Movies Perfect for Your Mood",
+      "noResults": "No movies found for this mood. Try another one!"
+    },
+    "error": {
+      "title": "Oops! Something went wrong"
+    },
+    "buttons": {
+      "refresh": "Show Different Movies"
+    }
+  },
+  "favorites": {
+    "pageTitle": "Favorites",
+    "hero": {
+      "title": "Your Favorites",
+      "subtitle": "Your personal collection of handpicked movies."
+    },
+    "auth": {
+      "signInRequired": "Sign In Required",
+      "signInMessage": "Please sign in to your account to add movies to your favorites list and view your saved movies.",
+      "signInButton": "Sign In"
+    },
+    "empty": {
+      "title": "No Favorites Yet",
+      "message": "Start building your collection by adding movies you love!",
+      "cta": "Discover Movies"
+    },
+    "search": {
+      "placeholder": "Search your favorites...",
+      "filterByGenre": "Filter by genre",
+      "allGenres": "All Genres"
+    },
+    "actions": {
+      "deleteAll": "Delete All",
+      "deleteAllConfirm": "Are you sure you want to remove all favorites?",
+      "removeSuccess": "All favorites removed successfully!",
+      "removeError": "Failed to remove favorites. Please try again."
+    },
+    "stats": {
+      "showing": "Showing",
+      "of": "of",
+      "movies": "movies"
+    }
+  },
+  "aiRecommender": {
+    "form": {
+      "label": "Get AI Movie Recommendations",
+      "placeholder": "Describe your ideal movie...",
+      "instructions": "Enter a description of movies you want to watch, such as genre, mood, or theme",
+      "clearInput": "Clear input",
+      "submitButton": "Get Movies",
+      "submitting": "Fetching..."
+    },
+    "quickSearch": {
+      "ariaLabel": "Quick search suggestions",
+      "tags": [
+        "epic space adventure",
+        "romantic comedy",
+        "superhero action",
+        "horror thriller",
+        "animated family",
+        "war drama",
+        "crime noir",
+        "sci-fi dystopia"
+      ]
+    },
+    "results": {
+      "title": "Your AI-Recommended Movies",
+      "subtitle": "Based on your preferences, here are some movies you might love:",
+      "refresh": "Show Different Results",
+      "noResults": "No movies found. Try a different search!"
+    },
+    "loading": {
+      "title": "Finding Your Perfect Movies",
+      "subtitle": "Our AI is analyzing your preferences to find the best matches..."
+    }
+  },
+  "movieCard": {
+    "rating": "Rating",
+    "releaseDate": "Release",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "viewDetails": "View movie details",
+    "toast": {
+      "addedToFavorites": "added to favorites!",
+      "removedFromFavorites": "removed from favorites!",
+      "loginRequired": "You must be logged in to add favorites.",
+      "updateError": "Failed to update favorites:"
+    },
+    "genres": {
+      "noGenres": "No genres"
+    }
+  },
+  "loginDialog": {
+    "tabs": {
+      "login": "Login",
+      "signup": "Sign Up"
+    },
+    "titles": {
+      "login": "Welcome Back",
+      "signup": "Join PopcornAI"
+    },
+    "form": {
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "••••••••",
+      "loginButton": "Sign In",
+      "signupButton": "Create Account",
+      "submitting": "Please wait..."
+    },
+    "demo": {
+      "divider": "or",
+      "button": "Try Demo Account",
+      "info": "No registration required"
+    },
+    "toast": {
+      "loginSuccess": "Welcome back! You've successfully logged in.",
+      "loginError": "Login failed. Please try again.",
+      "signupSuccess": "Account created successfully! Welcome to PopcornAI!",
+      "signupError": "Account creation failed. Please try again.",
+      "demoSuccess": "Welcome to the demo! Explore PopcornAI's features.",
+      "demoError": "Demo login failed. Please try again."
+    }
+  },
+  "deleteDialog": {
+    "title": "Delete favorites?",
+    "message": "This action cannot be undone.",
+    "deleteCount": "Delete",
+    "favorite": "favorite",
+    "favorites": "favorites",
+    "deleteMessage": "You're about to delete",
+    "fromFavorites": "from your favorites.",
+    "buttons": {
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "noResults": "No results found",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "viewAll": "View All",
+    "backToHome": "Back to Home"
+  }
+}

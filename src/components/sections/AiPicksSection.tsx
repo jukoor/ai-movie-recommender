@@ -6,10 +6,12 @@ import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations
 import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 import { SkeletonCard } from "../skeleton/SkeletonCard";
 import { Movie } from "../../types/tmdb/Movie";
+import { homeTranslations } from "../../translations";
 
 export const AiPicksSection: React.FC = () => {
   const { genres } = useReadGenres();
   const hasInitialized = useRef(false);
+  const t = homeTranslations.aiPicks;
 
   // Use AI recommendations with configuration for this section
   const {
@@ -64,14 +66,14 @@ export const AiPicksSection: React.FC = () => {
               <div className="absolute -inset-2 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-lg"></div>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              Fresh AI Picks
+              {t.title}
             </h2>
           </div>
           {/* Animated underline */}
           <div className="mt-4 h-1 w-32 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
         </div>
         <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
-          Discover new and popular movies handpicked by our AI algorithm
+          {t.subtitle}
         </p>
       </div>
 

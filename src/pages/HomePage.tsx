@@ -3,11 +3,14 @@ import { AiRecommender } from "../components/recommender/AiRecommender";
 import { FeaturesSection } from "../components/pages/01_home/sections/FeaturesSection";
 import { AiPicksSection } from "../components/sections/AiPicksSection";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { homeTranslations } from "../translations";
 
 export const HomePage: React.FC = () => {
+  const t = homeTranslations;
+
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <PageTitle title="Home" />
+      <PageTitle title={t.pageTitle} />
 
       {/* Modern background with gradient overlay */}
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>

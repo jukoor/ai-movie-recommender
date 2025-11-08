@@ -13,9 +13,6 @@ app.use(express.json());
 app.post("/api/recommend", async (req, res) => {
   const userPrompt = req.body.prompt;
 
-  const TODO_DELETE_APIKEY =
-    "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";
-
   const response = await fetch(
     "https://openrouter.ai/api/v1/chat/completions",
     {

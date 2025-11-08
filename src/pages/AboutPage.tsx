@@ -1,11 +1,14 @@
 import React from "react";
 import { Sparkles, Heart, Brain, Code, Film, Server, Zap } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
+import { aboutTranslations } from "../translations";
 
 export const AboutPage: React.FC = () => {
+  const t = aboutTranslations;
+
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <PageTitle title="About" />
+      <PageTitle title={t.pageTitle} />
 
       {/* Dark background with gradient overlay */}
       <div className="absolute inset-0 bg-hero-gradient pointer-events-none"></div>
@@ -18,14 +21,14 @@ export const AboutPage: React.FC = () => {
               <div className="text-center">
                 <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
                   <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 animate-fadeIn">
-                    About PopcornAI
+                    {t.hero.title}
                   </h1>
                 </div>
                 <p
                   className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
                   style={{ animationDelay: "200ms", animationFillMode: "both" }}
                 >
-                  Modern movie recommendations app powered by React and AI
+                  {t.hero.subtitle}
                 </p>
               </div>
             </div>
@@ -38,16 +41,10 @@ export const AboutPage: React.FC = () => {
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-3xl font-bold mb-6 text-white">
-                How It Works
+                {t.mission.title}
               </h2>
               <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
-                PopcornAI combines movie data from TMDB with AI technology
-                (mistral-7b) to create personalized movie recommendations
-                tailored to your preferences. You can search using free text,
-                tags, or mood-based input. Your prompt gets preprocessed and
-                sent to our AI model, which generates a curated list of movie
-                titles. These titles are then cross-referenced with the TMDB
-                database to pull in detailed movie information and metadata.
+                {t.mission.description}
               </p>
             </div>
           </div>
@@ -101,14 +98,16 @@ export const AboutPage: React.FC = () => {
               <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl mb-6">
                 <Code className="w-6 h-6 text-white" />
               </div>
-              <h2 className="text-3xl font-bold mb-4 text-white">Tech Stack</h2>
+              <h2 className="text-3xl font-bold mb-4 text-white">
+                {t.techStack.title}
+              </h2>
             </div>
 
             <div className="space-y-8">
               {/* Frontend */}
               <div>
                 <h3 className="text-xl font-semibold text-white mb-4 text-center">
-                  Frontend
+                  {t.techStack.frontend}
                 </h3>
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
@@ -116,8 +115,12 @@ export const AboutPage: React.FC = () => {
                       <Code className="w-5 h-5 text-blue-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">React</h4>
-                      <p className="text-sm text-gray-400">UI framework</p>
+                      <h4 className="font-semibold text-white">
+                        {t.techStack.technologies.react.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {t.techStack.technologies.react.description}
+                      </p>
                     </div>
                   </div>
 
@@ -126,8 +129,12 @@ export const AboutPage: React.FC = () => {
                       <Code className="w-5 h-5 text-indigo-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">TypeScript</h4>
-                      <p className="text-sm text-gray-400">Type safety</p>
+                      <h4 className="font-semibold text-white">
+                        {t.techStack.technologies.typescript.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {t.techStack.technologies.typescript.description}
+                      </p>
                     </div>
                   </div>
 
@@ -136,8 +143,12 @@ export const AboutPage: React.FC = () => {
                       <Sparkles className="w-5 h-5 text-cyan-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">Tailwind CSS</h4>
-                      <p className="text-sm text-gray-400">Styling</p>
+                      <h4 className="font-semibold text-white">
+                        {t.techStack.technologies.tailwind.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {t.techStack.technologies.tailwind.description}
+                      </p>
                     </div>
                   </div>
 
