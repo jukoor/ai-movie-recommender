@@ -201,7 +201,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                     type="email"
                     placeholder="Enter your email"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
                 <div className="relative">
@@ -213,7 +213,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                     type="password"
                     placeholder="Enter your password"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
               </div>
@@ -269,7 +269,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                     type="email"
                     placeholder="Enter your email"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
                 <div className="relative">
@@ -281,7 +281,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                     type="password"
                     placeholder="Create a password"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800/30 focus:bg-gray-800/50 transition-all duration-200 placeholder-gray-400 text-white"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
                   />
                 </div>
               </div>

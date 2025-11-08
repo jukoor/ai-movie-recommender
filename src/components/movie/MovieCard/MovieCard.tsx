@@ -41,7 +41,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({
     fetchFavoriteStatus();
   }, [movie.id]);
 
-  const handleFavorite = async () => {
+  const handleFavorite = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent navigation when clicking the favorite button
     try {
       const auth = getAuth();
       const user = auth.currentUser;
