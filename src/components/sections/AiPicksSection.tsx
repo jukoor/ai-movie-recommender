@@ -73,7 +73,7 @@ export const AiPicksSection: React.FC = () => {
           {/* Animated underline */}
           <div className="mt-4 h-1 w-32 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
         </div>
-        <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
+        <p className="text-gray-700 dark:text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
           {aiPicksT.subtitle}
         </p>
       </div>
@@ -89,7 +89,7 @@ export const AiPicksSection: React.FC = () => {
           {Array.from({ length: 6 }).map((_, index) => (
             <div
               key={index}
-              className="glass-card rounded-2xl p-4 animate-pulse"
+              className="glass-card rounded-2xl p-4 animate-pulse bg-white/80 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700/50"
             >
               <SkeletonCard />
             </div>

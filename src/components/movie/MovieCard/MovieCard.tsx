@@ -101,7 +101,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
 
   return (
     <motion.div
-      className="glass-card glass-card-hover rounded-xl overflow-hidden group border border-gray-700/30 flex flex-col h-full"
+      className="glass-card glass-card-hover rounded-xl overflow-hidden group border border-gray-200 dark:border-gray-700/30 flex flex-col h-full bg-white dark:bg-gray-900/80 shadow-lg"
       animate={{
         scale: isAnimating ? [1, 1.02, 1] : 1,
       }}
@@ -153,7 +153,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           className={`absolute top-4 left-4 rounded-full p-2 shadow flex items-center transition-all duration-300 backdrop-blur-sm border focus:outline-none focus:ring-2 focus:ring-offset-2 ${
             isFavorite
               ? "bg-rose-500/90 text-white shadow-lg shadow-rose-500/25 border-rose-400/50 focus:ring-rose-500"
-              : "bg-gray-800/80 hover:bg-gray-700/90 text-rose-400 hover:text-rose-300 hover:shadow-lg border-gray-600/50 hover:border-rose-400/50 focus:ring-rose-400"
+              : "bg-white/90 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700/90 text-rose-500 dark:text-rose-400 hover:text-rose-600 dark:hover:text-rose-300 hover:shadow-lg border-gray-200 dark:border-gray-600/50 hover:border-rose-400/50 focus:ring-rose-400"
           }`}
           aria-label={
             isFavorite
@@ -184,7 +184,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           >
             <Star
               className={`w-5 h-5 transition-colors duration-300 ${
-                isFavorite ? "text-white" : "text-rose-400"
+                isFavorite ? "text-white" : "text-rose-500 dark:text-rose-400"
               }`}
               fill={isFavorite ? "currentColor" : "none"}
               aria-hidden="true"
@@ -228,7 +228,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
       <div className="p-6 flex-1 flex flex-col">
         <div className="flex items-start justify-between gap-4 mb-3">
           <button
-            className="text-xl font-bold text-white leading-tight group-hover:text-emerald-400 transition-colors text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
+            className="text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
             onClick={() =>
               navigate(`/movie/${movie.id}`, {
                 state: {
@@ -244,7 +244,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           </button>
         </div>
 
-        <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
           <div
             className="flex items-center gap-1"
             aria-label={`Released in ${
@@ -267,7 +267,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                 key={index}
                 role="listitem"
                 style={{ fontSize: "10px" }}
-                className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full font-medium hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors backdrop-blur-sm border border-gray-600/30"
+                className="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 rounded-full font-medium hover:bg-emerald-100 dark:hover:bg-emerald-500/20 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors backdrop-blur-sm border border-gray-200 dark:border-gray-600/30"
               >
                 {genres.find((g) => g.id === genre)?.name || "Unknown"}
               </span>
@@ -278,7 +278,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         </div>
 
         <p
-          className="text-gray-300 text-sm leading-relaxed mb-4 flex-1 overflow-hidden"
+          className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 flex-1 overflow-hidden"
           style={{
             display: "-webkit-box",
             WebkitLineClamp: 4,

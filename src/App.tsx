@@ -6,6 +6,7 @@ import "./utils/firebase";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./context/ToastContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import { MetaTags } from "./components/layout/Header/MetaTags";
 import { ThemeInit } from "../.flowbite-react/init";
 
@@ -22,17 +23,19 @@ function AppRoutes() {
 
 function App() {
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <ToastProvider>
-            <ThemeInit />
-            <MetaTags />
-            <AppRoutes />
-          </ToastProvider>
-        </BrowserRouter>
-      </AuthProvider>
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <ToastProvider>
+              <ThemeInit />
+              <MetaTags />
+              <AppRoutes />
+            </ToastProvider>
+          </BrowserRouter>
+        </AuthProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 

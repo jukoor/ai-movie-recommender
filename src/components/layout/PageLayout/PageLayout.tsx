@@ -6,7 +6,7 @@ import { ScrollToTop } from "./ScrollToTop";
 
 export const PageLayout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-dark-gradient text-white">
+    <div className="min-h-screen bg-dark-gradient text-gray-900 dark:text-white transition-colors duration-300">
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"

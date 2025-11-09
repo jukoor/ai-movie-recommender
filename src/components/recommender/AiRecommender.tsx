@@ -65,12 +65,12 @@ export const AiRecommender = () => {
       <div className="container mx-auto px-6 py-20 flex-1 flex flex-col">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 animate-fadeIn">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 dark:from-purple-400 dark:via-pink-400 dark:to-blue-400 animate-fadeIn">
               {heroT.title}
             </h1>
           </div>
           <p
-            className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto animate-fadeIn leading-relaxed"
+            className="text-xl md:text-2xl text-gray-800 dark:text-gray-300 max-w-3xl mx-auto animate-fadeIn leading-relaxed"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
             {heroT.subtitle}
@@ -82,12 +82,12 @@ export const AiRecommender = () => {
           <form className="w-full max-w-3xl" onSubmit={handleFormSubmit}>
             <label
               htmlFor="ai-movie-recommendations"
-              className="mb-2 text-sm font-medium text-white sr-only"
+              className="mb-2 text-sm font-medium text-gray-900 dark:text-white sr-only"
             >
               {aiRecommenderT.form.label}
             </label>
 
-            <div className="relative glass-card rounded-2xl p-2">
+            <div className="relative glass-card rounded-2xl p-2 bg-white/90 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700/50">
               <div className="absolute inset-y-0 start-0 flex items-center ps-7 pointer-events-none z-10">
                 <Search
                   className="w-5 h-5 text-purple-400"
@@ -97,7 +97,7 @@ export const AiRecommender = () => {
               <input
                 type="text"
                 id="ai-movie-recommendations"
-                className="block w-full py-4 sm:py-5 pl-16 pr-40 sm:pr-52 text-base sm:text-lg text-white bg-transparent border-none focus:ring-2 focus:ring-purple-500/50 rounded-xl placeholder-gray-400 backdrop-blur-sm"
+                className="block w-full py-4 sm:py-5 pl-16 pr-40 sm:pr-52 text-base sm:text-lg text-gray-900 dark:text-white bg-transparent border-none focus:ring-2 focus:ring-purple-500/50 rounded-xl placeholder-gray-500 dark:placeholder-gray-400 backdrop-blur-sm"
                 value={userInputValue}
                 onChange={(e) => {
                   setUserInputValue(e.target.value);
@@ -122,7 +122,7 @@ export const AiRecommender = () => {
                     setUserInputValue("");
                     setActiveQuickSearchTag(null);
                   }}
-                  className="absolute right-24 sm:right-44 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-700/50 hover:bg-gray-600/70 text-gray-300 hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className="absolute right-24 sm:right-44 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/70 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   aria-label={aiRecommenderT.form.clearInput}
                   title={aiRecommenderT.form.clearInput}
                 >
@@ -178,7 +178,7 @@ export const AiRecommender = () => {
             role="alert"
             aria-live="assertive"
           >
-            <div className="flex items-center gap-3 glass-card bg-red-500/10 border-red-500/30 text-red-300 px-6 py-4 rounded-xl shadow-lg max-w-md backdrop-blur-md">
+            <div className="flex items-center gap-3 glass-card bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-300 px-6 py-4 rounded-xl shadow-lg max-w-md backdrop-blur-md">
               <AlertCircle
                 className="w-5 h-5 flex-shrink-0"
                 aria-hidden="true"
@@ -204,7 +204,7 @@ export const AiRecommender = () => {
                 className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300 backdrop-blur-md border focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${
                   activeQuickSearchTag === tag
                     ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white border-transparent shadow-lg transform scale-105"
-                    : "glass-card text-gray-300 border-white/20 hover:bg-white/10 hover:text-white hover:border-purple-400/50 hover:scale-105"
+                    : "glass-card bg-white/80 dark:bg-gray-900/50 text-gray-800 dark:text-gray-300 border-gray-300 dark:border-white/20 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white hover:border-purple-400/50 hover:scale-105"
                 }`}
                 disabled={loading}
               >
@@ -235,7 +235,7 @@ export const AiRecommender = () => {
               exit={{ opacity: 0, scale: 0.9 }}
               className="text-center py-16"
             >
-              <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
+              <div className="glass-card rounded-2xl p-8 max-w-md mx-auto bg-white/80 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700/50">
                 <div className="flex flex-col items-center gap-6">
                   <div className="relative">
                     <motion.div
@@ -252,10 +252,10 @@ export const AiRecommender = () => {
                     <div className="absolute -inset-2 bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-full blur-lg"></div>
                   </div>
                   <div className="space-y-3 text-center">
-                    <h3 className="text-2xl font-bold text-white">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                       {aiRecommenderT.loading.title}
                     </h3>
-                    <p className="text-gray-300 text-lg">
+                    <p className="text-gray-700 dark:text-gray-300 text-lg">
                       {aiRecommenderT.loading.subtitle}
                     </p>
                     <div className="flex justify-center space-x-1 mt-4">
@@ -303,10 +303,10 @@ export const AiRecommender = () => {
           >
             {/* Results Header */}
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                 🎬 {aiRecommenderT.results.title}
               </h2>
-              <p className="text-gray-300 text-lg">
+              <p className="text-gray-700 dark:text-gray-300 text-lg">
                 {aiRecommenderT.results.subtitle}
               </p>
             </div>

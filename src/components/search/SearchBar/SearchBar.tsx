@@ -111,7 +111,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-12 px-4">
-      <div className="flex flex-col gap-3 items-stretch glass-card rounded-xl p-4 border border-gray-700/30">
+      <div className="flex flex-col gap-3 items-stretch glass-card rounded-xl p-4 border border-gray-300 dark:border-gray-700/30 bg-white/80 dark:bg-gray-900/50">
         {/* Search Input and Genre Filter Row */}
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <div className="relative flex-1">
@@ -119,7 +119,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               Search movies by title
             </label>
             <Search
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
             />
             <input
@@ -129,12 +129,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               value={inputValue}
               onChange={handleInputChange}
               aria-label="Search movies by title"
-              className="w-full pl-12 pr-12 py-3 border border-gray-600/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-white placeholder-gray-400 bg-gray-800/50 focus:bg-gray-800/70 backdrop-blur-sm"
+              className="w-full pl-12 pr-12 py-3 border border-gray-300 dark:border-gray-600/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-800/50 focus:bg-gray-50 dark:focus:bg-gray-800/70 backdrop-blur-sm"
             />
             {inputValue && (
               <button
                 onClick={handleClear}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
                 aria-label="Clear search"
                 title="Clear search"
               >
@@ -149,18 +149,18 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               <button
                 ref={buttonRef}
                 onClick={handleDropdownToggle}
-                className="w-full px-4 py-2.5 border border-gray-600/30 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-left flex items-center justify-between backdrop-blur-sm"
+                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600/30 rounded-lg bg-white dark:bg-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/70 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-left flex items-center justify-between backdrop-blur-sm"
                 aria-expanded={isGenreDropdownOpen}
                 aria-haspopup="listbox"
                 aria-label={`${t.favorites.search.filterByGenre}, ${
                   t.common.loading
                 }: ${selectedGenre || t.favorites.genreFilter.allGenres}`}
               >
-                <span className="text-white truncate">
+                <span className="text-gray-900 dark:text-white truncate">
                   {selectedGenre || t.favorites.genreFilter.allGenres}
                 </span>
                 <ChevronDown
-                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                  className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${
                     isGenreDropdownOpen ? "rotate-180" : ""
                   }`}
                   aria-hidden="true"
@@ -176,7 +176,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                     {/* Dropdown content */}
                     <div
                       ref={dropdownRef}
-                      className="fixed glass-card border border-gray-600/30 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto backdrop-blur-md"
+                      className="fixed glass-card border border-gray-300 dark:border-gray-600/30 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto backdrop-blur-md bg-white dark:bg-gray-900/95"
                       style={{
                         top: `${dropdownPosition.top}px`,
                         left: `${dropdownPosition.left}px`,
@@ -197,8 +197,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                           }}
                           className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 focus:ring-2 focus:ring-emerald-500/50 ${
                             !selectedGenre
-                              ? "bg-emerald-500/20 text-emerald-300 font-medium"
-                              : "text-gray-300"
+                              ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-medium"
+                              : "text-gray-700 dark:text-gray-300"
                           }`}
                         >
                           {t.favorites.genreFilter.allGenres}
@@ -214,8 +214,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                             }}
                             className={`w-full px-4 py-2.5 text-left hover:bg-emerald-500/10 transition-colors duration-150 focus:outline-none focus:bg-emerald-500/10 focus:ring-2 focus:ring-emerald-500/50 ${
                               selectedGenre === genre
-                                ? "bg-emerald-500/20 text-emerald-300 font-medium"
-                                : "text-gray-300"
+                                ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-medium"
+                                : "text-gray-700 dark:text-gray-300"
                             }`}
                           >
                             {genre}

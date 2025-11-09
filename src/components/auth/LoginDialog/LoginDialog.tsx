@@ -129,7 +129,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         aria-hidden="true"
       />
-      <div className="relative glass-card rounded-lg shadow-2xl max-w-md w-full mx-auto border border-gray-700/30 overflow-hidden animate-fadeInUp">
+      <div className="relative glass-card rounded-lg shadow-2xl max-w-md w-full mx-auto border border-gray-200 dark:border-gray-700/30 overflow-hidden animate-fadeInUp bg-white dark:bg-gray-900">
         {/* Header with gradient background */}
         <div className="bg-gradient-to-r from-emerald-600/90 via-teal-600/90 to-emerald-700/90 px-8 py-6 relative overflow-hidden backdrop-blur-sm">
           <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
@@ -163,7 +163,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         <div className="p-8">
           {/* Tab switcher */}
           <div
-            className="flex gap-1 mb-8 p-1 bg-gray-800/30 rounded-lg border border-gray-700/30"
+            className="flex gap-1 mb-8 p-1 bg-gray-100 dark:bg-gray-800/30 rounded-lg border border-gray-200 dark:border-gray-700/30"
             role="tablist"
             aria-label="Authentication type"
           >
@@ -174,8 +174,8 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               id="login-tab"
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                 dialogTab === "login"
-                  ? "bg-emerald-500/15 text-emerald-300 shadow-sm border border-emerald-500/20"
-                  : "text-gray-400 hover:text-gray-200 hover:bg-gray-700/30"
+                  ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 shadow-sm border border-emerald-500/20"
+                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700/30"
               }`}
               onClick={handleLoginTabClick}
             >
@@ -188,8 +188,8 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               id="signup-tab"
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                 dialogTab === "signup"
-                  ? "bg-emerald-500/15 text-emerald-300 shadow-sm border border-emerald-500/20"
-                  : "text-gray-400 hover:text-gray-200 hover:bg-gray-700/30"
+                  ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 shadow-sm border border-emerald-500/20"
+                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700/30"
               }`}
               onClick={handleSignupTabClick}
             >
@@ -221,7 +221,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       required
                       autoComplete="email"
                       aria-required="true"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 focus:bg-white dark:focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-gray-900 dark:text-white"
                     />
                   </div>
                   <div className="relative">
@@ -240,7 +240,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       required
                       autoComplete="current-password"
                       aria-required="true"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-50 dark:bg-gray-800 focus:bg-white dark:focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>

@@ -151,7 +151,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
 
   return (
     <motion.main
-      className="min-h-screen bg-dark-gradient"
+      className="min-h-screen bg-gray-50 dark:bg-gray-900"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -244,7 +244,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 <span className="font-semibold">
                   {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
                 </span>
-                <span className="text-gray-300">
+                <span className="text-gray-700 dark:text-gray-300">
                   ({movie.vote_count ? movie.vote_count.toLocaleString() : "0"}{" "}
                   {t.movieDetail.details.votes})
                 </span>
@@ -433,10 +433,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <h2 className="text-2xl font-bold text-white mb-4">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 {t.movieDetail.sections.overview}
               </h2>
-              <p className="text-gray-300 leading-relaxed text-lg">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                 {movie.overview || t.movieDetail.placeholders.noOverview}
               </p>
             </motion.section>
@@ -448,7 +448,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 }}
               >
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                   {t.movieDetail.sections.genres}
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -473,7 +473,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
-              <h3 className="text-xl font-semibold text-white mb-4">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 {t.movieDetail.sections.details}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -481,10 +481,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   <div className="flex items-center gap-3">
                     <Calendar className="w-5 h-5 text-emerald-400" />
                     <div>
-                      <p className="font-medium text-white">
+                      <p className="font-medium text-gray-900 dark:text-white">
                         {t.movieDetail.details.releaseDate}
                       </p>
-                      <p className="text-gray-400">
+                      <p className="text-gray-600 dark:text-gray-400">
                         {movie.release_date
                           ? new Date(movie.release_date).toLocaleDateString(
                               "en-US",
@@ -503,10 +503,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <Clock className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {t.movieDetail.details.runtime}
                         </p>
-                        <p className="text-gray-400">
+                        <p className="text-gray-600 dark:text-gray-400">
                           {formatRuntime(movie.runtime)}
                         </p>
                       </div>
@@ -516,10 +516,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   <div className="flex items-center gap-3">
                     <Globe className="w-5 h-5 text-emerald-400" />
                     <div>
-                      <p className="font-medium text-white">
+                      <p className="font-medium text-gray-900 dark:text-white">
                         {t.movieDetail.details.originalLanguage}
                       </p>
-                      <p className="text-gray-400 uppercase">
+                      <p className="text-gray-600 dark:text-gray-400 uppercase">
                         {movie.original_language ||
                           t.movieDetail.placeholders.unknownDate}
                       </p>
@@ -532,10 +532,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {t.movieDetail.details.budget}
                         </p>
-                        <p className="text-gray-400">
+                        <p className="text-gray-600 dark:text-gray-400">
                           {formatCurrency(movie.budget)}
                         </p>
                       </div>
@@ -546,10 +546,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {t.movieDetail.details.revenue}
                         </p>
-                        <p className="text-gray-400">
+                        <p className="text-gray-600 dark:text-gray-400">
                           {formatCurrency(movie.revenue)}
                         </p>
                       </div>
@@ -560,10 +560,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <Star className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {t.movieDetail.details.popularityScore}
                         </p>
-                        <p className="text-gray-400">
+                        <p className="text-gray-600 dark:text-gray-400">
                           {movie.popularity.toFixed(1)}
                         </p>
                       </div>
@@ -574,10 +574,10 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <Globe className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {t.movieDetail.details.originalTitle}
                         </p>
-                        <p className="text-gray-400">{movie.original_title}</p>
+                        <p className="text-gray-600 dark:text-gray-400">{movie.original_title}</p>
                       </div>
                     </div>
                   )}
@@ -593,7 +593,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.9 }}
                 >
-                  <h3 className="text-xl font-semibold text-white mb-4">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                     {t.movieDetail.sections.productionCompanies}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -612,11 +612,11 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                             }}
                           />
                         )}
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-gray-900 dark:text-white">
                           {company.name ||
                             t.movieDetail.placeholders.unknownCompany}
                         </p>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           {company.origin_country ||
                             t.movieDetail.placeholders.unknownCountry}
                         </p>
@@ -634,7 +634,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 1.0 }}
                 >
-                  <h3 className="text-xl font-semibold text-white mb-3">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                     {t.movieDetail.sections.productionCountries}
                   </h3>
                   <div className="flex flex-wrap gap-2">
@@ -657,7 +657,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.1 }}
               >
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                   {t.movieDetail.sections.spokenLanguages}
                 </h3>
                 <div className="flex flex-wrap gap-2">

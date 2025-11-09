@@ -9,7 +9,7 @@ export const FeaturesSection = () => {
     <div className="relative px-4 max-w-6xl mx-auto">
       {/* Section Header */}
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
           {featuresT.title}
         </h2>
         <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
@@ -19,7 +19,7 @@ export const FeaturesSection = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* AI Powered Feature */}
         <div className="group relative">
-          <div className="glass-card glass-card-hover text-center p-8 rounded-3xl h-full">
+          <div className="glass-card glass-card-hover text-center p-8 rounded-3xl h-full bg-white/80 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700/50">
             {/* Floating icon with glow */}
             <div className="relative mb-6 inline-block">
               <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mx-auto flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
@@ -28,10 +28,10 @@ export const FeaturesSection = () => {
               <div className="absolute -inset-3 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
-            <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-purple-300 transition-colors duration-300">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors duration-300">
               {featuresT.aiPowered.title}
             </h3>
-            <p className="text-gray-300 text-base leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
               {featuresT.aiPowered.description}
             </p>
 
@@ -43,7 +43,7 @@ export const FeaturesSection = () => {
 
         {/* Vast Library Feature */}
         <div className="group relative">
-          <div className="glass-card glass-card-hover text-center p-8 rounded-3xl h-full">
+          <div className="glass-card glass-card-hover text-center p-8 rounded-3xl h-full bg-white/80 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700/50">
             {/* Floating icon with glow */}
             <div className="relative mb-6 inline-block">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mx-auto flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
@@ -52,10 +52,10 @@ export const FeaturesSection = () => {
               <div className="absolute -inset-3 bg-gradient-to-br from-blue-500/30 to-cyan-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
-            <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-blue-300 transition-colors duration-300">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">
               {featuresT.vastLibrary.title}
             </h3>
-            <p className="text-gray-300 text-base leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
               {featuresT.vastLibrary.description}
             </p>
 
@@ -67,7 +67,7 @@ export const FeaturesSection = () => {
 
         {/* Personalized Feature */}
         <div className="group relative">
-          <div className="glass-card glass-card-hover text-center p-8 rounded-3xl h-full">
+          <div className="glass-card glass-card-hover text-center p-8 rounded-3xl h-full bg-white/80 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700/50">
             {/* Floating icon with glow */}
             <div className="relative mb-6 inline-block">
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-500 rounded-2xl mx-auto flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
@@ -76,10 +76,10 @@ export const FeaturesSection = () => {
               <div className="absolute -inset-3 bg-gradient-to-br from-emerald-500/30 to-green-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
-            <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-emerald-300 transition-colors duration-300">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors duration-300">
               {featuresT.personalized.title}
             </h3>
-            <p className="text-gray-300 text-base leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
               {featuresT.personalized.description}
             </p>
 
@@ -93,7 +93,7 @@ export const FeaturesSection = () => {
       {/* Bottom decorative element */}
       <div className="mt-16 text-center">
         <div className="inline-block">
-          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-full"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-gray-400 dark:via-white/30 to-transparent rounded-full"></div>
         </div>
       </div>
     </div>

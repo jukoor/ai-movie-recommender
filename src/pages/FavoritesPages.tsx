@@ -138,24 +138,24 @@ export const FavoritesPage: React.FC = () => {
           />
           <div className="text-center mb-12 mt-16">
             <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
-              <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
+              <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-600 dark:to-teal-600 animate-fadeIn">
                 {favoritesT.hero.title}
               </h1>
             </div>
             <p
-              className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
+              className="text-xl text-gray-800 dark:text-gray-300 max-w-2xl mx-auto animate-fadeIn"
               style={{ animationDelay: "200ms", animationFillMode: "both" }}
             >
               {favoritesT.hero.subtitle}
             </p>
           </div>
           <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
-            <div className="glass-card rounded-lg p-8 max-w-md w-full animate-fadeInUp border border-gray-700/30">
+            <div className="glass-card rounded-lg p-8 max-w-md w-full animate-fadeInUp border border-gray-300 dark:border-gray-700/30 bg-white/80 dark:bg-gray-900/50">
               <LogIn className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
-              <h2 className="text-2xl font-semibold text-white mb-3">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
                 {favoritesT.auth.signInRequired}
               </h2>
-              <p className="text-gray-300 mb-6">
+              <p className="text-gray-700 dark:text-gray-300 mb-6">
                 {favoritesT.auth.signInMessage}
               </p>
               <button
@@ -194,12 +194,12 @@ export const FavoritesPage: React.FC = () => {
 
         <div className="text-center mb-12 mt-16">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 animate-fadeIn">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-600 dark:to-teal-600 animate-fadeIn">
               {favoritesT.hero.title}
             </h1>
           </div>
           <p
-            className="text-xl text-gray-300 max-w-2xl mx-auto animate-fadeIn"
+            className="text-xl text-gray-800 dark:text-gray-300 max-w-2xl mx-auto animate-fadeIn"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
             {favoritesT.hero.subtitle}
@@ -211,12 +211,14 @@ export const FavoritesPage: React.FC = () => {
             className="flex flex-col items-center justify-center min-h-[400px] text-center px-4 animate-fadeInUp"
             style={{ animationDelay: "800ms", animationFillMode: "both" }}
           >
-            <div className="glass-card rounded-lg p-8 max-w-md w-full border border-gray-700/30">
+            <div className="glass-card rounded-lg p-8 max-w-md w-full border border-gray-300 dark:border-gray-700/30 bg-white/80 dark:bg-gray-900/50">
               <StarOff className="w-16 h-16 text-emerald-400 mx-auto mb-4" />
-              <h2 className="text-2xl font-semibold text-white mb-3">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
                 {favoritesT.empty.title}
               </h2>
-              <p className="text-gray-300 mb-6">{favoritesT.empty.message}</p>
+              <p className="text-gray-700 dark:text-gray-300 mb-6">
+                {favoritesT.empty.message}
+              </p>
               <button
                 onClick={() => navigate("/")}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 w-full"
@@ -245,7 +247,7 @@ export const FavoritesPage: React.FC = () => {
               style={{ animationDelay: "600ms", animationFillMode: "both" }}
             >
               <div className="flex justify-between items-center">
-                <p className="text-gray-300">
+                <p className="text-gray-800 dark:text-gray-300">
                   {favoritesT.stats.showing} {filteredMovies.length}{" "}
                   {favoritesT.stats.of} {movies.length}{" "}
                   {favoritesT.stats.movies}
@@ -269,12 +271,12 @@ export const FavoritesPage: React.FC = () => {
             >
               {filteredMovies.length === 0 && searchTerm ? (
                 <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
-                  <div className="glass-card rounded-lg p-8 max-w-md w-full border border-gray-700/30">
+                  <div className="glass-card rounded-lg p-8 max-w-md w-full border border-gray-300 dark:border-gray-700/30 bg-white/80 dark:bg-gray-900/50">
                     <Film className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h2 className="text-2xl font-semibold text-white mb-3">
+                    <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
                       {favoritesT.noSearchResults.title}
                     </h2>
-                    <p className="text-gray-300 mb-6">
+                    <p className="text-gray-700 dark:text-gray-300 mb-6">
                       {favoritesT.noSearchResults.message}
                     </p>
                   </div>

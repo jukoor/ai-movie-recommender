@@ -140,7 +140,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             >
               {moods[currentIndex].label}
             </h3>
-            <p className="text-gray-300 text-sm max-w-xs mx-auto">
+            <p className="text-gray-700 dark:text-gray-300 text-sm max-w-xs mx-auto">
               {moods[currentIndex].description}
             </p>
           </motion.div>
@@ -163,7 +163,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             aria-valuemax={moods.length - 1}
             aria-valuenow={currentIndex}
             aria-valuetext={`${moods[currentIndex].label}: ${moods[currentIndex].description}`}
-            className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/50 slider-thumb"
+            className="w-full h-3 bg-gray-300 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/50 slider-thumb"
           />
 
           {/* Mood Labels on Slider */}

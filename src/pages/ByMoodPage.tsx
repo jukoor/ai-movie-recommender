@@ -87,22 +87,22 @@ export const ByMoodPage: React.FC = () => {
 
       {/* Animated background particles */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-20 left-20 w-2 h-2 bg-purple-500/30 rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-32 w-1 h-1 bg-blue-500/40 rounded-full animate-pulse delay-1000"></div>
-        <div className="absolute bottom-40 left-40 w-1.5 h-1.5 bg-pink-500/30 rounded-full animate-pulse delay-500"></div>
-        <div className="absolute bottom-20 right-20 w-1 h-1 bg-emerald-500/40 rounded-full animate-pulse delay-700"></div>
+        <div className="absolute top-20 left-20 w-3 h-3 bg-purple-500/40 dark:bg-purple-500/30 rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-32 w-2 h-2 bg-blue-500/50 dark:bg-blue-500/40 rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-40 w-2.5 h-2.5 bg-pink-500/40 dark:bg-pink-500/30 rounded-full animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-20 w-2 h-2 bg-emerald-500/50 dark:bg-emerald-500/40 rounded-full animate-pulse delay-700"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Header */}
         <header className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-fadeIn leading-tight md:leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 animate-fadeIn leading-tight md:leading-tight">
               {byMoodT.hero.title}
             </h1>
           </div>
           <p
-            className="text-xl text-gray-300 max-w-3xl mx-auto animate-fadeIn"
+            className="text-xl text-gray-800 dark:text-gray-300 max-w-3xl mx-auto animate-fadeIn"
             style={{ animationDelay: "200ms", animationFillMode: "both" }}
           >
             {byMoodT.hero.subtitle}
@@ -136,13 +136,13 @@ export const ByMoodPage: React.FC = () => {
               exit={{ opacity: 0, scale: 0.95 }}
               className="max-w-2xl mx-auto mb-8"
             >
-              <div className="glass-card border border-red-500/20 rounded-xl p-6 flex items-start gap-3 bg-red-500/10">
-                <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+              <div className="glass-card border border-red-500/20 rounded-xl p-6 flex items-start gap-3 bg-red-500/10 dark:bg-red-500/10">
+                <AlertCircle className="w-5 h-5 text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-red-300 mb-1">
+                  <h3 className="font-semibold text-red-600 dark:text-red-300 mb-1">
                     {byMoodT.error.title}
                   </h3>
-                  <p className="text-red-200">{error}</p>
+                  <p className="text-red-500 dark:text-red-200">{error}</p>
                 </div>
               </div>
             </motion.div>
@@ -170,11 +170,13 @@ export const ByMoodPage: React.FC = () => {
                   >
                     <Sparkles className="w-8 h-8 text-emerald-500" />
                   </motion.div>
-                  <h2 className="text-2xl font-bold text-white">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {byMoodT.loading.title}
                   </h2>
                 </div>
-                <p className="text-gray-300">{byMoodT.loading.subtitle}</p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  {byMoodT.loading.subtitle}
+                </p>
               </div>
 
               {/* Skeleton Grid */}
@@ -185,7 +187,10 @@ export const ByMoodPage: React.FC = () => {
                 }}
               >
                 {Array.from({ length: 6 }).map((_, index) => (
-                  <div key={index} className="glass-card rounded-2xl p-4">
+                  <div
+                    key={index}
+                    className="glass-card rounded-2xl p-4 bg-white/80 dark:bg-gray-900/50"
+                  >
                     <SkeletonCard />
                   </div>
                 ))}
@@ -206,7 +211,7 @@ export const ByMoodPage: React.FC = () => {
               {/* Results Header */}
               <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-2xl font-bold text-white">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {byMoodT.results.title}
                   </h2>
                 </div>

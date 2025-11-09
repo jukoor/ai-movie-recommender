@@ -2,8 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark mode CSS variables */
+/* Light mode CSS variables (default) */
 :root {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f3f5;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: rgba(255, 255, 255, 1);
+  --text-primary: #1a1a1a;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --accent-purple: #8b5cf6;
+  --accent-blue: #3b82f6;
+  --accent-pink: #ec4899;
+  --accent-emerald: #10b981;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode CSS variables */
+:root.dark {
   --bg-primary: #0a0a0a;
   --bg-secondary: #111111;
   --bg-tertiary: #1a1a1a;
@@ -19,15 +39,17 @@
   --accent-emerald: #10b981;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
-/* Dark mode body styles */
+/* Body styles with theme transition */
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode custom scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -37,12 +59,21 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(139, 92, 246, 0.3);
   border-radius: 6px;
   backdrop-filter: blur(10px);
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* Dark mode scrollbar adjustments */
+:root.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+:root.dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -58,7 +89,7 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px var(--shadow-color);
 }
 
 .glass-card-hover {
@@ -66,25 +97,59 @@ body {
 }
 
 .glass-card-hover:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+}
+
+/* Light mode glass card hover adjustments */
+:root:not(.dark) .glass-card-hover:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.15);
 }
 
 /* Modern gradient backgrounds */
 .bg-dark-gradient {
   background: linear-gradient(
     135deg,
-    #0a0a0a 0%,
-    #111111 25%,
-    #1a1a1a 50%,
-    #0f0f0f 75%,
-    #0a0a0a 100%
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-secondary) 75%,
+    var(--bg-primary) 100%
   );
 }
 
 .bg-hero-gradient {
+  background: 
+    radial-gradient(
+      ellipse 800px 600px at 20% 10%,
+      rgba(139, 92, 246, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 600px 500px at 80% 30%,
+      rgba(236, 72, 153, 0.12) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 700px 550px at 50% 60%,
+      rgba(59, 130, 246, 0.1) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.05) 0%,
+      rgba(236, 72, 153, 0.05) 50%,
+      rgba(59, 130, 246, 0.05) 100%
+    );
+}
+
+/* Dark mode gradient adjustments */
+:root.dark .bg-hero-gradient {
   background: radial-gradient(
     ellipse at center top,
     rgba(139, 92, 246, 0.15) 0%,
