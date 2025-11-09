@@ -1,4 +1,4 @@
-import { useLanguage } from "../../../context/LanguageContext";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 export const Footer = () => {
   const { t } = useLanguage();

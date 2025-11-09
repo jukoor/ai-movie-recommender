@@ -143,8 +143,8 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
                   {toast.type === "success"
                     ? "Check icon"
                     : toast.type === "error"
-                    ? "Error icon"
-                    : "Info icon"}
+                      ? "Error icon"
+                      : "Info icon"}
                 </span>
               </div>
               <div className="ms-3 text-sm font-normal">{toast.message}</div>

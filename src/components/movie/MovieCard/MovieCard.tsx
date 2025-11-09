@@ -9,7 +9,7 @@ import { Genre } from "../../../types/tmdb/Genre";
 import { Movie } from "../../../types/tmdb/Movie";
 import { db } from "../../../utils/firebase";
 import { MovieImagePlaceholder } from "../../ui/MovieImagePlaceholder";
-import { useLanguage } from "../../../context/LanguageContext";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 interface MovieCardProps {
   movie: Movie;

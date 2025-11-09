@@ -6,7 +6,7 @@ import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations
 import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 import { SkeletonCard } from "../skeleton/SkeletonCard";
 import { Movie } from "../../types/tmdb/Movie";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../hooks/useLanguage";
 
 export const AiPicksSection: React.FC = () => {
   const { genres } = useReadGenres();

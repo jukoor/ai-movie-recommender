@@ -1,5 +1,5 @@
 import { Sparkles, Film, TrendingUp } from "lucide-react";
-import { useLanguage } from "../../../../context/LanguageContext";
+import { useLanguage } from "../../../../hooks/useLanguage";
 
 export const FeaturesSection = () => {
   const { t } = useLanguage();

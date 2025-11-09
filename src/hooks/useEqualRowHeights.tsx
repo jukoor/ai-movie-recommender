@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
  * and applying that height to all items in the same row
  */
 export const useEqualRowHeights = (
-  dependencies: any[] = [],
+  dependencies: unknown[] = [],
   enabled: boolean = true
 ) => {
   const gridRef = useRef<HTMLDivElement>(null);

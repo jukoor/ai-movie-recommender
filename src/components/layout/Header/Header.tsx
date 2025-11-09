@@ -17,7 +17,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { useShowToast } from "../../../context/ToastContext";
-import { useLanguage } from "../../../context/LanguageContext";
+import { useLanguage } from "../../../hooks/useLanguage";
 import { useTheme } from "../../../context/ThemeContext";
 import { NavigationItem } from "../../../types/NavigationItem";
 import { LoginDialog } from "../../auth/LoginDialog/LoginDialog";
@@ -69,8 +69,10 @@ export const NavBar = () => {
       await signOut(getAuth());
       setIsDropdownOpen(false);
       showToast(headerT.toast.logoutSuccess, "success");
-    } catch (error: any) {
-      showToast(error.message || headerT.toast.logoutError, "error");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : headerT.toast.logoutError;
+      showToast(errorMessage, "error");
     }
   };
 
@@ -151,8 +153,8 @@ export const NavBar = () => {
                         (isPending
                           ? "pending"
                           : isActive
-                          ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-600 dark:text-purple-300 border border-purple-500/30 shadow-lg shadow-purple-500/10"
-                          : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent")
+                            ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-600 dark:text-purple-300 border border-purple-500/30 shadow-lg shadow-purple-500/10"
+                            : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent")
                       }
                       aria-label={`${headerT.ariaLabels.navigateTo} ${item.name}`}
                     >
@@ -311,8 +313,8 @@ export const NavBar = () => {
                           (isPending
                             ? "pending"
                             : isActive
-                            ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-600 dark:text-purple-300 border-l-2 border-purple-500 shadow-lg shadow-purple-500/10"
-                            : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/10")
+                              ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-600 dark:text-purple-300 border-l-2 border-purple-500 shadow-lg shadow-purple-500/10"
+                              : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/10")
                         }
                       >
                         <Icon className="w-5 h-5" />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Search, X, ChevronDown } from "lucide-react";
-import { useLanguage } from "../../../context/LanguageContext";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 interface SearchBarProps {
   searchTerm: string;

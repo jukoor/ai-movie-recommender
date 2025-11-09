@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { useLanguage } from "../../../context/LanguageContext";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 interface MetaTagsProps {
   title?: string;

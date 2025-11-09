@@ -329,25 +329,37 @@
   "loginDialog": {
     "tabs": {
       "login": "Login",
-      "signup": "Sign Up"
+      "signup": "Sign Up",
+      "ariaLabel": "Authentication type"
     },
     "titles": {
       "login": "Welcome Back",
       "signup": "Join PopcornAI"
     },
+    "subtitles": {
+      "login": "Sign in to discover your next favorite movie",
+      "signup": "Create your account to get personalized recommendations"
+    },
     "form": {
       "email": "Email",
       "password": "Password",
+      "emailLabel": "Email address",
+      "passwordLabel": "Password",
       "emailPlaceholder": "you@example.com",
       "passwordPlaceholder": "••••••••",
+      "passwordRequirements": "Password must be at least 6 characters long",
       "loginButton": "Sign In",
       "signupButton": "Create Account",
-      "submitting": "Please wait..."
+      "submitting": "Please wait...",
+      "signingIn": "Signing in...",
+      "creatingAccount": "Creating account...",
+      "closeLabel": "Close"
     },
     "demo": {
       "divider": "or",
       "button": "Try Demo Account",
-      "info": "No registration required"
+      "info": "No registration required",
+      "loading": "Accessing demo..."
     },
     "toast": {
       "loginSuccess": "Welcome back! You've successfully logged in.",
@@ -370,6 +382,18 @@
       "cancel": "Cancel",
       "delete": "Delete",
       "deleting": "Deleting..."
+    }
+  },
+  "authRequiredDialog": {
+    "title": "Sign In Required",
+    "message": "To use our AI-powered movie recommendations, please sign in to your account. This helps us provide you with personalized suggestions tailored to your taste.",
+    "demoInfo": {
+      "title": "Try it out with our demo account!",
+      "description": "No registration needed. Click 'Sign In' and try the demo account to explore all AI features."
+    },
+    "buttons": {
+      "login": "Sign In",
+      "later": "Maybe Later"
     }
   },
   "common": {

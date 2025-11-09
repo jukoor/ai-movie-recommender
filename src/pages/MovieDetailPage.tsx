@@ -13,14 +13,19 @@ import {
 } from "lucide-react";
 import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Movie } from "../types/tmdb/Movie";
+import {
+  Movie,
+  ProductionCompany,
+  ProductionCountry,
+  SpokenLanguage,
+} from "../types/tmdb/Movie";
 import { Genre } from "../types/tmdb/Genre";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
 import { useShowToast } from "../context/ToastContext";
 import { db } from "../utils/firebase";
 import { MovieImagePlaceholder } from "../components/ui/MovieImagePlaceholder";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../hooks/useLanguage";
 
 interface MovieDetailPageProps {
   movie?: Movie;
@@ -577,7 +582,9 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                         <p className="font-medium text-gray-900 dark:text-white">
                           {t.movieDetail.details.originalTitle}
                         </p>
-                        <p className="text-gray-600 dark:text-gray-400">{movie.original_title}</p>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {movie.original_title}
+                        </p>
                       </div>
                     </div>
                   )}
@@ -597,31 +604,33 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     {t.movieDetail.sections.productionCompanies}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {movie.production_companies.map((company: any) => (
-                      <div
-                        key={company.id}
-                        className="glass-card rounded-lg p-4"
-                      >
-                        {company.logo_path && (
-                          <img
-                            src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
-                            alt={company.name}
-                            className="h-12 object-contain mb-2 brightness-0 invert"
-                            onError={(e) => {
-                              e.currentTarget.style.display = "none";
-                            }}
-                          />
-                        )}
-                        <p className="font-medium text-gray-900 dark:text-white">
-                          {company.name ||
-                            t.movieDetail.placeholders.unknownCompany}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {company.origin_country ||
-                            t.movieDetail.placeholders.unknownCountry}
-                        </p>
-                      </div>
-                    ))}
+                    {movie.production_companies.map(
+                      (company: ProductionCompany) => (
+                        <div
+                          key={company.id}
+                          className="glass-card rounded-lg p-4"
+                        >
+                          {company.logo_path && (
+                            <img
+                              src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
+                              alt={company.name}
+                              className="h-12 object-contain mb-2 brightness-0 invert"
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                              }}
+                            />
+                          )}
+                          <p className="font-medium text-gray-900 dark:text-white">
+                            {company.name ||
+                              t.movieDetail.placeholders.unknownCompany}
+                          </p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {company.origin_country ||
+                              t.movieDetail.placeholders.unknownCountry}
+                          </p>
+                        </div>
+                      )
+                    )}
                   </div>
                 </motion.section>
               )}
@@ -638,14 +647,16 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     {t.movieDetail.sections.productionCountries}
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {movie.production_countries.map((country: any) => (
-                      <span
-                        key={country.iso_3166_1}
-                        className="px-3 py-1 bg-purple-600/20 text-purple-300 border border-purple-500/30 rounded-full text-sm"
-                      >
-                        {country.name}
-                      </span>
-                    ))}
+                    {movie.production_countries.map(
+                      (country: ProductionCountry) => (
+                        <span
+                          key={country.iso_3166_1}
+                          className="px-3 py-1 bg-purple-600/20 text-purple-300 border border-purple-500/30 rounded-full text-sm"
+                        >
+                          {country.name}
+                        </span>
+                      )
+                    )}
                   </div>
                 </motion.section>
               )}
@@ -661,7 +672,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   {t.movieDetail.sections.spokenLanguages}
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {movie.spoken_languages.map((language: any) => (
+                  {movie.spoken_languages.map((language: SpokenLanguage) => (
                     <span
                       key={language.iso_639_1}
                       className="px-3 py-1 bg-blue-600/20 text-blue-300 border border-blue-500/30 rounded-full text-sm"

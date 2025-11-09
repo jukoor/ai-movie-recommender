@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../hooks/useLanguage";
 
 export const AboutPage: React.FC = () => {
   const { t } = useLanguage();

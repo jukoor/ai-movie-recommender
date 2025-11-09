@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import enTranslations from "../translations/en.json";
 import deTranslations from "../translations/de.json";
 
@@ -6,13 +6,13 @@ export type Language = "en" | "de";
 
 type Translations = typeof enTranslations;
 
-interface LanguageContextType {
+export interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: Translations;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(
+export const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined
 );
 
@@ -55,12 +55,4 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </LanguageContext.Provider>
   );
-};
-
-export const useLanguage = (): LanguageContextType => {
-  const context = useContext(LanguageContext);
-  if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
-  }
-  return context;
 };

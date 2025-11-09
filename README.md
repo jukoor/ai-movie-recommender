@@ -1,100 +1,57 @@
-# AI Movie Recommender
+# 🎬 AI Movie Recommender
 
-An intelligent movie recommendation system powered by AI that helps users discover movies based on their preferences, viewing history, and personalized recommendations.
+Discover your next favorite movie with AI-powered recommendations! This app helps you find movies based on your mood, preferences, and personalized picks.
 
-## Features
+## ✨ Features
 
 - 🤖 AI-powered movie recommendations
-- 🎬 Extensive movie database integration
-- 👤 Personalized user profiles
-- ⭐ Rating and review system
-- 🔍 Advanced search and filtering
-- 📱 Responsive web interface
+- � Search movies by mood
+- ⭐ Browse top-rated movies
+- 🔍 Smart search functionality
+- � Save your favorites (with authentication)
+- 🌍 Multi-language support (English & German)
+- 🎨 Dark/Light theme
 
-## Getting Started
+## 🚀 Quick Start
 
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn package manager
-
-### Installation
-
-1. Clone the repository:
+1. **Clone and install:**
 
 ```bash
-git clone https://github.com/yourusername/ai-movie-recommender.git
+git clone https://github.com/jukoor/ai-movie-recommender.git
 cd ai-movie-recommender
-```
-
-2. Install dependencies:
-
-```bash
 npm i
 ```
 
-### Running the Application
+2. **Set up environment variables:**
 
-#### Development Mode
+```bash
+# Copy the example environment file
+cp .env.example .env
+```
 
-Start the frontend development server:
+Then edit `.env` and add your API keys:
+
+- **TMDB API**: Get your key from [TMDB API Settings](https://www.themoviedb.org/settings/api)
+- **Firebase**: Get your config from [Firebase Console](https://console.firebase.google.com/)
+- **OpenRouter**: Get your key from [OpenRouter Keys](https://openrouter.ai/keys)
+
+3. **Run the app:**
 
 ```bash
 npm run dev
-```
-
-#### Backend Server
-
-Start the backend server:
-
-```bash
 npm run server
 ```
 
-The application will be available at:
+That's it! Open `http://localhost:5173` in your browser.
 
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
+## 🛠️ Built With
 
-## Technology Stack
+- React 19 + TypeScript
+- Tailwind CSS + Flowbite
+- Firebase Authentication
+- TMDB API
+- OpenAI API
 
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express
-- **Database**: MongoDB/PostgreSQL
-- **AI/ML**: Python, TensorFlow/PyTorch
-- **APIs**: TMDB API, OpenAI API
+## 📄 License
 
-## Project Structure
-
-```
-ai-movie-recommender/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   └── utils/
-├── server/
-│   ├── routes/
-│   ├── models/
-│   └── middleware/
-├── public/
-└── package.json
-```
-
-## Contributing
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- TMDB for movie data
-- OpenAI for AI capabilities
-- Contributors and the open-source community
+MIT License - feel free to use this project however you like!

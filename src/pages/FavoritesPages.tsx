@@ -2,7 +2,13 @@ import { Film, LogIn, StarOff, Trash2 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../types/tmdb/Movie";
-import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  onSnapshot,
+  updateDoc,
+  DocumentSnapshot,
+} from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import { FavoritesPageSkeleton } from "../components/skeleton/FavoritesPageSkeleton";
 import { useShowToast } from "../context/ToastContext";
@@ -13,7 +19,7 @@ import { MovieList } from "../components/movie/MovieList/MovieList";
 import { SearchBar } from "../components/search/SearchBar/SearchBar";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../hooks/useLanguage";
 
 export const FavoritesPage: React.FC = () => {
   const { t } = useLanguage();
@@ -37,7 +43,7 @@ export const FavoritesPage: React.FC = () => {
     if (!userId) return;
 
     const docRef = doc(db, "users", userId, "movieLists", "favorites");
-    const unsubscribe = onSnapshot(docRef, (docSnap: any) => {
+    const unsubscribe = onSnapshot(docRef, (docSnap: DocumentSnapshot) => {
       if (docSnap.exists()) {
         const movies = docSnap.data().movies || [];
         setMovies(movies);

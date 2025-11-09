@@ -1,6 +1,6 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { Trash2, X } from "lucide-react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../hooks/useLanguage";
 
 interface DeleteConfirmDialogProps {
   isOpen: boolean;

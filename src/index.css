@@ -46,7 +46,9 @@
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Custom scrollbar */
@@ -124,7 +126,7 @@ body {
 }
 
 .bg-hero-gradient {
-  background: 
+  background:
     radial-gradient(
       ellipse 800px 600px at 20% 10%,
       rgba(139, 92, 246, 0.15) 0%,
@@ -212,5 +214,7 @@ body {
 
 /* Smooth filter transitions */
 .filter-transition {
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.2s ease-out;
 }

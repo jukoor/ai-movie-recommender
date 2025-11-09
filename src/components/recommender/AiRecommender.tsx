@@ -6,18 +6,24 @@ import { useAiMovieRecommendations } from "../../hooks/useAiMovieRecommendations
 import { useEqualRowHeights } from "../../hooks/useEqualRowHeights";
 import { RefreshCw, Search, Sparkles, AlertCircle, X } from "lucide-react";
 import { MovieCard } from "../movie/MovieCard/MovieCard";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../hooks/useLanguage";
+import { useAuth } from "../../context/AuthContext";
+import { AuthRequiredDialog } from "../dialogs/AuthRequiredDialog";
+import { LoginDialog } from "../auth/LoginDialog/LoginDialog";
 
 export const AiRecommender = () => {
   const location = useLocation();
   const { t } = useLanguage();
   const aiRecommenderT = t.aiRecommender;
   const heroT = t.home.hero;
+  const { isLoggedIn } = useAuth();
 
   const [userInputValue, setUserInputValue] = useState(``);
   const [activeQuickSearchTag, setActiveQuickSearchTag] = useState<
     string | null
   >(null);
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const { genres } = useReadGenres();
 
@@ -48,6 +54,12 @@ export const AiRecommender = () => {
   const quickSearchTags = aiRecommenderT.quickSearch.tags;
 
   const handleQuickSearch = (tag: string) => {
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setShowAuthDialog(true);
+      return;
+    }
+
     setUserInputValue(tag);
     setActiveQuickSearchTag(tag);
     // Small delay to ensure state is updated, then trigger search
@@ -56,6 +68,13 @@ export const AiRecommender = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setShowAuthDialog(true);
+      return;
+    }
+
     getRecommendations(userInputValue);
   };
 
@@ -88,7 +107,7 @@ export const AiRecommender = () => {
             </label>
 
             <div className="relative glass-card rounded-2xl p-2 bg-white/90 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700/50">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-7 pointer-events-none z-10">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-4 sm:ps-7 pointer-events-none z-10">
                 <Search
                   className="w-5 h-5 text-purple-400"
                   aria-hidden="true"
@@ -97,7 +116,7 @@ export const AiRecommender = () => {
               <input
                 type="text"
                 id="ai-movie-recommendations"
-                className="block w-full py-4 sm:py-5 pl-16 pr-40 sm:pr-52 text-base sm:text-lg text-gray-900 dark:text-white bg-transparent border-none focus:ring-2 focus:ring-purple-500/50 rounded-xl placeholder-gray-500 dark:placeholder-gray-400 backdrop-blur-sm"
+                className="block w-full py-4 sm:py-5 pl-12 sm:pl-16 pr-[90px] sm:pr-[220px] text-base sm:text-lg text-gray-900 dark:text-white bg-transparent border-none focus:ring-2 focus:ring-purple-500/50 rounded-xl placeholder-gray-500 dark:placeholder-gray-400 backdrop-blur-sm"
                 value={userInputValue}
                 onChange={(e) => {
                   setUserInputValue(e.target.value);
@@ -122,7 +141,7 @@ export const AiRecommender = () => {
                     setUserInputValue("");
                     setActiveQuickSearchTag(null);
                   }}
-                  className="absolute right-24 sm:right-44 top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/70 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className="absolute right-[70px] sm:right-[200px] top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/70 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   aria-label={aiRecommenderT.form.clearInput}
                   title={aiRecommenderT.form.clearInput}
                 >
@@ -352,6 +371,19 @@ export const AiRecommender = () => {
           </motion.div>
         )}
       </div>
+
+      {/* Auth Required Dialog */}
+      <AuthRequiredDialog
+        isOpen={showAuthDialog}
+        onClose={() => setShowAuthDialog(false)}
+        onOpenLogin={() => setShowLoginDialog(true)}
+      />
+
+      {/* Login Dialog */}
+      <LoginDialog
+        open={showLoginDialog}
+        onClose={() => setShowLoginDialog(false)}
+      />
     </div>
   );
 };

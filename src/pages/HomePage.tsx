@@ -4,7 +4,7 @@ import { FeaturesSection } from "../components/pages/01_home/sections/FeaturesSe
 import { AiPicksSection } from "../components/sections/AiPicksSection";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../hooks/useLanguage";
 
 export const HomePage: React.FC = () => {
   const { t } = useLanguage();

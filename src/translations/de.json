@@ -329,25 +329,37 @@
   "loginDialog": {
     "tabs": {
       "login": "Anmelden",
-      "signup": "Registrieren"
+      "signup": "Registrieren",
+      "ariaLabel": "Authentifizierungstyp"
     },
     "titles": {
       "login": "Willkommen zurück",
       "signup": "Bei PopcornAI anmelden"
     },
+    "subtitles": {
+      "login": "Melde dich an, um deinen nächsten Lieblingsfilm zu entdecken",
+      "signup": "Erstelle dein Konto für personalisierte Empfehlungen"
+    },
     "form": {
       "email": "E-Mail",
       "password": "Passwort",
+      "emailLabel": "E-Mail-Adresse",
+      "passwordLabel": "Passwort",
       "emailPlaceholder": "du@beispiel.de",
       "passwordPlaceholder": "••••••••",
+      "passwordRequirements": "Das Passwort muss mindestens 6 Zeichen lang sein",
       "loginButton": "Anmelden",
       "signupButton": "Konto erstellen",
-      "submitting": "Bitte warten..."
+      "submitting": "Bitte warten...",
+      "signingIn": "Wird angemeldet...",
+      "creatingAccount": "Konto wird erstellt...",
+      "closeLabel": "Schließen"
     },
     "demo": {
       "divider": "oder",
       "button": "Demo-Konto ausprobieren",
-      "info": "Keine Registrierung erforderlich"
+      "info": "Keine Registrierung erforderlich",
+      "loading": "Demo wird geladen..."
     },
     "toast": {
       "loginSuccess": "Willkommen zurück! Du hast dich erfolgreich angemeldet.",
@@ -370,6 +382,18 @@
       "cancel": "Abbrechen",
       "delete": "Löschen",
       "deleting": "Wird gelöscht..."
+    }
+  },
+  "authRequiredDialog": {
+    "title": "Anmeldung erforderlich",
+    "message": "Um unsere KI-gestützten Filmempfehlungen zu nutzen, melde dich bitte bei deinem Konto an. Dies hilft uns, dir personalisierte Vorschläge zu geben, die auf deinen Geschmack zugeschnitten sind.",
+    "demoInfo": {
+      "title": "Probier es mit unserem Demo-Konto aus!",
+      "description": "Keine Registrierung erforderlich. Klicke auf 'Anmelden' und probiere das Demo-Konto aus, um alle KI-Funktionen zu erkunden."
+    },
+    "buttons": {
+      "login": "Anmelden",
+      "later": "Vielleicht später"
     }
   },
   "common": {

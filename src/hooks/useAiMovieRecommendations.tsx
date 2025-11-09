@@ -1,8 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { Movie } from "../types/tmdb/Movie";
+import { MovieApiResult } from "../types/tmdb/MovieApiResult";
 import { apiRequest } from "../utils/api";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "./useLanguage";
 
 interface UseAiMovieRecommendationsConfig {
   moviesRequestCount?: number;
@@ -51,7 +52,7 @@ export const useAiMovieRecommendations = (
     // Check and Remove emojis using regex
     const emojiRegex =
       /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
-    let cleanedInput = userInput.replace(emojiRegex, "");
+    const cleanedInput = userInput.replace(emojiRegex, "");
 
     // Check for swear words and show error if found
     const words = cleanedInput.toLowerCase().split(/\s+/);
@@ -105,7 +106,7 @@ export const useAiMovieRecommendations = (
     const movieTitles = moviesToDisplay.map((title) => title.trim());
     const firstFoundMovies = await Promise.all(
       movieTitles.map(async (title) => {
-        const response = await apiRequest(
+        const response = await apiRequest<MovieApiResult>(
           "get",
           `${
             import.meta.env.VITE_TMDB_API_BASE_URL
@@ -144,14 +145,14 @@ export const useAiMovieRecommendations = (
       let movieTitles: string[] = [];
       try {
         movieTitles = JSON.parse(reply);
-      } catch (e) {
+      } catch {
         setError(errorsT.aiParseError);
         setMovies([]);
         return;
       }
 
       await searchMoviesFromAiReply(movieTitles);
-    } catch (err: any) {
+    } catch {
       setError(errorsT.fetchError);
     } finally {
       setLoading(false);

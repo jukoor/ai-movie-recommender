@@ -10,14 +10,20 @@ import { RefreshCw, AlertCircle, Sparkles } from "lucide-react";
 import { PageTitle } from "../components/layout/Header/PageTitle";
 import { MetaTags } from "../components/layout/Header/MetaTags";
 import { Mood } from "../types/Mood";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../hooks/useLanguage";
+import { useAuth } from "../context/AuthContext";
+import { AuthRequiredDialog } from "../components/dialogs/AuthRequiredDialog";
+import { LoginDialog } from "../components/auth/LoginDialog/LoginDialog";
 
 export const ByMoodPage: React.FC = () => {
   const { t } = useLanguage();
   const byMoodT = t.byMood;
+  const { isLoggedIn } = useAuth();
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const { genres } = useReadGenres();
 
@@ -33,6 +39,12 @@ export const ByMoodPage: React.FC = () => {
   const gridRef = useEqualRowHeights([movies], true);
 
   const searchMoviesByMood = async (query: string) => {
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setShowAuthDialog(true);
+      return;
+    }
+
     setShowResults(false);
     await getRecommendations(query);
     if (!error) {
@@ -275,6 +287,19 @@ export const ByMoodPage: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Auth Required Dialog */}
+      <AuthRequiredDialog
+        isOpen={showAuthDialog}
+        onClose={() => setShowAuthDialog(false)}
+        onOpenLogin={() => setShowLoginDialog(true)}
+      />
+
+      {/* Login Dialog */}
+      <LoginDialog
+        open={showLoginDialog}
+        onClose={() => setShowLoginDialog(false)}
+      />
     </main>
   );
 };

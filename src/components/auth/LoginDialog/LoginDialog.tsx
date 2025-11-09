@@ -17,7 +17,7 @@ import {
   LogIn,
   UserPlus,
 } from "lucide-react";
-import { useLanguage } from "../../../context/LanguageContext";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 interface LoginDialogProps {
   open: boolean;
@@ -44,8 +44,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
       await signInWithEmailAndPassword(auth, email, password);
       showToast(loginT.toast.loginSuccess, "success");
       onClose();
-    } catch (err: any) {
-      showToast(err.message || loginT.toast.loginError, "error");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : loginT.toast.loginError;
+      showToast(errorMessage, "error");
     } finally {
       setLoading(false);
     }
@@ -67,8 +69,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
       await initializeUserLists(userCredential.user);
       showToast(loginT.toast.signupSuccess, "success");
       onClose();
-    } catch (err: any) {
-      showToast(err.message || loginT.toast.signupError, "error");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : loginT.toast.signupError;
+      showToast(errorMessage, "error");
     } finally {
       setLoading(false);
     }
@@ -82,14 +86,15 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
       await signInWithEmailAndPassword(auth, "demo@popcornai.com", "demo123");
       showToast(loginT.toast.demoSuccess, "success");
       onClose();
-    } catch (err: any) {
-      showToast(err.message || loginT.toast.demoError, "error");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : loginT.toast.demoError;
+      showToast(errorMessage, "error");
     } finally {
       setLoading(false);
     }
   };
 
-  // Create default lists on user account creation
   async function initializeUserLists(user: User) {
     const db = getFirestore();
 
@@ -147,15 +152,15 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
             <button
               onClick={handleClose}
               className="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-all duration-200"
-              aria-label="Close"
+              aria-label={loginT.form.closeLabel}
             >
               <X className="w-5 h-5" />
             </button>
           </div>
           <p className="text-emerald-100 mt-2 relative">
             {dialogTab === "login"
-              ? "Sign in to discover your next favorite movie"
-              : "Create your account to get personalized recommendations"}
+              ? loginT.subtitles.login
+              : loginT.subtitles.signup}
           </p>
         </div>
 
@@ -165,7 +170,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
           <div
             className="flex gap-1 mb-8 p-1 bg-gray-100 dark:bg-gray-800/30 rounded-lg border border-gray-200 dark:border-gray-700/30"
             role="tablist"
-            aria-label="Authentication type"
+            aria-label={loginT.tabs.ariaLabel}
           >
             <button
               role="tab"
@@ -207,7 +212,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                 <div className="space-y-4">
                   <div className="relative">
                     <label htmlFor="login-email" className="sr-only">
-                      Email address
+                      {loginT.form.emailLabel}
                     </label>
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Mail className="h-5 w-5 text-gray-400" />
@@ -226,7 +231,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                   </div>
                   <div className="relative">
                     <label htmlFor="login-password" className="sr-only">
-                      Password
+                      {loginT.form.passwordLabel}
                     </label>
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Lock className="h-5 w-5 text-gray-400" />
@@ -257,24 +262,30 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                         <div
                           className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"
                           role="status"
-                          aria-label="Signing in"
+                          aria-label={loginT.form.signingIn}
                         ></div>
-                        Signing in...
+                        {loginT.form.signingIn}
                       </div>
                     ) : (
                       <div className="flex items-center justify-center gap-2">
                         <LogIn className="w-5 h-5" aria-hidden="true" />
-                        Sign In
+                        {loginT.form.loginButton}
                       </div>
                     )}
                   </button>
 
-                  <div className="relative" role="separator" aria-label="or">
+                  <div
+                    className="relative"
+                    role="separator"
+                    aria-label={loginT.demo.divider}
+                  >
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-600/50"></div>
+                      <div className="w-full border-t border-gray-300 dark:border-gray-600/50"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                      <span className="px-3 glass-card text-gray-300">or</span>
+                      <span className="px-3 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-300">
+                        {loginT.demo.divider}
+                      </span>
                     </div>
                   </div>
 
@@ -283,11 +294,11 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                     onClick={handleDemoLogin}
                     disabled={loading}
                     aria-disabled={loading}
-                    aria-label="Try demo account with pre-filled credentials"
+                    aria-label={loginT.demo.info}
                     className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-lg px-6 py-3 font-medium focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:ring-offset-2 focus:ring-offset-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                   >
                     <Sparkles className="w-5 h-5" aria-hidden="true" />
-                    {loading ? "Accessing demo..." : "Try Demo Account"}
+                    {loading ? loginT.demo.loading : loginT.demo.button}
                   </button>
                 </div>
               </form>
@@ -296,7 +307,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                 <div className="space-y-4">
                   <div className="relative">
                     <label htmlFor="signup-email" className="sr-only">
-                      Email address
+                      {loginT.form.emailLabel}
                     </label>
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Mail className="h-5 w-5 text-gray-400" />
@@ -315,7 +326,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                   </div>
                   <div className="relative">
                     <label htmlFor="signup-password" className="sr-only">
-                      Password
+                      {loginT.form.passwordLabel}
                     </label>
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Lock className="h-5 w-5 text-gray-400" />
@@ -333,7 +344,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       className="w-full pl-10 pr-4 py-3 border border-gray-600/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-gray-800 focus:bg-gray-700 transition-all duration-200 placeholder-gray-400 text-white"
                     />
                     <p id="password-requirements" className="sr-only">
-                      Password must be at least 6 characters long
+                      {loginT.form.passwordRequirements}
                     </p>
                   </div>
                 </div>
@@ -349,14 +360,14 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       <div
                         className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"
                         role="status"
-                        aria-label="Creating account"
+                        aria-label={loginT.form.creatingAccount}
                       ></div>
-                      Creating account...
+                      {loginT.form.creatingAccount}
                     </div>
                   ) : (
                     <div className="flex items-center justify-center gap-2">
                       <UserPlus className="w-5 h-5" aria-hidden="true" />
-                      Create Account
+                      {loginT.form.signupButton}
                     </div>
                   )}
                 </button>
