@@ -246,7 +246,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 </span>
                 <span className="text-gray-300">
                   ({movie.vote_count ? movie.vote_count.toLocaleString() : "0"}{" "}
-                  votes)
+                  {t.movieDetail.details.votes})
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -388,7 +388,9 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                       )}
                     </AnimatePresence>
                   </div>
-                  {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                  {isFavorite
+                    ? t.movieDetail.buttons.removeFromFavorites
+                    : t.movieDetail.buttons.addToFavorites}
                 </motion.button>
 
                 {movie.homepage && (
@@ -399,7 +401,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
                   >
                     <ExternalLink className="w-5 h-5" />
-                    Visit Official Site
+                    {t.movieDetail.buttons.visitOfficialSite}
                   </a>
                 )}
 
@@ -411,7 +413,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
                   >
                     <Award className="w-5 h-5" />
-                    View on IMDb
+                    {t.movieDetail.buttons.viewOnImdb}
                   </a>
                 )}
               </motion.div>
@@ -431,9 +433,11 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <h2 className="text-2xl font-bold text-white mb-4">Overview</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">
+                {t.movieDetail.sections.overview}
+              </h2>
               <p className="text-gray-300 leading-relaxed text-lg">
-                {movie.overview || "No overview available for this movie."}
+                {movie.overview || t.movieDetail.placeholders.noOverview}
               </p>
             </motion.section>
 
@@ -445,7 +449,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 transition={{ duration: 0.5, delay: 0.7 }}
               >
                 <h3 className="text-xl font-semibold text-white mb-3">
-                  Genres
+                  {t.movieDetail.sections.genres}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {movie.genre_ids.map((genreId: number) => {
@@ -469,13 +473,17 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
-              <h3 className="text-xl font-semibold text-white mb-4">Details</h3>
+              <h3 className="text-xl font-semibold text-white mb-4">
+                {t.movieDetail.sections.details}
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <Calendar className="w-5 h-5 text-emerald-400" />
                     <div>
-                      <p className="font-medium text-white">Release Date</p>
+                      <p className="font-medium text-white">
+                        {t.movieDetail.details.releaseDate}
+                      </p>
                       <p className="text-gray-400">
                         {movie.release_date
                           ? new Date(movie.release_date).toLocaleDateString(
@@ -486,7 +494,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                                 day: "numeric",
                               }
                             )
-                          : "Unknown"}
+                          : t.movieDetail.placeholders.unknownDate}
                       </p>
                     </div>
                   </div>
@@ -495,7 +503,9 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <Clock className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">Runtime</p>
+                        <p className="font-medium text-white">
+                          {t.movieDetail.details.runtime}
+                        </p>
                         <p className="text-gray-400">
                           {formatRuntime(movie.runtime)}
                         </p>
@@ -507,10 +517,11 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <Globe className="w-5 h-5 text-emerald-400" />
                     <div>
                       <p className="font-medium text-white">
-                        Original Language
+                        {t.movieDetail.details.originalLanguage}
                       </p>
                       <p className="text-gray-400 uppercase">
-                        {movie.original_language || "Unknown"}
+                        {movie.original_language ||
+                          t.movieDetail.placeholders.unknownDate}
                       </p>
                     </div>
                   </div>
@@ -521,7 +532,9 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">Budget</p>
+                        <p className="font-medium text-white">
+                          {t.movieDetail.details.budget}
+                        </p>
                         <p className="text-gray-400">
                           {formatCurrency(movie.budget)}
                         </p>
@@ -533,7 +546,9 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <DollarSign className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">Revenue</p>
+                        <p className="font-medium text-white">
+                          {t.movieDetail.details.revenue}
+                        </p>
                         <p className="text-gray-400">
                           {formatCurrency(movie.revenue)}
                         </p>
@@ -546,7 +561,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                       <Star className="w-5 h-5 text-emerald-400" />
                       <div>
                         <p className="font-medium text-white">
-                          Popularity Score
+                          {t.movieDetail.details.popularityScore}
                         </p>
                         <p className="text-gray-400">
                           {movie.popularity.toFixed(1)}
@@ -559,7 +574,9 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                     <div className="flex items-center gap-3">
                       <Globe className="w-5 h-5 text-emerald-400" />
                       <div>
-                        <p className="font-medium text-white">Original Title</p>
+                        <p className="font-medium text-white">
+                          {t.movieDetail.details.originalTitle}
+                        </p>
                         <p className="text-gray-400">{movie.original_title}</p>
                       </div>
                     </div>
@@ -577,7 +594,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   transition={{ duration: 0.5, delay: 0.9 }}
                 >
                   <h3 className="text-xl font-semibold text-white mb-4">
-                    Production Companies
+                    {t.movieDetail.sections.productionCompanies}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {movie.production_companies.map((company: any) => (
@@ -596,10 +613,12 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                           />
                         )}
                         <p className="font-medium text-white">
-                          {company.name || "Unknown Company"}
+                          {company.name ||
+                            t.movieDetail.placeholders.unknownCompany}
                         </p>
                         <p className="text-sm text-gray-400">
-                          {company.origin_country || "Unknown"}
+                          {company.origin_country ||
+                            t.movieDetail.placeholders.unknownCountry}
                         </p>
                       </div>
                     ))}
@@ -616,7 +635,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                   transition={{ duration: 0.5, delay: 1.0 }}
                 >
                   <h3 className="text-xl font-semibold text-white mb-3">
-                    Production Countries
+                    {t.movieDetail.sections.productionCountries}
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {movie.production_countries.map((country: any) => (
@@ -639,7 +658,7 @@ export const MovieDetailPage: React.FC<MovieDetailPageProps> = ({
                 transition={{ duration: 0.5, delay: 1.1 }}
               >
                 <h3 className="text-xl font-semibold text-white mb-3">
-                  Spoken Languages
+                  {t.movieDetail.sections.spokenLanguages}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {movie.spoken_languages.map((language: any) => (

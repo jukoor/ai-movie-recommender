@@ -4,7 +4,8 @@
     "description": "Discover your next favorite movie with PopcornAI's intelligent AI recommendations. Get personalized film suggestions based on your mood, preferences, and taste. Browse millions of movies across all genres with our smart movie discovery platform.",
     "keywords": "AI movie recommendations, movie discovery, personalized movie suggestions, film recommender, AI-powered movies, movie search by mood, intelligent film finder, movie recommendation engine, cinema discovery, TMDB movies, movie search, film database, movie recommendation app",
     "author": "Julian Orth",
-    "language": "en"
+    "language": "en",
+    "titleAppendix": "// PopcornAI"
   },
   "header": {
     "navigation": {
@@ -35,9 +36,9 @@
     }
   },
   "footer": {
-    "appName": "Movie Recommender",
+    "appName": "PopcornAI",
     "tagline": "Discover your next favorite movie with AI-powered recommendations",
-    "copyright": "AI Movie Recommender. All rights reserved.",
+    "copyright": "PopcornAI. All rights reserved.",
     "codedWith": "Coded with",
     "by": "by",
     "authorName": "Julian Orth",
@@ -79,10 +80,39 @@
       "title": "How It Works",
       "description": "PopcornAI combines movie data from TMDB with AI technology (mistral-7b) to create personalized movie recommendations tailored to your preferences. You can search using free text, tags, or mood-based input. Your prompt gets preprocessed and sent to our AI model, which generates a curated list of movie titles. These titles are then cross-referenced with the TMDB database to pull in detailed movie information and metadata."
     },
+    "coreFeatures": {
+      "title": "Core Features",
+      "subtitle": "Smart movie discovery powered by AI and modern APIs",
+      "aiRecommendations": {
+        "title": "AI Movie Recommendations",
+        "description": "Natural language queries processed by Mistral-7B LLM via OpenRouter API. Converts conversational input into personalized movie suggestions."
+      },
+      "moodSearch": {
+        "title": "Mood-Based Discovery",
+        "description": "Search movies by mood tags, genres, or free text. Debounced API calls prevent unnecessary requests while typing."
+      },
+      "authentication": {
+        "title": "User Authentication",
+        "description": "Firebase Authentication with secure login. Persistent sessions and protected routes for personalized features."
+      },
+      "favorites": {
+        "title": "Favorites Collection",
+        "description": "Save favorite movies to your personal collection. Data synced to Firebase Firestore with real-time updates across devices."
+      },
+      "movieDatabase": {
+        "title": "Extensive Movie Database",
+        "description": "Access to TMDB's database with detailed metadata including ratings, cast, genres, and high-quality posters for thousands of movies."
+      },
+      "richDetails": {
+        "title": "Rich Movie Details",
+        "description": "Comprehensive movie pages with synopsis, ratings, release dates, runtime, and genre information pulled from TMDB API."
+      }
+    },
     "techStack": {
       "title": "Tech Stack",
       "frontend": "Frontend",
-      "backend": "Backend",
+      "backend": "Backend & Database",
+      "buildTools": "Build Tool & APIs",
       "technologies": {
         "react": {
           "name": "React",
@@ -100,6 +130,14 @@
           "name": "Flowbite",
           "description": "UI components"
         },
+        "lucide": {
+          "name": "Lucide Icons",
+          "description": "Icon library"
+        },
+        "framerMotion": {
+          "name": "Framer Motion",
+          "description": "Animation framework"
+        },
         "vite": {
           "name": "Vite",
           "description": "Build tool"
@@ -109,16 +147,24 @@
           "description": "Server runtime"
         },
         "express": {
-          "name": "Express",
-          "description": "Web framework"
+          "name": "Express.js",
+          "description": "Backend server"
         },
-        "firebase": {
-          "name": "Firebase",
-          "description": "Authentication & Database"
+        "firebaseAuth": {
+          "name": "Firebase Auth",
+          "description": "Authentication"
+        },
+        "firebaseDb": {
+          "name": "Firebase DB",
+          "description": "NoSQL database"
         },
         "tmdb": {
           "name": "TMDB API",
-          "description": "Movie data"
+          "description": "Movie database"
+        },
+        "openrouter": {
+          "name": "OpenRouter",
+          "description": "LLM integration (mistral-7b)"
         },
         "huggingface": {
           "name": "Hugging Face",
@@ -150,7 +196,35 @@
       "title": "Oops! Something went wrong"
     },
     "buttons": {
-      "refresh": "Show Different Movies"
+      "refresh": "Show Different Movies",
+      "findMovies": "Find {mood} Movies"
+    },
+    "moods": {
+      "happy": {
+        "label": "Happy",
+        "buttonLabel": "Happy",
+        "description": "Uplifting and feel-good movies"
+      },
+      "peaceful": {
+        "label": "Peaceful",
+        "buttonLabel": "Peaceful",
+        "description": "Calm and relaxing movies"
+      },
+      "romantic": {
+        "label": "Romantic",
+        "buttonLabel": "Romantic",
+        "description": "Love stories and romantic comedies"
+      },
+      "adventurous": {
+        "label": "Adventurous",
+        "buttonLabel": "Adventurous",
+        "description": "Action-packed and thrilling adventures"
+      },
+      "intense": {
+        "label": "Intense",
+        "buttonLabel": "Intense",
+        "description": "High-stakes and adrenaline-pumping"
+      }
     }
   },
   "favorites": {
@@ -177,6 +251,8 @@
     "actions": {
       "deleteAll": "Delete All",
       "deleteAllConfirm": "Are you sure you want to remove all favorites?",
+      "removeAll": "Remove All",
+      "removing": "Removing...",
       "removeSuccess": "All favorites removed successfully!",
       "removeError": "Failed to remove favorites. Please try again."
     },
@@ -184,6 +260,13 @@
       "showing": "Showing",
       "of": "of",
       "movies": "movies"
+    },
+    "noSearchResults": {
+      "title": "No search results found",
+      "message": "Try different keywords or check your spelling"
+    },
+    "genreFilter": {
+      "allGenres": "All Genres"
     }
   },
   "aiRecommender": {
@@ -314,6 +397,39 @@
     "favorites": {
       "addedToFavorites": "added to favorites!",
       "removedFromFavorites": "removed from favorites!"
+    }
+  },
+  "movieDetail": {
+    "buttons": {
+      "back": "Back",
+      "addToFavorites": "Add to Favorites",
+      "removeFromFavorites": "Remove from Favorites",
+      "visitOfficialSite": "Visit Official Site",
+      "viewOnImdb": "View on IMDb"
+    },
+    "sections": {
+      "overview": "Overview",
+      "genres": "Genres",
+      "details": "Details",
+      "productionCompanies": "Production Companies",
+      "productionCountries": "Production Countries",
+      "spokenLanguages": "Spoken Languages"
+    },
+    "details": {
+      "releaseDate": "Release Date",
+      "runtime": "Runtime",
+      "originalLanguage": "Original Language",
+      "budget": "Budget",
+      "revenue": "Revenue",
+      "popularityScore": "Popularity Score",
+      "originalTitle": "Original Title",
+      "votes": "votes"
+    },
+    "placeholders": {
+      "noOverview": "No overview available for this movie.",
+      "unknownDate": "Unknown",
+      "unknownCompany": "Unknown Company",
+      "unknownCountry": "Unknown"
     }
   }
 }

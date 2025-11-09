@@ -246,7 +246,9 @@ export const FavoritesPage: React.FC = () => {
             >
               <div className="flex justify-between items-center">
                 <p className="text-gray-300">
-                  Showing {filteredMovies.length} of {movies.length} movies
+                  {favoritesT.stats.showing} {filteredMovies.length}{" "}
+                  {favoritesT.stats.of} {movies.length}{" "}
+                  {favoritesT.stats.movies}
                 </p>
                 <button
                   onClick={handleDeleteAllClick}
@@ -254,7 +256,9 @@ export const FavoritesPage: React.FC = () => {
                   className="border border-red-500/50 hover:border-red-400 disabled:border-red-700/30 disabled:cursor-not-allowed text-red-400 hover:text-red-300 disabled:text-red-600 font-normal py-2 px-4 rounded-md transition-colors duration-200 flex items-center gap-2 text-sm hover:bg-red-500/10"
                 >
                   <Trash2 className="w-4 h-4" />
-                  {isRemoving ? "Removing..." : "Remove All"}
+                  {isRemoving
+                    ? favoritesT.actions.removing
+                    : favoritesT.actions.removeAll}
                 </button>
               </div>
             </div>
@@ -268,10 +272,10 @@ export const FavoritesPage: React.FC = () => {
                   <div className="glass-card rounded-lg p-8 max-w-md w-full border border-gray-700/30">
                     <Film className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                     <h2 className="text-2xl font-semibold text-white mb-3">
-                      No search results found
+                      {favoritesT.noSearchResults.title}
                     </h2>
                     <p className="text-gray-300 mb-6">
-                      Try different keywords or check your spelling
+                      {favoritesT.noSearchResults.message}
                     </p>
                   </div>
                 </div>

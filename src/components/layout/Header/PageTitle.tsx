@@ -1,15 +1,17 @@
 import { FC, useEffect } from "react";
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface PageTitleProps {
   title: string;
 }
 
 export const PageTitle: FC<PageTitleProps> = ({ title }) => {
-  const titleAppendix = "// PopcornAI";
+  const { t } = useLanguage();
+  const titleAppendix = t.meta.titleAppendix;
 
   useEffect(() => {
     document.title = `${title} ${titleAppendix}`;
-  }, [title]);
+  }, [title, titleAppendix]);
 
   return <></>;
 };

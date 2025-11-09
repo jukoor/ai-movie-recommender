@@ -97,7 +97,7 @@ export const ByMoodPage: React.FC = () => {
         {/* Header */}
         <header className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-fadeIn">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 animate-fadeIn leading-tight md:leading-tight">
               {byMoodT.hero.title}
             </h1>
           </div>
@@ -122,6 +122,8 @@ export const ByMoodPage: React.FC = () => {
             onMoodSelect={handleMoodSelect}
             onMoodChange={handleMoodChange}
             selectedMood={selectedMood}
+            moodTranslations={byMoodT.moods}
+            buttonText={byMoodT.buttons.findMovies}
           />
         </motion.div>
 

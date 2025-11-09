@@ -1,10 +1,11 @@
 {
   "meta": {
     "title": "PopcornAI - KI-gestützte Filmempfehlungen & Entdeckung",
-    "description": "Entdecken Sie Ihren nächsten Lieblingsfilm mit PopcornAIs intelligenten KI-Empfehlungen. Erhalten Sie personalisierte Filmvorschläge basierend auf Ihrer Stimmung, Vorlieben und Ihrem Geschmack. Durchsuchen Sie Millionen von Filmen aller Genres mit unserer smarten Film-Entdeckungsplattform.",
+    "description": "Entdecke deinen nächsten Lieblingsfilm mit PopcornAIs intelligenten KI-Empfehlungen. Erhalte personalisierte Filmvorschläge basierend auf deiner Stimmung, Vorlieben und deinem Geschmack. Durchsuche Millionen von Filmen aller Genres mit unserer smarten Film-Entdeckungsplattform.",
     "keywords": "KI-Filmempfehlungen, Filmentdeckung, personalisierte Filmvorschläge, Film-Empfehler, KI-gestützte Filme, Filmsuche nach Stimmung, intelligenter Filmfinder, Film-Empfehlungs-Engine, Kino-Entdeckung, TMDB-Filme, Filmsuche, Filmdatenbank, Film-Empfehlungs-App",
     "author": "Julian Orth",
-    "language": "de"
+    "language": "de",
+    "titleAppendix": "// PopcornAI"
   },
   "header": {
     "navigation": {
@@ -26,8 +27,8 @@
       "openLoginDialog": "Anmeldedialog öffnen"
     },
     "toast": {
-      "logoutSuccess": "Sie wurden erfolgreich abgemeldet. Bis zum nächsten Mal!",
-      "logoutError": "Abmeldung fehlgeschlagen. Bitte versuchen Sie es erneut."
+      "logoutSuccess": "Du wurdest erfolgreich abgemeldet. Bis zum nächsten Mal!",
+      "logoutError": "Abmeldung fehlgeschlagen. Bitte versuch es erneut."
     },
     "logo": {
       "appName": "PopcornAI",
@@ -35,10 +36,10 @@
     }
   },
   "footer": {
-    "appName": "Movie Recommender",
-    "tagline": "Entdecken Sie Ihren nächsten Lieblingsfilm mit KI-gestützten Empfehlungen",
-    "copyright": "AI Movie Recommender. Alle Rechte vorbehalten.",
-    "codedWith": "Programmiert mit",
+    "appName": "PopcornAI",
+    "tagline": "Entdecke deinen nächsten Lieblingsfilm mit KI-gestützten Empfehlungen",
+    "copyright": "PopcornAI. Alle Rechte vorbehalten.",
+    "codedWith": "Coded mit",
     "by": "von",
     "authorName": "Julian Orth",
     "authorUrl": "https://julianorth.de"
@@ -47,13 +48,13 @@
     "pageTitle": "Start",
     "hero": {
       "title": "KI-Film-Entdeckung",
-      "subtitle": "Entdecken Sie Ihren nächsten Lieblingsfilm mit unserem hochmodernen KI-Empfehler. Sagen Sie uns einfach, was Sie mögen, und wir finden Filme, die Sie lieben werden!"
+      "subtitle": "Entdecke deinen nächsten Lieblingsfilm mit unserem hochmodernen KI-Empfehler. Sag uns einfach, was du magst, und wir finden Filme, die du lieben wirst!"
     },
     "features": {
       "title": "Warum unsere KI wählen?",
       "aiPowered": {
         "title": "KI-gestützt",
-        "description": "Fortgeschrittene Machine-Learning-Algorithmen analysieren Ihre Vorlieben und Stimmung, um perfekt zugeschnittene Empfehlungen zu liefern"
+        "description": "Fortgeschrittene Machine-Learning-Algorithmen analysieren deine Vorlieben und Stimmung, um perfekt zugeschnittene Empfehlungen zu liefern"
       },
       "vastLibrary": {
         "title": "Riesige Bibliothek",
@@ -61,12 +62,12 @@
       },
       "personalized": {
         "title": "Personalisiert",
-        "description": "Intelligente Empfehlungen, die sich mit jeder Interaktion entwickeln und verbessern und Ihren einzigartigen Geschmack lernen"
+        "description": "Intelligente Empfehlungen, die sich mit jeder Interaktion entwickeln und verbessern und deinen einzigartigen Geschmack lernen"
       }
     },
     "aiPicks": {
       "title": "Frische KI-Auswahl",
-      "subtitle": "Entdecken Sie neue und beliebte Filme, handverlesen von unserem KI-Algorithmus"
+      "subtitle": "Entdecke neue und beliebte Filme, handverlesen von unserem KI-Algorithmus"
     }
   },
   "about": {
@@ -77,12 +78,41 @@
     },
     "mission": {
       "title": "Wie es funktioniert",
-      "description": "PopcornAI kombiniert Filmdaten von TMDB mit KI-Technologie (mistral-7b), um personalisierte Filmempfehlungen zu erstellen, die auf Ihre Vorlieben zugeschnitten sind. Sie können mit Freitext, Tags oder stimmungsbasierter Eingabe suchen. Ihre Anfrage wird vorverarbeitet und an unser KI-Modell gesendet, das eine kuratierte Liste von Filmtiteln generiert. Diese Titel werden dann mit der TMDB-Datenbank abgeglichen, um detaillierte Filminformationen und Metadaten abzurufen."
+      "description": "PopcornAI kombiniert Filmdaten von TMDB mit KI-Technologie (mistral-7b), um personalisierte Filmempfehlungen zu erstellen, die auf deine Vorlieben zugeschnitten sind. Du kannst mit Freitext, Tags oder stimmungsbasierter Eingabe suchen. Deine Anfrage wird vorverarbeitet und an unser KI-Modell gesendet, das eine kuratierte Liste von Filmtiteln generiert. Diese Titel werden dann mit der TMDB-Datenbank abgeglichen, um detaillierte Filminformationen und Metadaten abzurufen."
+    },
+    "coreFeatures": {
+      "title": "Hauptfunktionen",
+      "subtitle": "Smarte Filmentdeckung powered by KI und modernen APIs",
+      "aiRecommendations": {
+        "title": "KI-Filmempfehlungen",
+        "description": "Verarbeitung natürlicher Sprachanfragen durch Mistral-7B LLM über die OpenRouter API. Wandelt konversationelle Eingaben in personalisierte Filmvorschläge um."
+      },
+      "moodSearch": {
+        "title": "Stimmungsbasierte Entdeckung",
+        "description": "Filme nach Stimmungstags, Genres oder Freitext durchsuchen. Debounced API-Aufrufe verhindern unnötige Anfragen beim Tippen."
+      },
+      "authentication": {
+        "title": "Benutzerauthentifizierung",
+        "description": "Firebase Authentication mit sicherer Anmeldung. Persistente Sitzungen und geschützte Routen für personalisierte Funktionen."
+      },
+      "favorites": {
+        "title": "Favoritensammlung",
+        "description": "Speichere Lieblingsfilme in deiner persönlichen Sammlung. Daten synchronisiert mit Firebase Firestore mit Echtzeit-Updates über alle Geräte hinweg."
+      },
+      "movieDatabase": {
+        "title": "Umfangreiche Filmdatenbank",
+        "description": "Zugriff auf TMDBs Datenbank mit detaillierten Metadaten inklusive Bewertungen, Besetzung, Genres und hochwertigen Postern für tausende Filme."
+      },
+      "richDetails": {
+        "title": "Umfangreiche Filmdetails",
+        "description": "Umfassende Filmseiten mit Synopsis, Bewertungen, Veröffentlichungsdaten, Laufzeit und Genreinformationen aus der TMDB API."
+      }
     },
     "techStack": {
       "title": "Tech Stack",
       "frontend": "Frontend",
-      "backend": "Backend",
+      "backend": "Backend & Datenbank",
+      "buildTools": "Build-Tool & APIs",
       "technologies": {
         "react": {
           "name": "React",
@@ -100,6 +130,14 @@
           "name": "Flowbite",
           "description": "UI-Komponenten"
         },
+        "lucide": {
+          "name": "Lucide Icons",
+          "description": "Icon-Bibliothek"
+        },
+        "framerMotion": {
+          "name": "Framer Motion",
+          "description": "Animations-Framework"
+        },
         "vite": {
           "name": "Vite",
           "description": "Build-Tool"
@@ -109,16 +147,24 @@
           "description": "Server-Laufzeit"
         },
         "express": {
-          "name": "Express",
-          "description": "Web-Framework"
+          "name": "Express.js",
+          "description": "Backend-Server"
         },
-        "firebase": {
-          "name": "Firebase",
-          "description": "Authentifizierung & Datenbank"
+        "firebaseAuth": {
+          "name": "Firebase Auth",
+          "description": "Authentifizierung"
+        },
+        "firebaseDb": {
+          "name": "Firebase DB",
+          "description": "NoSQL-Datenbank"
         },
         "tmdb": {
           "name": "TMDB API",
-          "description": "Filmdaten"
+          "description": "Filmdatenbank"
+        },
+        "openrouter": {
+          "name": "OpenRouter",
+          "description": "LLM-Integration (mistral-7b)"
         },
         "huggingface": {
           "name": "Hugging Face",
@@ -135,62 +181,99 @@
     "pageTitle": "Stimmung",
     "hero": {
       "title": "Film-Stimmungssuche",
-      "subtitle": "Lassen Sie PopcornAI die perfekten Filme basierend auf Ihrer aktuellen Stimmung finden.",
-      "instruction": "Schieben Sie, um ein Emoji auszuwählen, das Ihrer Stimmung entspricht!"
+      "subtitle": "Lass PopcornAI die perfekten Filme basierend auf deiner aktuellen Stimmung finden.",
+      "instruction": "Schieb den Regler, um ein Emoji auszuwählen, das deiner Stimmung entspricht!"
     },
     "loading": {
       "title": "Perfekte Filme finden",
-      "subtitle": "Unsere KI analysiert Ihre Stimmung, um die besten Übereinstimmungen zu finden..."
+      "subtitle": "Unsere KI analysiert deine Stimmung, um die besten Übereinstimmungen zu finden..."
     },
     "results": {
-      "title": "Filme perfekt für Ihre Stimmung",
-      "noResults": "Keine Filme für diese Stimmung gefunden. Versuchen Sie eine andere!"
+      "title": "Filme perfekt für deine Stimmung",
+      "noResults": "Keine Filme für diese Stimmung gefunden. Versuch eine andere!"
     },
     "error": {
       "title": "Hoppla! Etwas ist schiefgelaufen"
     },
     "buttons": {
-      "refresh": "Andere Filme anzeigen"
+      "refresh": "Andere Filme anzeigen",
+      "findMovies": "{mood} Filme finden"
+    },
+    "moods": {
+      "happy": {
+        "label": "Fröhlich",
+        "buttonLabel": "Fröhliche",
+        "description": "Aufmunternde und Wohlfühl-Filme"
+      },
+      "peaceful": {
+        "label": "Friedlich",
+        "buttonLabel": "Friedliche",
+        "description": "Ruhige und entspannende Filme"
+      },
+      "romantic": {
+        "label": "Romantisch",
+        "buttonLabel": "Romantische",
+        "description": "Liebesgeschichten und romantische Komödien"
+      },
+      "adventurous": {
+        "label": "Abenteuerlich",
+        "buttonLabel": "Abenteuerliche",
+        "description": "Actionreiche und spannende Abenteuer"
+      },
+      "intense": {
+        "label": "Intensiv",
+        "buttonLabel": "Intensive",
+        "description": "Hochspannung und Adrenalin pur"
+      }
     }
   },
   "favorites": {
     "pageTitle": "Favoriten",
     "hero": {
-      "title": "Ihre Favoriten",
-      "subtitle": "Ihre persönliche Sammlung handverlesener Filme."
+      "title": "Deine Favoriten",
+      "subtitle": "Deine persönliche Sammlung handverlesener Filme."
     },
     "auth": {
       "signInRequired": "Anmeldung erforderlich",
-      "signInMessage": "Bitte melden Sie sich bei Ihrem Konto an, um Filme zu Ihrer Favoritenliste hinzuzufügen und Ihre gespeicherten Filme anzuzeigen.",
+      "signInMessage": "Bitte melde dich bei deinem Konto an, um Filme zu deiner Favoritenliste hinzuzufügen und deine gespeicherten Filme anzusehen.",
       "signInButton": "Anmelden"
     },
     "empty": {
       "title": "Noch keine Favoriten",
-      "message": "Beginnen Sie, Ihre Sammlung aufzubauen, indem Sie Filme hinzufügen, die Sie lieben!",
+      "message": "Beginne deine Sammlung aufzubauen, indem du Filme hinzufügst, die du liebst!",
       "cta": "Filme entdecken"
     },
     "search": {
-      "placeholder": "Ihre Favoriten durchsuchen...",
+      "placeholder": "Deine Favoriten durchsuchen...",
       "filterByGenre": "Nach Genre filtern",
       "allGenres": "Alle Genres"
     },
     "actions": {
       "deleteAll": "Alle löschen",
-      "deleteAllConfirm": "Sind Sie sicher, dass Sie alle Favoriten entfernen möchten?",
+      "deleteAllConfirm": "Bist du sicher, dass du alle Favoriten entfernen möchtest?",
+      "removeAll": "Alle entfernen",
+      "removing": "Wird entfernt...",
       "removeSuccess": "Alle Favoriten erfolgreich entfernt!",
-      "removeError": "Fehler beim Entfernen der Favoriten. Bitte versuchen Sie es erneut."
+      "removeError": "Fehler beim Entfernen der Favoriten. Bitte versuch es erneut."
     },
     "stats": {
       "showing": "Zeige",
       "of": "von",
       "movies": "Filme"
+    },
+    "noSearchResults": {
+      "title": "Keine Suchergebnisse gefunden",
+      "message": "Versuch andere Begriffe oder überprüfe deine Schreibweise"
+    },
+    "genreFilter": {
+      "allGenres": "Alle Genres"
     }
   },
   "aiRecommender": {
     "form": {
       "label": "KI-Filmempfehlungen erhalten",
-      "placeholder": "Beschreiben Sie Ihren idealen Film...",
-      "instructions": "Geben Sie eine Beschreibung der Filme ein, die Sie sehen möchten, wie Genre, Stimmung oder Thema",
+      "placeholder": "Beschreib deinen idealen Film...",
+      "instructions": "Gib eine Beschreibung der Filme ein, die du sehen möchtest, wie Genre, Stimmung oder Thema",
       "clearInput": "Eingabe löschen",
       "submitButton": "Filme abrufen",
       "submitting": "Wird abgerufen..."
@@ -209,22 +292,22 @@
       ]
     },
     "results": {
-      "title": "Ihre KI-empfohlenen Filme",
-      "subtitle": "Basierend auf Ihren Vorlieben, hier sind einige Filme, die Sie vielleicht lieben:",
+      "title": "Deine KI-empfohlenen Filme",
+      "subtitle": "Basierend auf deinen Vorlieben, hier sind einige Filme, die du vielleicht liebst:",
       "refresh": "Andere Ergebnisse anzeigen",
-      "noResults": "Keine Filme gefunden. Versuchen Sie eine andere Suche!"
+      "noResults": "Keine Filme gefunden. Versuch eine andere Suche!"
     },
     "loading": {
-      "title": "Ihre perfekten Filme finden",
-      "subtitle": "Unsere KI analysiert Ihre Vorlieben, um die besten Übereinstimmungen zu finden..."
+      "title": "Deine perfekten Filme finden",
+      "subtitle": "Unsere KI analysiert deine Vorlieben, um die besten Übereinstimmungen zu finden..."
     },
     "errors": {
-      "emptyInput": "Bitte geben Sie mindestens 2 Wörter oder 8 Zeichen ein.",
-      "inappropriateLanguage": "Bitte halten Sie Ihre Filmvorlieben familienfreundlich. Keine unangemessene Sprache erlaubt.",
-      "tooShort": "Bitte geben Sie entweder mindestens {minWords} Wörter oder {minChars} Zeichen ein.",
-      "tooLong": "Bitte halten Sie Ihre Filmvorlieben unter {maxChars} Zeichen.",
-      "aiParseError": "Hoppla! Die KI war etwas zu kreativ. Bitte versuchen Sie es mit einer anderen Anfrage erneut.",
-      "fetchError": "Fehler. KI-Empfehlungen konnten nicht abgerufen werden. Bitte versuchen Sie es erneut."
+      "emptyInput": "Bitte gib mindestens 2 Wörter oder 8 Zeichen ein.",
+      "inappropriateLanguage": "Bitte halt deine Filmvorlieben familienfreundlich. Keine unangemessene Sprache erlaubt.",
+      "tooShort": "Bitte gib entweder mindestens {minWords} Wörter oder {minChars} Zeichen ein.",
+      "tooLong": "Bitte halt deine Filmvorlieben unter {maxChars} Zeichen.",
+      "aiParseError": "Hoppla! Die KI war etwas zu kreativ. Bitte versuch es mit einer anderen Anfrage erneut.",
+      "fetchError": "Fehler. KI-Empfehlungen konnten nicht abgerufen werden. Bitte versuch es erneut."
     }
   },
   "movieCard": {
@@ -236,7 +319,7 @@
     "toast": {
       "addedToFavorites": "zu Favoriten hinzugefügt!",
       "removedFromFavorites": "aus Favoriten entfernt!",
-      "loginRequired": "Sie müssen angemeldet sein, um Favoriten hinzuzufügen.",
+      "loginRequired": "Du musst angemeldet sein, um Favoriten hinzuzufügen.",
       "updateError": "Fehler beim Aktualisieren der Favoriten:"
     },
     "genres": {
@@ -267,12 +350,12 @@
       "info": "Keine Registrierung erforderlich"
     },
     "toast": {
-      "loginSuccess": "Willkommen zurück! Sie haben sich erfolgreich angemeldet.",
-      "loginError": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "loginSuccess": "Willkommen zurück! Du hast dich erfolgreich angemeldet.",
+      "loginError": "Anmeldung fehlgeschlagen. Bitte versuch es erneut.",
       "signupSuccess": "Konto erfolgreich erstellt! Willkommen bei PopcornAI!",
-      "signupError": "Kontoerstellung fehlgeschlagen. Bitte versuchen Sie es erneut.",
-      "demoSuccess": "Willkommen zur Demo! Erkunden Sie die Funktionen von PopcornAI.",
-      "demoError": "Demo-Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut."
+      "signupError": "Kontoerstellung fehlgeschlagen. Bitte versuch es erneut.",
+      "demoSuccess": "Willkommen zur Demo! Erkunde die Funktionen von PopcornAI.",
+      "demoError": "Demo-Anmeldung fehlgeschlagen. Bitte versuch es erneut."
     }
   },
   "deleteDialog": {
@@ -281,8 +364,8 @@
     "deleteCount": "Löschen",
     "favorite": "Favorit",
     "favorites": "Favoriten",
-    "deleteMessage": "Sie sind dabei zu löschen",
-    "fromFavorites": "aus Ihren Favoriten.",
+    "deleteMessage": "Du bist dabei zu löschen",
+    "fromFavorites": "aus deinen Favoriten.",
     "buttons": {
       "cancel": "Abbrechen",
       "delete": "Löschen",
@@ -307,13 +390,46 @@
     "viewAll": "Alle anzeigen",
     "backToHome": "Zurück zur Startseite",
     "errors": {
-      "loginRequired": "Sie müssen angemeldet sein, um Favoriten hinzuzufügen.",
+      "loginRequired": "Du musst angemeldet sein, um Favoriten hinzuzufügen.",
       "updateFavorites": "Fehler beim Aktualisieren der Favoriten:",
-      "fetchMovies": "Fehler beim Abrufen der Filme. Versuchen Sie es erneut."
+      "fetchMovies": "Fehler beim Abrufen der Filme. Versuch es erneut."
     },
     "favorites": {
       "addedToFavorites": "zu Favoriten hinzugefügt!",
       "removedFromFavorites": "aus Favoriten entfernt!"
+    }
+  },
+  "movieDetail": {
+    "buttons": {
+      "back": "Zurück",
+      "addToFavorites": "Zu Favoriten hinzufügen",
+      "removeFromFavorites": "Aus Favoriten entfernen",
+      "visitOfficialSite": "Offizielle Seite besuchen",
+      "viewOnImdb": "Auf IMDb ansehen"
+    },
+    "sections": {
+      "overview": "Übersicht",
+      "genres": "Genres",
+      "details": "Details",
+      "productionCompanies": "Produktionsfirmen",
+      "productionCountries": "Produktionsländer",
+      "spokenLanguages": "Gesprochene Sprachen"
+    },
+    "details": {
+      "releaseDate": "Veröffentlichungsdatum",
+      "runtime": "Laufzeit",
+      "originalLanguage": "Originalsprache",
+      "budget": "Budget",
+      "revenue": "Umsatz",
+      "popularityScore": "Beliebtheitswert",
+      "originalTitle": "Originaltitel",
+      "votes": "Stimmen"
+    },
+    "placeholders": {
+      "noOverview": "Keine Übersicht für diesen Film verfügbar.",
+      "unknownDate": "Unbekannt",
+      "unknownCompany": "Unbekannte Firma",
+      "unknownCountry": "Unbekannt"
     }
   }
 }

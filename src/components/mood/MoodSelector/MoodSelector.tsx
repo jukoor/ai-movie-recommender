@@ -7,67 +7,85 @@ interface MoodSelectorProps {
   onMoodSelect: (mood: Mood) => void;
   onMoodChange?: (mood: Mood) => void;
   selectedMood: Mood | null;
+  moodTranslations: {
+    happy: { label: string; buttonLabel: string; description: string };
+    peaceful: { label: string; buttonLabel: string; description: string };
+    romantic: { label: string; buttonLabel: string; description: string };
+    adventurous: { label: string; buttonLabel: string; description: string };
+    intense: { label: string; buttonLabel: string; description: string };
+  };
+  buttonText: string;
 }
-
-const moods: Mood[] = [
-  {
-    id: "happy",
-    emoji: "😊",
-    label: "Happy",
-    description: "Uplifting and feel-good movies",
-    searchQuery: "uplifting feel-good comedy heartwarming positive",
-    color: "text-yellow-400",
-    pageGradient:
-      "radial-gradient(ellipse at center, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 80%)",
-  },
-  {
-    id: "peaceful",
-    emoji: "🌙",
-    label: "Peaceful",
-    description: "Calm and relaxing movies",
-    searchQuery: "peaceful calm relaxing gentle soothing meditative quiet",
-    color: "text-teal-400",
-    pageGradient:
-      "radial-gradient(ellipse at center, rgba(20, 184, 166, 0.1) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 80%)",
-  },
-  {
-    id: "romantic",
-    emoji: "💕",
-    label: "Romantic",
-    description: "Love stories and romantic comedies",
-    searchQuery: "romantic love story romance heartfelt emotional",
-    color: "text-pink-400",
-    pageGradient:
-      "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.05) 50%, transparent 80%)",
-  },
-  {
-    id: "adventurous",
-    emoji: "🚀",
-    label: "Adventurous",
-    description: "Action-packed and thrilling adventures",
-    searchQuery: "adventure action thrilling exciting epic journey",
-    color: "text-blue-400",
-    pageGradient:
-      "radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 80%)",
-  },
-  {
-    id: "intense",
-    emoji: "🔥",
-    label: "Intense",
-    description: "High-stakes and adrenaline-pumping",
-    searchQuery: "intense action high-stakes adrenaline explosive dramatic",
-    color: "text-orange-400",
-    pageGradient:
-      "radial-gradient(ellipse at center, rgba(251, 146, 60, 0.1) 0%, rgba(249, 115, 22, 0.05) 50%, transparent 80%)",
-  },
-];
 
 export const MoodSelector: React.FC<MoodSelectorProps> = ({
   onMoodSelect,
   onMoodChange,
   selectedMood,
+  moodTranslations,
+  buttonText,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const moods: Mood[] = [
+    {
+      id: "happy",
+      emoji: "😊",
+      label: moodTranslations.happy.label,
+      description: moodTranslations.happy.description,
+      searchQuery: "uplifting feel-good comedy heartwarming positive",
+      color: "text-yellow-400",
+      pageGradient:
+        "radial-gradient(ellipse at center, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 80%)",
+    },
+    {
+      id: "peaceful",
+      emoji: "🌙",
+      label: moodTranslations.peaceful.label,
+      description: moodTranslations.peaceful.description,
+      searchQuery: "peaceful calm relaxing gentle soothing meditative quiet",
+      color: "text-teal-400",
+      pageGradient:
+        "radial-gradient(ellipse at center, rgba(20, 184, 166, 0.1) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 80%)",
+    },
+    {
+      id: "romantic",
+      emoji: "💕",
+      label: moodTranslations.romantic.label,
+      description: moodTranslations.romantic.description,
+      searchQuery: "romantic love story romance heartfelt emotional",
+      color: "text-pink-400",
+      pageGradient:
+        "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.05) 50%, transparent 80%)",
+    },
+    {
+      id: "adventurous",
+      emoji: "🚀",
+      label: moodTranslations.adventurous.label,
+      description: moodTranslations.adventurous.description,
+      searchQuery: "adventure action thrilling exciting epic journey",
+      color: "text-blue-400",
+      pageGradient:
+        "radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 80%)",
+    },
+    {
+      id: "intense",
+      emoji: "🔥",
+      label: moodTranslations.intense.label,
+      description: moodTranslations.intense.description,
+      searchQuery: "intense action high-stakes adrenaline explosive dramatic",
+      color: "text-orange-400",
+      pageGradient:
+        "radial-gradient(ellipse at center, rgba(251, 146, 60, 0.1) 0%, rgba(249, 115, 22, 0.05) 50%, transparent 80%)",
+    },
+  ];
+
+  const moodButtonLabels: Record<string, string> = {
+    happy: moodTranslations.happy.buttonLabel,
+    peaceful: moodTranslations.peaceful.buttonLabel,
+    romantic: moodTranslations.romantic.buttonLabel,
+    adventurous: moodTranslations.adventurous.buttonLabel,
+    intense: moodTranslations.intense.buttonLabel,
+  };
 
   const handleMoodClick = (mood: Mood, index: number) => {
     setCurrentIndex(index);
@@ -188,7 +206,10 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
             <div className="absolute inset-0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             <div className="relative z-10 flex items-center gap-2">
               <WandSparkles className="w-5 h-5" aria-hidden="true" />
-              Find {moods[currentIndex].label} Movies
+              {buttonText.replace(
+                "{mood}",
+                moodButtonLabels[moods[currentIndex].id]
+              )}
             </div>
           </motion.button>
         </div>

@@ -79,10 +79,10 @@ export const AboutPage: React.FC = () => {
                 <Rocket className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-3xl font-bold mb-4 text-white">
-                Core Features
+                {aboutT.coreFeatures.title}
               </h2>
               <p className="text-gray-400 max-w-2xl mx-auto">
-                Smart movie discovery powered by AI and modern APIs
+                {aboutT.coreFeatures.subtitle}
               </p>
             </div>
 
@@ -95,12 +95,10 @@ export const AboutPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      AI Movie Recommendations
+                      {aboutT.coreFeatures.aiRecommendations.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed">
-                      Natural language queries processed by Mistral-7B LLM via
-                      OpenRouter API. Converts conversational input into
-                      personalized movie suggestions.
+                      {aboutT.coreFeatures.aiRecommendations.description}
                     </p>
                   </div>
                 </div>
@@ -114,12 +112,10 @@ export const AboutPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      Mood-Based Discovery
+                      {aboutT.coreFeatures.moodSearch.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed">
-                      Search movies by mood tags, genres, or free text.
-                      Debounced API calls prevent unnecessary requests while
-                      typing.
+                      {aboutT.coreFeatures.moodSearch.description}
                     </p>
                   </div>
                 </div>
@@ -133,11 +129,10 @@ export const AboutPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      User Authentication
+                      {aboutT.coreFeatures.authentication.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed">
-                      Firebase Authentication with secure login. Persistent
-                      sessions and protected routes for personalized features.
+                      {aboutT.coreFeatures.authentication.description}
                     </p>
                   </div>
                 </div>
@@ -151,12 +146,10 @@ export const AboutPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      Favorites Collection
+                      {aboutT.coreFeatures.favorites.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed">
-                      Save favorite movies to your personal collection. Data
-                      synced to Firebase Firestore with real-time updates across
-                      devices.
+                      {aboutT.coreFeatures.favorites.description}
                     </p>
                   </div>
                 </div>
@@ -170,12 +163,10 @@ export const AboutPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      Extensive Movie Database
+                      {aboutT.coreFeatures.movieDatabase.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed">
-                      Access to TMDB's database with detailed metadata including
-                      ratings, cast, genres, and high-quality posters for
-                      thousands of movies.
+                      {aboutT.coreFeatures.movieDatabase.description}
                     </p>
                   </div>
                 </div>
@@ -189,12 +180,10 @@ export const AboutPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-2">
-                      Rich Movie Details
+                      {aboutT.coreFeatures.richDetails.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed">
-                      Comprehensive movie pages with synopsis, ratings, release
-                      dates, runtime, and genre information pulled from TMDB
-                      API.
+                      {aboutT.coreFeatures.richDetails.description}
                     </p>
                   </div>
                 </div>
@@ -267,8 +256,12 @@ export const AboutPage: React.FC = () => {
                       <Sparkles className="w-5 h-5 text-blue-300" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">Flowbite</h4>
-                      <p className="text-sm text-gray-400">UI components</p>
+                      <h4 className="font-semibold text-white">
+                        {aboutT.techStack.technologies.flowbite.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {aboutT.techStack.technologies.flowbite.description}
+                      </p>
                     </div>
                   </div>
 
@@ -277,8 +270,12 @@ export const AboutPage: React.FC = () => {
                       <Heart className="w-5 h-5 text-pink-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">Lucide Icons</h4>
-                      <p className="text-sm text-gray-400">Icon library</p>
+                      <h4 className="font-semibold text-white">
+                        {aboutT.techStack.technologies.lucide.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {aboutT.techStack.technologies.lucide.description}
+                      </p>
                     </div>
                   </div>
 
@@ -288,10 +285,10 @@ export const AboutPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-white">
-                        Framer Motion
+                        {aboutT.techStack.technologies.framerMotion.name}
                       </h4>
                       <p className="text-sm text-gray-400">
-                        Animation framework
+                        {aboutT.techStack.technologies.framerMotion.description}
                       </p>
                     </div>
                   </div>
@@ -301,7 +298,7 @@ export const AboutPage: React.FC = () => {
               {/* Backend & Database */}
               <div>
                 <h3 className="text-xl font-semibold text-white mb-4 text-center">
-                  Backend & Database
+                  {aboutT.techStack.backend}
                 </h3>
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
@@ -309,8 +306,12 @@ export const AboutPage: React.FC = () => {
                       <Server className="w-5 h-5 text-green-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">Express.js</h4>
-                      <p className="text-sm text-gray-400">Backend server</p>
+                      <h4 className="font-semibold text-white">
+                        {aboutT.techStack.technologies.express.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {aboutT.techStack.technologies.express.description}
+                      </p>
                     </div>
                   </div>
 
@@ -320,9 +321,11 @@ export const AboutPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-white">
-                        Firebase Auth
+                        {aboutT.techStack.technologies.firebaseAuth.name}
                       </h4>
-                      <p className="text-sm text-gray-400">Authentication</p>
+                      <p className="text-sm text-gray-400">
+                        {aboutT.techStack.technologies.firebaseAuth.description}
+                      </p>
                     </div>
                   </div>
 
@@ -331,8 +334,12 @@ export const AboutPage: React.FC = () => {
                       <Server className="w-5 h-5 text-orange-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">Firebase DB</h4>
-                      <p className="text-sm text-gray-400">NoSQL database</p>
+                      <h4 className="font-semibold text-white">
+                        {aboutT.techStack.technologies.firebaseDb.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {aboutT.techStack.technologies.firebaseDb.description}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -341,7 +348,7 @@ export const AboutPage: React.FC = () => {
               {/* Build Tools & APIs */}
               <div>
                 <h3 className="text-xl font-semibold text-white mb-4 text-center">
-                  Build Tool & APIs
+                  {aboutT.techStack.buildTools}
                 </h3>
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="flex items-center space-x-4 p-4 rounded-xl glass-card border border-gray-700/30">
@@ -349,8 +356,12 @@ export const AboutPage: React.FC = () => {
                       <Zap className="w-5 h-5 text-orange-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">Vite</h4>
-                      <p className="text-sm text-gray-400">Build tool</p>
+                      <h4 className="font-semibold text-white">
+                        {aboutT.techStack.technologies.vite.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {aboutT.techStack.technologies.vite.description}
+                      </p>
                     </div>
                   </div>
 
@@ -359,8 +370,12 @@ export const AboutPage: React.FC = () => {
                       <Film className="w-5 h-5 text-red-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">TMDB API</h4>
-                      <p className="text-sm text-gray-400">Movie database</p>
+                      <h4 className="font-semibold text-white">
+                        {aboutT.techStack.technologies.tmdb.name}
+                      </h4>
+                      <p className="text-sm text-gray-400">
+                        {aboutT.techStack.technologies.tmdb.description}
+                      </p>
                     </div>
                   </div>
 
@@ -369,9 +384,11 @@ export const AboutPage: React.FC = () => {
                       <Brain className="w-5 h-5 text-purple-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white">OpenRouter</h4>
+                      <h4 className="font-semibold text-white">
+                        {aboutT.techStack.technologies.openrouter.name}
+                      </h4>
                       <p className="text-sm text-gray-400">
-                        LLM integration (mistral-7b)
+                        {aboutT.techStack.technologies.openrouter.description}
                       </p>
                     </div>
                   </div>

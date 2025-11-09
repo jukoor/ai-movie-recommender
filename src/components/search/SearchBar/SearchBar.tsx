@@ -73,9 +73,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       }
     };
 
-    const handleScroll = () => {
-      // Close dropdown when scrolling for better UX
-      setIsGenreDropdownOpen(false);
+    const handleScroll = (event: Event) => {
+      // Only close dropdown if scrolling outside the dropdown element
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsGenreDropdownOpen(false);
+      }
     };
 
     const updatePosition = () => {
@@ -147,12 +152,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 className="w-full px-4 py-2.5 border border-gray-600/30 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-left flex items-center justify-between backdrop-blur-sm"
                 aria-expanded={isGenreDropdownOpen}
                 aria-haspopup="listbox"
-                aria-label={`Filter by genre, currently selected: ${
-                  selectedGenre || "All genres"
-                }`}
+                aria-label={`${t.favorites.search.filterByGenre}, ${
+                  t.common.loading
+                }: ${selectedGenre || t.favorites.genreFilter.allGenres}`}
               >
                 <span className="text-white truncate">
-                  {selectedGenre || "All genres"}
+                  {selectedGenre || t.favorites.genreFilter.allGenres}
                 </span>
                 <ChevronDown
                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
@@ -180,7 +185,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                     >
                       <div
                         role="listbox"
-                        aria-label="Filter movies by genre"
+                        aria-label={t.favorites.search.filterByGenre}
                         className="py-1"
                       >
                         <button
@@ -196,7 +201,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                               : "text-gray-300"
                           }`}
                         >
-                          All genres
+                          {t.favorites.genreFilter.allGenres}
                         </button>
                         {availableGenres.map((genre) => (
                           <button

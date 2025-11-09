@@ -28,9 +28,8 @@ export const MetaTags: FC<MetaTagsProps> = ({
   const metaT = t.meta;
 
   useEffect(() => {
-    // Update document title
-    const pageTitle = title || metaT.title;
-    document.title = pageTitle;
+    // Note: Document title is handled by PageTitle component
+    // This component only manages meta tags
 
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
