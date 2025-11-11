@@ -22,6 +22,7 @@ const mockLanguageContext = {
   setLanguage: () => {},
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
   // Add any custom options here in the future
 }

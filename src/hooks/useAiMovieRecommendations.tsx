@@ -136,7 +136,7 @@ export const useAiMovieRecommendations = (
       }
 
       // extend the user input with specific instructions to get movie results only in the correct format
-      const response = await axios.post("http://localhost:4000/api/recommend", {
+      const response = await axios.post("/api/recommend", {
         prompt: processedPrompt,
       });
       const reply = response.data.reply;

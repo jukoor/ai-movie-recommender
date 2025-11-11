@@ -22,7 +22,9 @@ describe("apiRequest utility", () => {
 
   it("validates error handling logic", () => {
     // Test that axios.isAxiosError is used correctly
-    const mockedAxios = axios as any;
+    const mockedAxios = axios as unknown as {
+      isAxiosError: ReturnType<typeof vi.fn>;
+    };
 
     mockedAxios.isAxiosError.mockReturnValue(true);
     expect(axios.isAxiosError(new Error("test"))).toBe(true);
