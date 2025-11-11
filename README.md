@@ -52,6 +52,18 @@ That's it! Open `http://localhost:5173` in your browser.
 - TMDB API
 - OpenAI API
 
+## 🧪 Testing
+
+Run tests with:
+
+```bash
+npm test              # Run tests in watch mode
+npm run test:ui       # Run tests with visual UI
+npm run test:coverage # Generate coverage report
+```
+
+See [TESTING.md](./TESTING.md) for detailed testing guidelines and examples.
+
 ## 📄 License
 
 MIT License - feel free to use this project however you like!
