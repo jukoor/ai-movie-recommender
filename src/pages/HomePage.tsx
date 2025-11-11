@@ -37,17 +37,26 @@ export const HomePage: React.FC = () => {
       </div>
 
       {/* Hero Section: User input and AI Recommendations */}
-      <section className="relative z-10" aria-label="AI Movie Recommender">
+      <section
+        className="relative z-10"
+        aria-label={t.common.ariaLabels.aiMovieRecommender}
+      >
         <AiRecommender />
       </section>
 
       {/* AI Picks Section: Fresh popular movies */}
-      <section className="relative z-10 py-16" aria-label="Fresh AI Picks">
+      <section
+        className="relative z-10 py-16"
+        aria-label={t.common.ariaLabels.freshAiPicks}
+      >
         <AiPicksSection />
       </section>
 
       {/* Features Section: Highlighting key features of the recommender */}
-      <section className="relative z-10 py-16" aria-label="Features">
+      <section
+        className="relative z-10 py-16"
+        aria-label={t.common.ariaLabels.features}
+      >
         <FeaturesSection />
       </section>
     </main>

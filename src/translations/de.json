@@ -24,7 +24,13 @@
       "toggleMobileMenu": "Mobile Menü umschalten",
       "accountMenu": "Kontomenü für",
       "navigateTo": "Navigieren zu",
-      "openLoginDialog": "Anmeldedialog öffnen"
+      "openLoginDialog": "Anmeldedialog öffnen",
+      "switchLanguage": "Wechseln zu"
+    },
+    "language": {
+      "switchTo": "Wechseln zu",
+      "german": "Deutsch",
+      "english": "Englisch"
     },
     "toast": {
       "logoutSuccess": "Du wurdest erfolgreich abgemeldet. Bis zum nächsten Mal!",
@@ -47,8 +53,8 @@
   "home": {
     "pageTitle": "Start",
     "hero": {
-      "title": "KI-Film-Entdeckung",
-      "subtitle": "Entdecke deinen nächsten Lieblingsfilm mit unserem hochmodernen KI-Empfehler. Sag uns einfach, was du magst, und wir finden Filme, die du lieben wirst!"
+      "title": "Dein Film-Favorit wartet",
+      "subtitle": "Finde deinen nächsten Lieblingsfilm – dank unserer intelligenten KI-Empfehlungen.“ Sag uns einfach, was du magst - und wir finden Filme, die du lieben wirst!"
     },
     "features": {
       "title": "Warum unsere KI wählen?",
@@ -196,7 +202,7 @@
       "title": "Hoppla! Etwas ist schiefgelaufen"
     },
     "buttons": {
-      "refresh": "Andere Filme anzeigen",
+      "refresh": "Neue Auswahl",
       "findMovies": "{mood} Filme finden"
     },
     "moods": {
@@ -371,13 +377,13 @@
     }
   },
   "deleteDialog": {
-    "title": "Favoriten löschen?",
+    "title": "Alle Favoriten löschen?",
     "message": "Diese Aktion kann nicht rückgängig gemacht werden.",
     "deleteCount": "Löschen",
-    "favorite": "Favorit",
-    "favorites": "Favoriten",
-    "deleteMessage": "Du bist dabei zu löschen",
-    "fromFavorites": "aus deinen Favoriten.",
+    "favorite": "Film",
+    "favorites": "Filme",
+    "deleteMessage": "Du bist dabei",
+    "fromFavorites": "aus deinen Favoriten zu löschen.",
     "buttons": {
       "cancel": "Abbrechen",
       "delete": "Löschen",
@@ -413,6 +419,16 @@
     "showLess": "Weniger anzeigen",
     "viewAll": "Alle anzeigen",
     "backToHome": "Zurück zur Startseite",
+    "ariaLabels": {
+      "searchMoviesByTitle": "Filme nach Titel suchen",
+      "clearSearch": "Suche löschen",
+      "aiCuratedRecommendations": "KI-kuratierte Filmempfehlungen",
+      "aiMovieRecommender": "KI-Filmempfehler",
+      "freshAiPicks": "Frische KI-Tipps",
+      "features": "Funktionen",
+      "movieGenres": "Filmgenres",
+      "closeNotification": "Benachrichtigung schließen"
+    },
     "errors": {
       "loginRequired": "Du musst angemeldet sein, um Favoriten hinzuzufügen.",
       "updateFavorites": "Fehler beim Aktualisieren der Favoriten:",
@@ -453,7 +469,8 @@
       "noOverview": "Keine Übersicht für diesen Film verfügbar.",
       "unknownDate": "Unbekannt",
       "unknownCompany": "Unbekannte Firma",
-      "unknownCountry": "Unbekannt"
+      "unknownCountry": "Unbekannt",
+      "noImageAvailable": "Kein Bild verfügbar"
     }
   }
 }

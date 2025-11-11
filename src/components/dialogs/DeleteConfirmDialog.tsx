@@ -49,11 +49,7 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
               <Trash2 className="h-12 w-12 text-red-500" />
             </div>
             <DialogTitle className="mb-4 text-lg font-semibold text-white">
-              {count !== undefined
-                ? `${deleteT.deleteCount} ${count} ${
-                    count !== 1 ? deleteT.favorites : deleteT.favorite
-                  }?`
-                : dialogTitle}
+              {dialogTitle}
             </DialogTitle>
             <p className="mb-6 text-sm text-gray-300">
               {count !== undefined && count > 0

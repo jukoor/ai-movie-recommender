@@ -161,7 +161,11 @@ export const MovieCard: React.FC<MovieCardProps> = ({
               : `Add ${movie.title} to favorites`
           }
           aria-pressed={isFavorite}
-          title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          title={
+            isFavorite
+              ? t.movieCard.removeFromFavorites
+              : t.movieCard.addToFavorites
+          }
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.85 }}
           animate={{
@@ -259,7 +263,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         <div
           className="flex flex-wrap gap-2 mb-4"
           role="list"
-          aria-label="Movie genres"
+          aria-label={t.common.ariaLabels.movieGenres}
         >
           {movie.genre_ids && movie.genre_ids.length > 0 ? (
             movie.genre_ids.map((genre, index) => (

@@ -84,7 +84,7 @@ export const AiRecommender = () => {
       <div className="container mx-auto px-6 py-20 flex-1 flex flex-col">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-4 animate-fadeIn">
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 dark:from-purple-400 dark:via-pink-400 dark:to-blue-400 animate-fadeIn">
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 dark:from-purple-400 dark:via-pink-400 dark:to-blue-400 animate-fadeIn !leading-[1.1]">
               {heroT.title}
             </h1>
           </div>
@@ -141,7 +141,7 @@ export const AiRecommender = () => {
                     setUserInputValue("");
                     setActiveQuickSearchTag(null);
                   }}
-                  className="absolute right-[70px] sm:right-[200px] top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/70 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className="absolute right-[70px] sm:right-[200px] top-1/2 transform -translate-y-1/2 p-1.5 rounded-lg bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/70 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/50 z-20"
                   aria-label={aiRecommenderT.form.clearInput}
                   title={aiRecommenderT.form.clearInput}
                 >
@@ -317,7 +317,7 @@ export const AiRecommender = () => {
               },
             }}
             role="region"
-            aria-label="AI-curated movie recommendations"
+            aria-label={t.common.ariaLabels.aiCuratedRecommendations}
             aria-live="polite"
           >
             {/* Results Header */}

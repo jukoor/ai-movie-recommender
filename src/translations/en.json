@@ -24,7 +24,13 @@
       "toggleMobileMenu": "Toggle mobile menu",
       "accountMenu": "Account menu for",
       "navigateTo": "Navigate to",
-      "openLoginDialog": "Open login dialog"
+      "openLoginDialog": "Open login dialog",
+      "switchLanguage": "Switch to"
+    },
+    "language": {
+      "switchTo": "Switch to",
+      "german": "German",
+      "english": "English"
     },
     "toast": {
       "logoutSuccess": "You've been logged out successfully. See you next time!",
@@ -47,7 +53,7 @@
   "home": {
     "pageTitle": "Home",
     "hero": {
-      "title": "AI Movie Discovery",
+      "title": "Your Movie Favorite Awaits",
       "subtitle": "Discover your next favorite film with our cutting-edge AI recommender. Just tell us what you like, and we'll find movies you'll love!"
     },
     "features": {
@@ -371,11 +377,11 @@
     }
   },
   "deleteDialog": {
-    "title": "Delete favorites?",
+    "title": "Delete All Favorites?",
     "message": "This action cannot be undone.",
     "deleteCount": "Delete",
-    "favorite": "favorite",
-    "favorites": "favorites",
+    "favorite": "movie",
+    "favorites": "movies",
     "deleteMessage": "You're about to delete",
     "fromFavorites": "from your favorites.",
     "buttons": {
@@ -413,6 +419,16 @@
     "showLess": "Show Less",
     "viewAll": "View All",
     "backToHome": "Back to Home",
+    "ariaLabels": {
+      "searchMoviesByTitle": "Search movies by title",
+      "clearSearch": "Clear search",
+      "aiCuratedRecommendations": "AI-curated movie recommendations",
+      "aiMovieRecommender": "AI Movie Recommender",
+      "freshAiPicks": "Fresh AI Picks",
+      "features": "Features",
+      "movieGenres": "Movie genres",
+      "closeNotification": "Close notification"
+    },
     "errors": {
       "loginRequired": "You must be logged in to add favorites.",
       "updateFavorites": "Failed to update favorites:",
@@ -453,7 +469,8 @@
       "noOverview": "No overview available for this movie.",
       "unknownDate": "Unknown",
       "unknownCompany": "Unknown Company",
-      "unknownCountry": "Unknown"
+      "unknownCountry": "Unknown",
+      "noImageAvailable": "No Image Available"
     }
   }
 }

@@ -1,5 +1,6 @@
 // toast/ToastContext.tsx
 import { createContext, useContext, useState, ReactNode } from "react";
+import { useLanguage } from "../hooks/useLanguage";
 
 type ToastType = "success" | "error" | "info";
 
@@ -19,6 +20,7 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const { t } = useLanguage();
 
   const showToast = (message: string, type: ToastType = "info") => {
     const id = Date.now();
@@ -151,10 +153,10 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
               <button
                 type="button"
                 className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
-                aria-label="Close"
+                aria-label={t.common.ariaLabels.closeNotification}
                 onClick={() => removeToast(toast.id)}
               >
-                <span className="sr-only">Close</span>
+                <span className="sr-only">{t.common.close}</span>
                 <svg
                   className="w-3 h-3"
                   aria-hidden="true"

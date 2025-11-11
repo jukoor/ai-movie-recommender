@@ -116,10 +116,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
           <div className="relative flex-1">
             <label htmlFor="movie-search" className="sr-only">
-              Search movies by title
+              {t.common.ariaLabels.searchMoviesByTitle}
             </label>
             <Search
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-700 dark:text-gray-400 z-10"
               aria-hidden="true"
             />
             <input
@@ -128,15 +128,15 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               placeholder={t.common.searchPlaceholder}
               value={inputValue}
               onChange={handleInputChange}
-              aria-label="Search movies by title"
+              aria-label={t.common.ariaLabels.searchMoviesByTitle}
               className="w-full pl-12 pr-12 py-3 border border-gray-300 dark:border-gray-600/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-800/50 focus:bg-gray-50 dark:focus:bg-gray-800/70 backdrop-blur-sm"
             />
             {inputValue && (
               <button
                 onClick={handleClear}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
-                aria-label="Clear search"
-                title="Clear search"
+                aria-label={t.common.ariaLabels.clearSearch}
+                title={t.common.ariaLabels.clearSearch}
               >
                 <X className="w-5 h-5" aria-hidden="true" />
               </button>

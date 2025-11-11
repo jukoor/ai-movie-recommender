@@ -1,5 +1,6 @@
 import React from "react";
 import { Film } from "lucide-react";
+import { useLanguage } from "../../../hooks/useLanguage";
 
 interface MovieImagePlaceholderProps {
   title: string;
@@ -13,6 +14,7 @@ export const MovieImagePlaceholder: React.FC<MovieImagePlaceholderProps> = ({
   className = "",
 }) => {
   const isPoster = type === "poster";
+  const { t } = useLanguage();
 
   return (
     <div
@@ -26,7 +28,9 @@ export const MovieImagePlaceholder: React.FC<MovieImagePlaceholderProps> = ({
       <p className="text-gray-500 text-sm font-medium text-center px-4 line-clamp-2">
         {title}
       </p>
-      <p className="text-gray-600 text-xs mt-1">No Image Available</p>
+      <p className="text-gray-600 text-xs mt-1">
+        {t.movieDetail.placeholders.noImageAvailable}
+      </p>
     </div>
   );
 };

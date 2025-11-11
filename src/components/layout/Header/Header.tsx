@@ -132,12 +132,25 @@ export const NavBar = () => {
                     key={index}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg"
                   >
-                    <div className="w-4 h-4 bg-gray-700 rounded animate-pulse"></div>
-                    <div className="w-16 h-4 bg-gray-700 rounded animate-pulse"></div>
+                    <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div className="w-16 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
                   </div>
                 ))}
-                <div className="ml-4 px-4 py-2 rounded-lg">
-                  <div className="w-16 h-8 bg-gray-700 rounded animate-pulse"></div>
+                {/* Language toggle skeleton */}
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg">
+                  <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                  <div className="w-8 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                </div>
+                {/* Theme toggle skeleton */}
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg">
+                  <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded-full animate-pulse"></div>
+                </div>
+                {/* Login button skeleton */}
+                <div className="ml-4 px-4 py-2 rounded-lg border border-purple-500/20">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div className="w-12 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                  </div>
                 </div>
               </>
             ) : (
@@ -177,11 +190,15 @@ export const NavBar = () => {
                 <button
                   onClick={() => setLanguage(language === "en" ? "de" : "en")}
                   className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/10 hover:border-purple-500/20 border border-transparent focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                  aria-label={`Switch to ${
-                    language === "en" ? "German" : "English"
+                  aria-label={`${headerT.language.switchTo} ${
+                    language === "en"
+                      ? headerT.language.german
+                      : headerT.language.english
                   }`}
-                  title={`Switch to ${
-                    language === "en" ? "German" : "English"
+                  title={`${headerT.language.switchTo} ${
+                    language === "en"
+                      ? headerT.language.german
+                      : headerT.language.english
                   }`}
                 >
                   <Languages className="w-4 h-4" aria-hidden="true" />
@@ -286,17 +303,31 @@ export const NavBar = () => {
               {loading ? (
                 // Skeleton for mobile navigation
                 <>
-                  {[...Array(2)].map((_, index) => (
+                  {[...Array(4)].map((_, index) => (
                     <div
                       key={index}
                       className="flex items-center gap-3 px-4 py-3 rounded-lg"
                     >
                       <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-                      <div className="w-20 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                      <div className="w-24 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
                     </div>
                   ))}
-                  <div className="mt-2 px-4 py-3 rounded-lg">
-                    <div className="w-20 h-8 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                  {/* Language toggle skeleton */}
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-lg mt-2 border-t border-purple-500/20 pt-4">
+                    <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div className="w-20 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                  </div>
+                  {/* Theme toggle skeleton */}
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-lg">
+                    <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded-full animate-pulse"></div>
+                    <div className="w-20 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                  </div>
+                  {/* Login button skeleton */}
+                  <div className="mt-2 px-6 py-3 rounded-lg border border-purple-500/20">
+                    <div className="flex items-center gap-2 justify-center">
+                      <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                      <div className="w-12 h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                    </div>
                   </div>
                 </>
               ) : (
@@ -327,8 +358,10 @@ export const NavBar = () => {
                   <button
                     onClick={() => setLanguage(language === "en" ? "de" : "en")}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-purple-500/10 mt-2 border-t border-purple-500/20 pt-4"
-                    aria-label={`Switch to ${
-                      language === "en" ? "German" : "English"
+                    aria-label={`${headerT.language.switchTo} ${
+                      language === "en"
+                        ? headerT.language.german
+                        : headerT.language.english
                     }`}
                   >
                     <Languages className="w-5 h-5" aria-hidden="true" />
