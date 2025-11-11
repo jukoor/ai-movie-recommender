@@ -4,6 +4,7 @@ import { FavoritesPage } from "../pages/FavoritesPages";
 import { MovieDetailPage } from "../pages/MovieDetailPage";
 import { ByMoodPage } from "../pages/ByMoodPage";
 import { AboutPage } from "../pages/AboutPage";
+import { NotFoundPage } from "../pages/NotFoundPage";
 import { PageLayout } from "../components/layout/PageLayout/PageLayout";
 
 export const routes: RouteObject[] = [
@@ -17,6 +18,7 @@ export const routes: RouteObject[] = [
       { path: "about", element: <AboutPage /> },
       { path: "movie/:movieId", element: <MovieDetailPage /> },
       // { path: "profile", element: <ProfilePage /> },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ];

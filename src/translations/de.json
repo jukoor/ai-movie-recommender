@@ -472,5 +472,13 @@
       "unknownCountry": "Unbekannt",
       "noImageAvailable": "Kein Bild verfügbar"
     }
+  },
+  "notFound": {
+    "pageTitle": "404 - Seite nicht gefunden",
+    "title": "Szene nicht gefunden",
+    "description": "Diese Seite scheint aus der finalen Version geschnitten worden zu sein. Lassen Sie uns Sie zurück auf den richtigen Weg bringen.",
+    "goHome": "Zur Startseite",
+    "goBack": "Zurück",
+    "hint": "Verloren? Nutzen Sie die Navigation oben, um unsere Filmsammlung zu erkunden."
   }
 }

@@ -1,16 +1,17 @@
-# 🎬 AI Movie Recommender
+# 🎬 PopcornAI: AI Movie Recommender
 
 Discover your next favorite movie with AI-powered recommendations! This app helps you find movies based on your mood, preferences, and personalized picks.
+
+![PopcornAI Screenshot](public/frame_safari_dark.png)
 
 ## ✨ Features
 
 - 🤖 AI-powered movie recommendations
-- � Search movies by mood
-- ⭐ Browse top-rated movies
-- 🔍 Smart search functionality
+- 🔍 Smart search functionality by mood, tags and more
 - � Save your favorites (with authentication)
 - 🌍 Multi-language support (English & German)
 - 🎨 Dark/Light theme
+- 🧪 Comprehensive testing with Vitest & React Testing Library
 
 ## 🚀 Quick Start
 

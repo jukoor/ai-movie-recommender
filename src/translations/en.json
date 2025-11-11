@@ -472,5 +472,13 @@
       "unknownCountry": "Unknown",
       "noImageAvailable": "No Image Available"
     }
+  },
+  "notFound": {
+    "pageTitle": "404 - Page Not Found",
+    "title": "Scene Not Found",
+    "description": "This page seems to have been cut from the final edit. Let's get you back on track.",
+    "goHome": "Go Home",
+    "goBack": "Go Back",
+    "hint": "Lost? Use the navigation above to explore our movie collection."
   }
 }
