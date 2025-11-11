@@ -3,7 +3,7 @@
   "private": false,
   "description": "A React-based AI movie recommender application with Tailwind CSS",
   "author": "Julian Orth",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
