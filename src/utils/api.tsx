@@ -1,13 +1,14 @@
 import axios from "axios";
+import { env } from "../config/env";
 
 // Create an Axios instance with default config
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_TMDB_API_BASE_URL,
+  baseURL: env.TMDB_API_BASE_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
     accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+    Authorization: `Bearer ${env.TMDB_API_KEY}`,
   },
 });
 

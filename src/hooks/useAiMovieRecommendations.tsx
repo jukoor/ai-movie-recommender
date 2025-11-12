@@ -108,9 +108,7 @@ export const useAiMovieRecommendations = (
       movieTitles.map(async (title) => {
         const response = await apiRequest<MovieApiResult>(
           "get",
-          `${
-            import.meta.env.VITE_TMDB_API_BASE_URL
-          }/search/movie?query=${encodeURIComponent(title)}`
+          `/search/movie?query=${encodeURIComponent(title)}`
         );
         return response.results[0];
       })

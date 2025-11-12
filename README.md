@@ -40,10 +40,11 @@ Then edit `.env` and add your API keys:
 
 ```bash
 npm run dev
-npm run server
 ```
 
 That's it! Open `http://localhost:5173` in your browser.
+
+> **Note:** This now runs both the Vite dev server and the Express API server concurrently. See [LOCAL-DEV-SETUP.md](LOCAL-DEV-SETUP.md) for more details.
 
 ## 🛠️ Built With
 
