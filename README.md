@@ -4,6 +4,10 @@ Discover your next favorite movie with AI-powered recommendations! This app help
 
 ![PopcornAI Screenshot](public/frame_safari_dark.png)
 
+## 🌐 Live Demo
+
+**[✨ Try PopcornAI Now](https://popcornai-ai-movie-recommender.vercel.app/)** - Experience the app live!
+
 ## ✨ Features
 
 - 🤖 AI-powered movie recommendations

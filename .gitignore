@@ -31,3 +31,4 @@ dist-ssr
 # Testing
 coverage
 .vitest
+.vercel
